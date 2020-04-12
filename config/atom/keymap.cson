@@ -1,0 +1,5 @@
+'atom-text-editor':
+  'shift-ctrl-i': 'editor:auto-indent'
+  
+'.platform-win32 atom-text-editor, .platform-linux atom-text-editor':
+  'ctrl-shift-W': 'autoflow:reflow-selection' 

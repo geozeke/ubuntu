@@ -1,0 +1,39 @@
+"*":
+  core:
+    disabledPackages: [
+      "whitespace"
+    ]
+    telemetryConsent: "no"
+  editor:
+    fontSize: 18
+    softWrap: true
+    softWrapAtPreferredLineLength: true
+    tabLength: 3
+    tabType: "soft"
+  "spell-check":
+    addKnownWords: true
+    grammars: [
+      "source.asciidoc"
+      "source.gfm"
+      "text.git-commit"
+      "text.plain"
+      "text.plain.null-grammar"
+      "source.rst"
+      "text.restructuredtext"
+      "source.c"
+      "source.python"
+    ]
+    knownWords: [
+      "decrypt"
+      "adjacencies"
+      "initilizer"
+      "cyber"
+    ]
+  welcome:
+    showOnStartup: false
+".python.regexp.source":
+  editor:
+    tabLength: 3
+".python.source":
+  editor:
+    tabLength: 3
