@@ -84,7 +84,7 @@ If prompted for your password, please enter it.  It may take a while for the scr
 
 ## Step - 12:
 
-If everything was successful, you should see your new *`shares`* drive mounted on your Ubuntu desktop as a network drive icon.  You can double-click on it to navigate to your shared folder, similar to the way you navigate your Windows machine using the file explorer.
+Check to see if the connection to your Windows share worked properly by clicking on the file browser icon. If everything was successful, you should see your new *`shares`* drive on the bottom left side.  You can click on it to navigate to your shared folder, similar to the way you navigate your Windows machine using the file explorer.
 
 ![](images/image33.png)
 
@@ -114,7 +114,7 @@ Click on the *`Power`* settings and set the *`Blank Screen`* option to *`Never`*
 
 ## Step - 17:
 
-Click on the *`Privacy`* settings, then select *`Screen Lock`* and set the *`Automatic Screen Lock`* option to *`OFF`*.
+Click on the *`Privacy`* settings, then select *`Screen Lock`* and set the *`Automatic Screen Lock`* toggle to *`OFF`*.
 
 ![](images/image48.png)
 

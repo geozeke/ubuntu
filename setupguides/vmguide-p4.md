@@ -28,13 +28,13 @@ Start by opening Ubuntu's key manager.  To get to it, click on the 3 x 3 grid of
 
 ## Step - 4:
 
-Click on the *`GnuPG keys`* item, then click on the green plus sign (+).  In the pop-up window select *`PGP Key`* and finally, click on *`Continue`*.
+Click on the plus sign (+) in the top left corner of the window.  In the pop-up window click on *`GPG Key`*.
 
 ![](images/image39.png)
 
 ## Step - 5:
 
-In the next window, enter your full name and USNA e-mail address.  There's no need to adjust the *`Advanced key options`*, but you can click on them to see what's there if you're curious; just don't change anything.  When you're ready, click *`Create`*
+In the next window, enter your full name and USNA e-mail address.  Leave all the defaults as-is.  When you're ready, click *`Create`*
 
 ![](images/image40.png)
 
@@ -46,28 +46,32 @@ Enter the same password you used for your VM login and enter it again to confirm
 
 ## Step - 7:
 
-Once your key pair is generated (it may take a little while) it will show up in your list of keys.
+Once your key pair is generated (it may take a little while) it will show up in your list of keys.  To see your list, click on *`GnuPG keys`* item on the *Passwords and Keys* window.
 
 ![](images/image42.png)
 
 ## Step - 8:
 
-Next, click on your new key pair, then select *`Export…`* from the *`File`* menu.
+Export your public key to allow others to send you encrypted files.  To generate and export your public key, open a terminal window and enter the commands below:
 
-![](images/image43.png)
+Start by changing your directory to the Desktop
+
+```Shell
+cd Desktop
+```
+
+Next, enter the command below, replacing my name and email address with your own
+
+```Shell
+gpg --armor --output nardi.asc --export nardi@usna.edu
+```
 
 ## Step - 9:
 
-Next, ensure *`Armored PGP keys`* is selected from the menu on the bottom right of the window and for convenience save your public key file (ending in *`.asc`*) to your Ubuntu Desktop.
-
-![](images/image44.png)
-
-## Step - 10:
-
-As a final step, select the *`Show Any`* option from the *`View`* menu.  If you look at the menu item again after making this selection, you should see a little white dot, just to the left of *`Show Any`*.
+As a final step, click on the three dots shown below and select the *`Show Any`* option.
 
 ![](images/image45.png)
 
-## Step - 11:
+## Step - 10:
 
 You're all set!  Your instructor will guide you through posting your public keys and encrypting / decrypting files.

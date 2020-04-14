@@ -95,27 +95,35 @@ If everything was successful you’ll be presented with the Ubuntu login screen.
 
 ## Step - 16:
 
-You will now see a series of *`What's new in Ubuntu`* screens.  Click the green *`Next`* button until you get to the *`Help Improve Ubuntu`* screen.  Once there, select the *`No, don't send system info`* radio button.
+You should now see a window asking you to connect online accounts.  Click on the *`Skip`* button.
 
-![](images/image22.png)
+![](images/image21a.png)
 
 ## Step - 17:
 
-Click the green *`Next`* button, then click the green *`Done`* button.
+You will now see a screen inviting you to set up *Livepatch*.  Click the green *`Next`* button once to get to the "*Help Improve Ubuntu*" screen.  Once there, select the *`No, don't send system info`* radio button, then click on the green *`Next`* button. 
+
+![](images/image22.png)
 
 ## Step - 18:
+
+At the "*Welcome to Ubuntu*" screen click the green *`Next`* button; then at the "*Ready to go*" screen click the *`Done`* button.
+
+![](images/image22a.png)
+
+## Step - 19:
 
 You may see a notification window that tells you there are pending updates.  If so, click on *`Remind Me Later`*
 
 ![](images/image23.png)
 
-## Step - 19:
+## Step - 20:
 
-Open a new terminal window by right-clicking on the Ubuntu Desktop and selecting *`Open Terminal`*.
+Open a new terminal window by right-clicking on the Ubuntu Desktop and selecting *`Open in Terminal`*.
 
 ![](images/image24.png)
 
-## Step - 20:
+## Step - 21:
 
 Let’s use the Linux Advanced Packaging Tool (*apt*) to complete a thorough update on your VM.  Start the update process by entering this command in the terminal window and pressing the enter key (*Note: all commands will be followed by the enter key*):
 
@@ -123,17 +131,17 @@ Let’s use the Linux Advanced Packaging Tool (*apt*) to complete a thorough upd
 sudo apt update && sudo apt -y upgrade
 ```
 
-Note: *`update`* comes first, then *`upgrade`*.
+*Note: `update` comes first, then `upgrade`*.
 
-If prompted for your password, enter the password you used when you created your VM.  *NOTE: The characters won’t appear as you type your password, but they are being captured.*
+If prompted for your password, enter the password you used when you created your VM (*Note: The characters won’t appear as you type your password, but they are being captured).*
 
-## Step - 21:
+## Step - 22:
 
 You may see the window below as your Ubuntu VM is updating.  If so, just press the *`Enter`* key.
 
 ![](images/image25.png)
 
-## Step - 22:
+## Step - 23:
 
 When the update is complete (back at your command prompt) install the *`git`* application.  The use of *`git`* is discussed in Part 3 of the installation guide.  For now, enter the following command in your terminal window:
 
@@ -141,7 +149,7 @@ When the update is complete (back at your command prompt) install the *`git`* ap
 sudo apt -y install git
 ```
 
-## Step - 23:
+## Step - 24:
 
 When you're back at your command prompt, shutdown the VM by entering the following command in your terminal window:
 
@@ -149,7 +157,7 @@ When you're back at your command prompt, shutdown the VM by entering the followi
 shutdown now
 ```
 
-## Step - 24:
+## Step - 25:
 
 Congratulations!  You're almost done. You're now ready to proceed to:
 

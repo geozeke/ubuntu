@@ -82,4 +82,4 @@ To decrypt a file, just double-click on it in Ubuntu's file manager.  Encrypted 
 [How to enable the encrypt/decrypt menu option in the Ubuntu file manager](https://www.techrepublic.com/article/how-to-enable-encryptdecrypt-menu-option-in-the-ubuntu-file-manager/)
 
 ---
-*Last update: 02/11/20*
+*Last update: 04/13/20*
