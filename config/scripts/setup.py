@@ -46,7 +46,6 @@ def runScript(se):
    target = '~/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/'
    packages = [
       (se.nextLabel(),
-         cmd + '~/notebooks',
          cmd + '~/.config/gedit/tools',
          cmd + '~/.config/gedit/snippets',
          cmd + '~/.vim/colors',
@@ -71,8 +70,7 @@ def runScript(se):
          cmd + se.SHELL   + '/dircolors.txt ~/.dircolors',
          cmd + se.VIM     + '/vimrc.txt ~/.vimrc',
          cmd + se.VIM     + '/vimcolors/* ~/.vim/colors',
-         cmd + se.JUPYTER + '/tracker.jupyterlab-settings ' + target,
-         cmd + se.JUPYTER + '/notebooks/* ~/notebooks')]
+         cmd + se.JUPYTER + '/tracker.jupyterlab-settings ' + target)]
    batchCommands(packages,se.FMTSTR)
          
    # Step 4. Adjust file permissions

@@ -46,7 +46,7 @@ Enter the same password you used for your VM login and enter it again to confirm
 
 ## Step - 7:
 
-Once your key pair is generated (it may take a little while) it will show up in your list of keys.  To see your list, click on *`GnuPG keys`* item on the *Passwords and Keys* window.
+Once your key pair is generated (it may take a little while) it will show up in your list of keys. To see your key list, click on the *`GnuPG`* keys item in the *Passwords and Keys window*.
 
 ![](images/image42.png)
 
@@ -54,13 +54,13 @@ Once your key pair is generated (it may take a little while) it will show up in 
 
 Export your public key to allow others to send you encrypted files.  To generate and export your public key, open a terminal window and enter the commands below:
 
-Start by changing your directory to the Desktop
+Start by changing your directory to the Desktop.
 
 ```Shell
-cd Desktop
+cd ~/Desktop
 ```
 
-Next, enter the command below, replacing my name and email address with your own
+Next, enter the command below, replacing my name and email address with your own.
 
 ```Shell
 gpg --armor --output nardi.asc --export nardi@usna.edu

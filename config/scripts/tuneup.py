@@ -47,11 +47,6 @@ def runUpdates(args,se):
    except KeyError:
       pass
    
-   # Silently refresh jupyter notebooks.  Use the '-n' flag to avoid overwriting
-   # any existing notebooks with the same name.
-   cmd = 'cp -n ~/ubuntu/notebooks/* ~/notebooks'
-   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
-
    # Update python pip3 packages if -a is selected
    if args.updateAll:
       

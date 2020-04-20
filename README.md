@@ -43,7 +43,6 @@ Step 1: This is a placeholder step for future initialization, if required.
 Step 2: Create the following directories:
 
 ```Shell
-~/notebooks
 ~/.config/gedit/tools
 ~/.config/gedit/snippets
 ~/.vim/colors
@@ -68,7 +67,6 @@ cp SHELL/dircolors.txt ~/.dircolors
 cp VIM/vimrc.txt ~/.vimrc
 cp VIM/vimcolors/* ~/.vim/colors
 cp JUPYTER/tracker.jupyterlab-settings target
-cp JUPYTER/notebooks/* ~/notebooks
 ```
 
 Step 4: Adjust file permissions:
@@ -141,8 +139,6 @@ sudo snap refresh atom
 # Upgrade ohMyZsh.  Check first to see if zsh is the current shell
 # and oh-my-zsh is installed. 
 ~/.oh-my-zsh/tools/upgrade.sh
-
-cp -n ~/ubuntu/notebooks/* ~/notebooks
 
 pip3 install --upgrade jupyter
 pip3 install --upgrade jupyterlab
