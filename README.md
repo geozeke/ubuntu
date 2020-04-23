@@ -119,7 +119,21 @@ sudo snap install atom --classic
 apm install markdown-scroll-sync
 ```
 
-Step 10: Delete unused files
+Step 10: Configure favorites
+
+```Shell
+'firefox.desktop'
+'org.gnome.Calculator.desktop'
+'atom_atom.desktop'
+'org.gnome.gedit.desktop'
+'org.gnome.Nautilus.desktop'
+'org.gnome.Terminal.desktop'
+'gnome-control-center.desktop'
+'snap-store_ubuntu-software.desktop'
+'org.gnome.seahorse.Application.desktop'
+```
+
+Step 11: Delete unused files
 
 ```Shell
 rm -f ~/examples.desktop

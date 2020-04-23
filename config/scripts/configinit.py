@@ -96,8 +96,10 @@ class ScriptEnvironment:
          # Step 9
          self.LABELS.append('Installing atom (please be patient)')
          # Step 10
-         self.LABELS.append('Cleaning up')
-         
+         self.LABELS.append('Configuring favorites')
+         # Step 11
+         self.LABELS.append('Cleaning up')         
+
       elif self.script == ".tuneup.py":
       
          self.LABELS.append('Scanning for updates to jupyter')

@@ -102,7 +102,7 @@ Select the *`Updates`* tab and ensure that *`Automatically check for updates:`* 
 
 ## Step - 15:
 
-Click on the 3 x 3 grid of dots on the bottom left of your Ubuntu Desktop.  In the search box at the top of the window type *`settings`*.  Look for the *`Settings`* icon and click on it.
+Click on the *`Settings`* icon.
 
 ![](images/image46.png)
 

@@ -148,7 +148,26 @@ def runScript(se):
          'sudo snap install atom --classic',
          'apm install markdown-scroll-sync')]
    batchCommands(packages,se.FMTSTR)
-      
+   
+   # Step 10 Configure favorites.  NOTE: To get the information needed for the
+   # code below, setup desired favorites, then run this command:
+   # gsettings get org.gnome.shell favorite-apps
+
+   target  = '['
+   target += '\'firefox.desktop\','
+   target += '\'org.gnome.Calculator.desktop\','
+   target += '\'atom_atom.desktop\','
+   target += '\'org.gnome.gedit.desktop\','
+   target += '\'org.gnome.Nautilus.desktop\','
+   target += '\'org.gnome.Terminal.desktop\','
+   target += '\'gnome-control-center.desktop\','
+   target += '\'snap-store_ubuntu-software.desktop\','
+   target += '\'org.gnome.seahorse.Application.desktop\''
+   target += ']'
+
+   cmd = 'gsettings set org.gnome.shell favorite-apps ' + target
+   sp.run(globify(cmd))
+
    # Cleanup: Silently delete unused files
    
    packages = [
