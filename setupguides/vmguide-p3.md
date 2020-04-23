@@ -61,7 +61,7 @@ Start your virtual machine and login.  If you get the error below about *`SATA D
 
 Make a clone of the git repository for the VM configuration.  Git is a tool used to manage collaborative software development projects.  We'll use it in this course for system setup and to allow your instructors to share code templates and other files with you.
 
-Open a terminal window and start by entering this command:
+Open a terminal window (right-click on the desktop) and enter this command:
 
 ```Shell
 cd
