@@ -90,36 +90,6 @@ Check to see if the connection to your Windows share worked properly by clicking
 
 ## Step - 13:
 
-Click on the 3 x 3 grid of dots on the bottom left of your Ubuntu Desktop.  In the search box at the top of the window type *`software`*.  Look for the *`Software & Updates`* icon and click on it.
-
-![](images/image34.png)
-
-## Step - 14:
-
-Select the *`Updates`* tab and ensure that *`Automatically check for updates:`* is set to *`Never`* and enter your password if requested.  When you're ready, click the *`Close`* button.
-
-![](images/image35.png)
-
-## Step - 15:
-
-Click on the *`Settings`* icon.
-
-![](images/image46.png)
-
-## Step - 16:
-
-Click on the *`Power`* settings and set the *`Blank Screen`* option to *`Never`*.
-
-![](images/image47.png)
-
-## Step - 17:
-
-Click on the *`Privacy`* settings, then select *`Screen Lock`* and set the *`Automatic Screen Lock`* toggle to *`OFF`*.
-
-![](images/image48.png)
-
-## Step - 18:
-
 Your VM is ready to go!  You can now easily move content between your host (Windows) and VM (Ubuntu Linux) by moving files in and out of the shared folders.  To reinforce: both folders below will have the same content no matter which environment you’re in (replace *nardi* with your login name):
 
 Ubuntu VM:

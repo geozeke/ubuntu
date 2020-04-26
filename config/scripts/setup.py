@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 02/01/20
+# Date: 04/26/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
@@ -164,10 +164,39 @@ def runScript(se):
    target += '\'snap-store_ubuntu-software.desktop\','
    target += '\'org.gnome.seahorse.Application.desktop\''
    target += ']'
-
+   
    cmd = 'gsettings set org.gnome.shell favorite-apps ' + target
    sp.run(globify(cmd))
 
+   # Step 11 Tune system settings.  This turns off auto screen lock, idle
+   # timeout, and auto system updates.  Special handling is required, because
+   # the command for setting the idle timeout has a space in one of the
+   # arguments.  As a result, we can't use globify and have to parse it
+   # manually. 
+   
+   print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
+
+   # Turn off screen lock
+   cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
+   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
+
+   # Set idle timeout to 'never'.  This is the command that requires the manual
+   # parsing.
+   cmd = [
+      'gsettings',
+      'set',
+      'org.gnome.desktop.session',
+      'idle-delay',
+      'uint32 0'
+   ]
+   sp.run(cmd,stdout=sp.PIPE,stderr=sp.PIPE)
+
+   # Disable auto updates
+   cmd = 'sudo cp -f ' + se.SYSTEM + '/20auto-upgrades /etc/apt/apt.conf.d/'
+   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
+   
+   print('Complete')
+   
    # Cleanup: Silently delete unused files
    
    packages = [
@@ -204,14 +233,14 @@ def main():
    # Build a python argument parser
    
    msg  = "This script will install the necessary programs and settings files "
-   msg += "on an Ubuntu 18.04.x Virtual Machine for USNA course work in "
+   msg += "on an Ubuntu 20.04.x Virtual Machine for USNA course work in "
    msg += "Computing Sciences or Cyber Operations. This should only be used on "
    msg += "a single user Virtual Machine installation for a user account with "
    msg += "sudo privileges. Do not attempt to run this script on a standalone "
    msg += "Linux machine or dual-boot machine (including lab machines).  You "
    msg += "will be prompted for your password during installation."
    
-   epi = "Latest update: 01 Feb 2020"
+   epi = "Latest update: 26 Apr 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

@@ -133,7 +133,20 @@ Step 10: Configure favorites
 'org.gnome.seahorse.Application.desktop'
 ```
 
-Step 11: Delete unused files
+Step 11: Tune system settings:
+
+```Shell
+# Disable auto screen lock
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+
+# Set idle timeout to 'never'
+gsettings set org.gnome.desktop.session idle-delay 'uint32 0'
+
+# Disable auto system updates
+sudo cp -f SYSTEM/20auto-upgrades /etc/apt/apt.conf.d/
+```
+
+Step 12: Delete unused files
 
 ```Shell
 rm -f ~/examples.desktop

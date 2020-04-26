@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 04/01/20
+# Date: 04/26/20
 # License: (see MIT License at the end of this file)
 
 # Title: Config Init
@@ -98,6 +98,8 @@ class ScriptEnvironment:
          # Step 10
          self.LABELS.append('Configuring favorites')
          # Step 11
+         self.LABELS.append('Tuning System Settings')
+         # Step 12
          self.LABELS.append('Cleaning up')         
 
       elif self.script == ".tuneup.py":
