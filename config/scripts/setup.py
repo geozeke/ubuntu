@@ -149,6 +149,8 @@ def runScript(se):
          'apm install markdown-scroll-sync')]
    batchCommands(packages,se.FMTSTR)
    
+   print('\nFinal Steps:\n')
+   
    # Step 10 Configure favorites.  NOTE: To get the information needed for the
    # code below, setup desired favorites, then run this command:
    # gsettings get org.gnome.shell favorite-apps
@@ -165,8 +167,10 @@ def runScript(se):
    target += '\'org.gnome.seahorse.Application.desktop\''
    target += ']'
    
-   cmd = 'gsettings set org.gnome.shell favorite-apps ' + target
-   sp.run(globify(cmd))
+   packages = [
+      (se.nextLabel(),
+         'gsettings set org.gnome.shell favorite-apps ' + target)]
+   batchCommands(packages,se.FMTSTR)
 
    # Step 11 Tune system settings.  This turns off auto screen lock, idle
    # timeout, and auto system updates.  Special handling is required, because
@@ -197,7 +201,7 @@ def runScript(se):
    
    print('Complete')
    
-   # Cleanup: Silently delete unused files
+   # Step 12 Cleanup. Silently delete unused files.
    
    packages = [
       (se.nextLabel(),

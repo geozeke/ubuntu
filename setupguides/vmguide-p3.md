@@ -80,11 +80,15 @@ Close all other open programs in your VM, so that only your terminal window is r
 ./ubuntu/config/scripts/setup.py
 ```
 
-If prompted for your password, please enter it.  It may take a while for the script to run, so please be patient.  When the script prompts you to do so, reboot your VM and log in.
+If prompted for your password, please enter it.  It may take a while for the script to run, so please be patient.  When the script prompts you to do so, reboot your VM by entering this command in your terminal window:
+
+```Shell
+reboot
+```
 
 ## Step - 12:
 
-Check to see if the connection to your Windows share worked properly by clicking on the file browser icon. If everything was successful, you should see your new *`shares`* drive on the bottom left side.  You can click on it to navigate to your shared folder, similar to the way you navigate your Windows machine using the file explorer.
+Login to your VM again and check to see if the connection to your Windows share worked properly by clicking on the file browser icon. If everything was successful, you should see your new *`shares`* drive on the bottom left side.  You can click on it to navigate to your shared folder, similar to the way you navigate your Windows machine using the file explorer.
 
 ![](images/image33.png)
 
