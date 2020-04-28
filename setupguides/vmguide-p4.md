@@ -1,10 +1,10 @@
 # Part-4: Setup Instructions for Public Key Encryption in Ubuntu Linux
 
-Public Key encryption works by creating a set of mathematically related keys (long strings of characters) that permit encryption and decryption of files.  A file encrypted with a public key can only be decrypted with the associated private key.  In this way we can share our public keys with anyone without being concerned about compromise, as long as we always keep our private keys secure.
+Public Key encryption works by creating a set of mathematically related keys (long strings of characters) that permit encryption and decryption of files. A file encrypted with a public key can only be decrypted with the associated private key. In this way we can share our public keys with anyone without being concerned about compromise, as long as we always keep our private keys secure.
 
 ![](images/image36.png)
 
-In this course, each of us will generate a key pair (public and private) and share our public keys.  We can then post encrypted files in a common shared folder and only the intended recipients will be able to decrypt the files and access the contents
+In this course, each of us will generate a key pair (public and private) and share our public keys. We can then post encrypted files in a common shared folder and only the intended recipients will be able to decrypt the files and access the contents
 
 ## Step - 1:
 
@@ -22,19 +22,19 @@ Click on the *`Passwords and Keys`* icon.
 
 ## Step - 3:
 
-Click on the plus sign (+) in the top left corner of the window.  In the pop-up window click on *`GPG Key`*.
+Click on the plus sign (+) in the top left corner of the window. In the pop-up window click on *`GPG Key`*.
 
 ![](images/image39.png)
 
 ## Step - 4:
 
-In the next window, enter your full name and USNA e-mail address.  Leave all the defaults as-is.  When you're ready, click *`Create`*
+In the next window, enter your full name and USNA e-mail address. Leave all the defaults as-is. When you're ready, click *`Create`*
 
 ![](images/image40.png)
 
 ## Step - 5:
 
-Enter the same password you used for your VM login and enter it again to confirm it.  When you're ready, click on *`OK`*.
+Enter the same password you used for your VM login and enter it again to confirm it. When you're ready, click on *`OK`*.
 
 ![](images/image41.png)
 
@@ -46,7 +46,7 @@ Once your key pair is generated (it may take a little while) it will show up in 
 
 ## Step - 7:
 
-Export your public key to allow others to send you encrypted files.  To generate and export your public key, open a terminal window and enter the commands below:
+Export your public key to allow others to send you encrypted files. To generate and export your public key, open a terminal window and enter the commands below:
 
 Start by changing your directory to the Desktop.
 

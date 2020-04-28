@@ -4,13 +4,13 @@ The chrome web browser for linux.
 
 ## Installation
 
-1. FireFox comes with Ubuntu.  Using FireFox from within the Ubuntu VM, visit: [https://www.google.com/chrome/](https://www.google.com/chrome/)
+1. FireFox comes with Ubuntu. Using FireFox from within the Ubuntu VM, visit: [https://www.google.com/chrome/](https://www.google.com/chrome/)
 
 2. Click the `Download Chrome` button and select the version for *64 bit .deb (For Debian/Ubuntu)*
 
 3. Click on `Accept and Install`
 
-4. When the dialog box comes up, choose to Save the file (rather than open it).  This will place the Chrome installer in your Downloads folder.
+4. When the dialog box comes up, choose to Save the file (rather than open it). This will place the Chrome installer in your Downloads folder.
 
 5. Install Chrome with these commands:
 

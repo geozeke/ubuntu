@@ -11,7 +11,7 @@
 
 # NOTE to self:
 # As of python 3.7, there is a new parameter to the subprocess.run() module
-# called "capture_output".  If set to true, then stdout and stderr are given
+# called "capture_output". If set to true, then stdout and stderr are given
 # PIPEs, otherwise they're set to None.
 
 # Imports
@@ -30,7 +30,7 @@ def runScript(se):
 
    os.system('clear')
    
-   # Step 1. System initialization.  Right now, it's just a placeholder for
+   # Step 1. System initialization. Right now, it's just a placeholder for
    # future capability.
    
    print(se.FMTSTR.format(se.nextLabel()),end='')
@@ -82,7 +82,7 @@ def main():
    # Build a python argument parser
    
    msg  = "This script installs the necessary settings files and color schemes "
-   msg += "for a pleasant visual experience in vi.  NOTE: If you've already "
+   msg += "for a pleasant visual experience in vi. NOTE: If you've already "
    msg += "run the ubuntu setup script, there's no need to run this script."
    
    epi = "Latest update: 11 Feb 2020"

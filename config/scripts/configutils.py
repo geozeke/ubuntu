@@ -15,8 +15,8 @@ from glob import glob
 
 # Many functions in the “subprocess” module have a “shell” parameter whose
 # default value is False. If it is set to True, then a Unix shell is invoked
-# between Python and the command.  This means the command should be passed as a
-# string to subprocess and wildcard characters will get expanded.  There are
+# between Python and the command. This means the command should be passed as a
+# string to subprocess and wildcard characters will get expanded. There are
 # actually injection vulnerabilities with doing it that way, so globify uses
 # python's glob.glob library to expand the wildcard characters into a list of
 # separate strings which can be passed to subprocess() without using a separate
@@ -40,13 +40,13 @@ def globify(cmd):
 
 # -------------------------------------------------------------------
 
-# Takes a list of tuples (packages).  The first item in each tuple is a label,
-# the remaining item(s) in each tuple are commands to execute.  The fmrStr
+# Takes a list of tuples (packages). The first item in each tuple is a label,
+# the remaining item(s) in each tuple are commands to execute. The fmrStr
 # (format string) creates a right margin for each label, with leading dots
-# ('.').  This creates a pleasing presentation, with all the results ('Complete'
-# or 'Failure') aligned to the same column.  If any of the commands in a batch
+# ('.'). This creates a pleasing presentation, with all the results ('Complete'
+# or 'Failure') aligned to the same column. If any of the commands in a batch
 # fails (return code != 0), then the entire batch will have been considered a
-# fail.  This is just a high-level warning, like a "Check Engine" light.
+# fail. This is just a high-level warning, like a "Check Engine" light.
 # 
 # The optional parameter "msg" allows for tuning of the message that's printed
 # when the commands are finished running.
@@ -78,8 +78,8 @@ def cleanStr(bytes):
 
 # -------------------------------------------------------------------
 
-# Checks that the installed python version is at the minimum required.  If it
-# is, then None is returned.  If it's not, then an error message is returned.
+# Checks that the installed python version is at the minimum required. If it is,
+# then None is returned. If it's not, then an error message is returned.
 
 def checkPythonVersion(se):
    

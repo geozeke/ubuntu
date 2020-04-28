@@ -1,6 +1,6 @@
 # graphviz
 
-The graphviz module is a suite of tools (called *filters*) in linux for visualizing graphs described in plaintext  `dot` files.  For example, this `dot` file:
+The graphviz module is a suite of tools (called *filters*) in linux for visualizing graphs described in plaintext  `dot` files. For example, this `dot` file:
 
 ```
 graph G {
@@ -32,7 +32,7 @@ sudo apt install graphviz
 
 ## Usage
 
-You don't call graphviz directly.  Instead, you call the *filters* that are part of the graphviz suite.  There are two commonly-used filters:
+You don't call graphviz directly. Instead, you call the *filters* that are part of the graphviz suite. There are two commonly-used filters:
 
 - `fdp`: *Force Directed Placement*, which renders nice pictures for undirected graphs
 - `dot`: For directed graphs

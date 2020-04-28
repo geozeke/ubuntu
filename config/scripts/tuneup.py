@@ -10,7 +10,7 @@
 
 # NOTE to self:
 # As of python 3.7, there is a new parameter to the subprocess.run() module
-# called "capture_output".  If set to true, then stdout and stderr are given
+# called "capture_output". If set to true, then stdout and stderr are given
 # PIPEs, otherwise they're set to None.
 
 # Imports
@@ -37,7 +37,7 @@ def runUpdates(args,se):
    # Cleaning up
    sp.run(globify('sudo apt -y autoremove'))
    
-   # Check to see if running zsh with oh_my_zsh.  If so, then upgrade it
+   # Check to see if running zsh with oh_my_zsh. If so, then upgrade it
    # silently.
    try:
       zsh = os.environ['ZSH']
@@ -62,7 +62,7 @@ def runUpdates(args,se):
    del sys.path[-1]
 
    # Done
-   msg  = "\nAll updates and upgrades are complete.  A reboot is recommended "
+   msg  = "\nAll updates and upgrades are complete. A reboot is recommended "
    msg += "to ensure that the changes take effect.\n\n"
    sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
 

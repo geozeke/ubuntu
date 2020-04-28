@@ -1,6 +1,6 @@
 # speedtest
 
-You may be familiar with a free tool for testing internet connection speeds called *speedtest*.  It's available via a website ([speedtest.net](https://speedtest.net)) as well as an application for desktop and mobile devices. Here's what the maker of *speedtest* has to say:
+You may be familiar with a free tool for testing internet connection speeds called *speedtest*. It's available via a website ([speedtest.net](https://speedtest.net)) as well as an application for desktop and mobile devices. Here's what the maker of *speedtest* has to say:
 
 *Speedtest® by Ookla® is the definitive way to test the speed and performance of your internet connection. Every day, over ten million unique tests are actively initiated by our users in the locations and at the times when their connectivity matters to them. Since our founding in 2006, an unparalleled total of more than 25 billion tests have been taken with Speedtest.*
 
@@ -40,3 +40,4 @@ Upload: 365.63 Mbit/s
 
 ---
 *Last update: 02/13/20*
+. 

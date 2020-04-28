@@ -7,8 +7,8 @@
 # Title: Config Init
 
 # Implementation of a class that defines global variables for the Ubuntu
-# scripting runtime environment.  This allows for maintenance of these
-# variables in one place, to be used with any Ubuntu VM script.
+# scripting runtime environment. This allows for maintenance of these variables
+# in one place, to be used with any Ubuntu VM script.
 
 # Imports
 
@@ -149,8 +149,8 @@ class ScriptEnvironment:
       # Reverse the label list so we can pop items off the end as we go.
       self.LABELS.reverse()
 
-      # Calculate the length of the longest label.  Add 3 to provide some
-      # buffer to print at least 3 dots for the longest label
+      # Calculate the length of the longest label. Add 3 to provide some buffer
+      # to print at least 3 dots for the longest label
       maxLabel = 0
       for label in self.LABELS:
          if len(label) > maxLabel:
@@ -170,8 +170,8 @@ class ScriptEnvironment:
       
 # -------------------------------------------------------------------
 
-   # Checks that the installed python version is at the minimum required.  If it
-   # is, then None is returned.  If it's not, then an error message is returned.
+   # Checks that the installed python version is at the minimum required. If it
+   # is, then None is returned. If it's not, then an error message is returned.
 
    def checkPythonVersion(self):
       

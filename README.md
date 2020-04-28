@@ -2,7 +2,7 @@
 
 ## VM Setup Guides (Start Here)
 
-*NOTE: When accessing the links below, or accessing any of the links in the guides, please right-click and open the link in a new Tab or Window.  That makes it easier to navigate back to this page.*
+*NOTE: When accessing the links below, or accessing any of the links in the guides, please right-click and open the link in a new Tab or Window. That makes it easier to navigate back to this page.*
 
 - [Part-1: Installing Workstation Player and Downloading the Ubuntu VM Image](setupguides/vmguide-p1.md)
 - [Part-2: Installation and Setup of The Ubuntu Virtual Machine](setupguides/vmguide-p2.md)
@@ -13,7 +13,7 @@
 
 ## Technical Details
 
-This repo manages a series of setup and maintenance scripts for Ubuntu VMs.  I started these for Cyber Operations classes at USNA, but they've broadened and become very useful for setting up Ubuntu VMs for any purpose.
+This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I started these for Cyber Operations classes at USNA, but they've broadened and become very useful for setting up Ubuntu VMs for any purpose.
 
 *Note: The following aliases are used:*
 
@@ -163,7 +163,7 @@ sudo apt -y autoremove
 
 sudo snap refresh atom
 
-# Upgrade ohMyZsh.  Check first to see if zsh is the current shell
+# Upgrade ohMyZsh. Check first to see if zsh is the current shell
 # and oh-my-zsh is installed. 
 ~/.oh-my-zsh/tools/upgrade.sh
 
@@ -173,7 +173,7 @@ pip3 install --upgrade jupyterlab
 
 ### `swiftInstall.py`
 
-*Note: This does not yet work in Ubuntu 20.04.  The folks at swift.org have not yet released an update.  It will be interesting to see how this evolves, given that support for python2 is being dropped in Ubuntu 20.04*
+*Note: This does not yet work in Ubuntu 20.04. The folks at swift.org have not yet released an update. It will be interesting to see how this evolves, given that support for python2 is being dropped in Ubuntu 20.04*
 
 In addition to the Swift programming environment, this script also installs the following dependencies:
 
@@ -190,7 +190,7 @@ This script will be tuned to update the swift distribution to the latest version
 
 ### `vimsetup.py`
 
-This is a standalone script that allows you to  install the necessary files and settings to create a pleasant visual experience in vi.  It's useful if you're got a user account on a Linux server and you just want to tune-up the look-and-feel of vi.
+This is a standalone script that allows you to  install the necessary files and settings to create a pleasant visual experience in vi. It's useful if you're got a user account on a Linux server and you just want to tune-up the look-and-feel of vi.
 
 Step 1: This is a placeholder step for future initialization, if required.
 

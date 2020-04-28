@@ -15,7 +15,7 @@
 
 # NOTE to self:
 # As of python 3.7, there is a new parameter to the subprocess.run() module
-# called "capture_output".  If set to true, then stdout and stderr are given
+# called "capture_output". If set to true, then stdout and stderr are given
 # PIPEs, otherwise they're set to None.
 
 # Imports
@@ -34,7 +34,7 @@ def runScript(se):
 
    os.system('clear')
    
-   # Step 1. System initialization.  Right now, it's just a placeholder for
+   # Step 1. System initialization. Right now, it's just a placeholder for
    # future capability.
    
    print(se.FMTSTR.format(se.nextLabel()),end='')
@@ -81,7 +81,7 @@ def runScript(se):
          'chmod 744 ~/.config/gedit/tools/flexiwrap')]
    batchCommands(packages,se.FMTSTR)
    
-   # Step 5. Setting terminal profile.  Need a little special handling here,
+   # Step 5. Setting terminal profile. Need a little special handling here,
    # because we're redirecting stdin.
    
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
@@ -93,8 +93,8 @@ def runScript(se):
    f.close()
    print('Complete')
 
-   # Step 6. Setting gedit profile.  Again, need special handling here,
-   # because we're redirecting stdin.
+   # Step 6. Setting gedit profile. Again, need special handling here, because
+   # we're redirecting stdin.
    
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
    cmd = 'dconf reset -f /org/gnome/gedit/'
@@ -151,7 +151,7 @@ def runScript(se):
    
    print('\nFinal Steps:\n')
    
-   # Step 10 Configure favorites.  NOTE: To get the information needed for the
+   # Step 10 Configure favorites. NOTE: To get the information needed for the
    # code below, setup desired favorites, then run this command:
    # gsettings get org.gnome.shell favorite-apps
 
@@ -172,11 +172,10 @@ def runScript(se):
          'gsettings set org.gnome.shell favorite-apps ' + target)]
    batchCommands(packages,se.FMTSTR)
 
-   # Step 11 Tune system settings.  This turns off auto screen lock, idle
-   # timeout, and auto system updates.  Special handling is required, because
-   # the command for setting the idle timeout has a space in one of the
-   # arguments.  As a result, we can't use globify and have to parse it
-   # manually. 
+   # Step 11 Tune system settings. This turns off auto screen lock, idle
+   # timeout, and auto system updates. Special handling is required, because the
+   # command for setting the idle timeout has a space in one of the arguments.
+   # As a result, we can't use globify and have to parse it manually. 
    
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
 
@@ -184,7 +183,7 @@ def runScript(se):
    cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
    sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
 
-   # Set idle timeout to 'never'.  This is the command that requires the manual
+   # Set idle timeout to 'never'. This is the command that requires the manual
    # parsing.
    cmd = [
       'gsettings',
@@ -241,7 +240,7 @@ def main():
    msg += "Computing Sciences or Cyber Operations. This should only be used on "
    msg += "a single user Virtual Machine installation for a user account with "
    msg += "sudo privileges. Do not attempt to run this script on a standalone "
-   msg += "Linux machine or dual-boot machine (including lab machines).  You "
+   msg += "Linux machine or dual-boot machine (including lab machines). You "
    msg += "will be prompted for your password during installation."
    
    epi = "Latest update: 26 Apr 2020"

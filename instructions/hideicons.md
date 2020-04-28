@@ -1,6 +1,6 @@
 # Hiding Home and Trash Icons in Ubuntu
 
-When you load Ubuntu, you may see both *Trash* and *Home* icons on your desktop.  If you'd prefer to have either of those icons hidden, you can achieve that with a few shell commands.
+When you load Ubuntu, you may see both *Trash* and *Home* icons on your desktop. If you'd prefer to have either of those icons hidden, you can achieve that with a few shell commands.
 
 ## Implementation (Ubuntu 20.04)
 

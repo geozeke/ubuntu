@@ -11,9 +11,9 @@
 # NOTE to self:
 # The current dependencies that are installed as part of swift have some bugs
 # which throw some errors when you start the command line version of swift.
-# These dependencies also break the dependencies for the atom-updater.  I
-# suspect this may be resolved when atom-updater is updated, and when Ubuntu
-# 20.04 is released.  Some testing will be required to validate.
+# These dependencies also break the dependencies for the atom-updater. I suspect
+# this may be resolved when atom-updater is updated, and when Ubuntu 20.04 is
+# released. Some testing will be required to validate.
 
 # Imports
 
@@ -80,7 +80,7 @@ def runScript(se):
    packages = [(se.nextLabel(),cmd)]
    batchCommands(packages,se.FMTSTR)
 
-   # Step 6. Move files into position.  Strip '.tar.gz' from the swift package.
+   # Step 6. Move files into position. Strip '.tar.gz' from the swift package.
    # That will produce a string that points to the unpacked contents of the
    # SWIFTPKG
    
@@ -153,7 +153,7 @@ def main():
    # Check to see if swift is installed.
 
    if installedVersion.returncode != 0:
-      msg  = 'Swift is not installed.  Please run the swift installation '
+      msg  = 'Swift is not installed. Please run the swift installation '
       msg += 'script before attempting an update.'
       sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
       sys.exit(installedVersion.returncode)
@@ -164,7 +164,7 @@ def main():
    versionString = versionString.split('\n')[0].split()[2]
    if versionString == se.SWIFTVER:
       msg  = '\nSwift is already at the most recent version (' + se.SWIFTVER
-      msg += ').  No update is necessary.\n\n'
+      msg += '). No update is necessary.\n\n'
       sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
       sys.exit(installedVersion.returncode)
 
