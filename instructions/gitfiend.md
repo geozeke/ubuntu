@@ -6,10 +6,9 @@ Gitfiend is a nice visual Git Client for linux.
 
 ```Shell
 cd ~/Desktop
-sudo apt install libcurl4
-wget -v https://gitfiend.com/resources/GitFiend_0.22.8_amd64.deb
-sudo apt install ./GitFiend_0.22.8_amd64.deb
-rm GitFiend_0.22.8_amd64.deb
+wget -v https://gitfiend.com/resources/GitFiend_0.23.1_amd64.deb
+sudo apt install ./GitFiend_0.23.1_amd64.deb
+rm GitFiend_0.23.1_amd64.deb
 ```
 
 ## Usage
@@ -27,4 +26,4 @@ then pin the icon to your favorites.
 [https://gitfiend.com/](https://gitfiend.com/)
 
 ---
-*Last update: 02/05/20*
+*Last update: 05/18/20*
