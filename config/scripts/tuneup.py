@@ -69,6 +69,8 @@ def runUpdates(args,se):
       # Reset cwd
       os.chdir(se.CWD)
       
+      print('Complete')
+      
    # For completeness, restore the python environment path
    del sys.path[-1]
 

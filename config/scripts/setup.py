@@ -47,7 +47,7 @@ def runScript(se):
          cmd + '~/shares',
          cmd + '~/notebooks/content',
          cmd + '~/notebooks/images',
-         cmd + '~/notebooksrepo',
+         cmd + '~/.notebooksrepo',
          cmd + '~/.atom',
          cmd + target)]
    batchCommands(packages,se.FMTSTR)
@@ -157,6 +157,8 @@ def runScript(se):
    
    # Reset cwd
    os.chdir(se.CWD)
+   
+   print('Complete')
 
    # Step 9 Install atom
    

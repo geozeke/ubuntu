@@ -107,7 +107,7 @@ You will now see a screen inviting you to set up *Livepatch*. Click the green *`
 
 ## Step - 18:
 
-At the "*Welcome to Ubuntu*" screen click the green *`Next`* button; then at the "*Ready to go*" screen click the *`Done`* button.
+At the "*Privacy*" screen click the green *`Next`* button; then at the "*Ready to go*" screen click the *`Done`* button.
 
 ![](images/image22a.png)
 

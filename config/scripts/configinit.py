@@ -47,11 +47,11 @@ class ScriptEnvironment:
       self.SWIFTVER  = '5.2.4'
       
       self.SWIFTURL  = 'https://swift.org/builds/swift-' + self.SWIFTVER
-      self.SWIFTURL += '-release/ubuntu1804/swift-' + self.SWIFTVER
+      self.SWIFTURL += '-release/ubuntu2004/swift-' + self.SWIFTVER
       self.SWIFTURL += '-RELEASE/swift-' + self.SWIFTVER
-      self.SWIFTURL += '-RELEASE-ubuntu18.04.tar.gz'
+      self.SWIFTURL += '-RELEASE-ubuntu20.04.tar.gz'
       
-      self.SWIFTPKG  = 'swift-' + self.SWIFTVER + '-RELEASE-ubuntu18.04.tar.gz'
+      self.SWIFTPKG  = 'swift-' + self.SWIFTVER + '-RELEASE-ubuntu20.04.tar.gz'
       self.SWIFTDIR  = '/usr/share/swift'
       self.TEMPDIR   = "/tmp/placeholder" + str(os.getpid())
       

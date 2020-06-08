@@ -49,7 +49,7 @@ Step 2: Create the following directories:
 ~/shares
 ~/notebooks/content
 ~/notebooks/images
-~/notebooksrepo
+~/.notebooksrepo
 ~/.atom
 ```
 
