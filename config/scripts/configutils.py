@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 02/01/20
+# Date: 06/08/20
 # License: (see MIT License at the end of this file)
 
 # Title: Common utilities for Ubuntu VM Scripts
@@ -60,7 +60,7 @@ def batchCommands(packages, fmtStr, msg='Complete'):
       print(fmtStr.format(package[0]),end='',flush=True)
       
       for i in range(1,len(package)):
-         result = sp.run(globify(package[i]),stdout=sp.PIPE,stderr=sp.PIPE)
+         result = sp.run(globify(package[i]),capture_output=True)
          if result.returncode != 0:
             success = False
       

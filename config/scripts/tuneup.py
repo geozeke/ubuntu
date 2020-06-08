@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 02/06/20
+# Date: 06/08/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Tuneup Script
 
 # This script will perform system updates to an Ubuntu VM.
-
-# NOTE to self:
-# As of python 3.7, there is a new parameter to the subprocess.run() module
-# called "capture_output". If set to true, then stdout and stderr are given
-# PIPEs, otherwise they're set to None.
 
 # Imports
 
@@ -43,11 +38,11 @@ def runUpdates(args,se):
       zsh = os.environ['ZSH']
       if zsh == se.OHMYZSH:
          cmd = 'sh ' + zsh + '/tools/upgrade.sh'
-         sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
+         sp.run(globify(cmd),capture_output=True)
    except KeyError:
       pass
    
-   # Update python pip3 packages if -a is selected
+   # Update python pip3 packages and sync jupyter notebooks if -a is selected
    if args.updateAll:
       
       cmd = 'pip3 install --upgrade '
@@ -57,7 +52,23 @@ def runUpdates(args,se):
       batchCommands(packages,se.FMTSTR)
       packages = [(se.nextLabel(), cmd + 'jupyterlab')]
       batchCommands(packages,se.FMTSTR)
-   
+
+      # Sync jupyter notebooks
+      print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
+
+      # Pull updates to notebooks repo
+      os.chdir(se.HOME + '/.notebooksrepo')
+      sp.run(globify('git pull'),capture_output=True)
+      
+      # Sync repo with local notebooks
+      cmd = 'rsync -rc ~/.notebooksrepo/content/* ~/notebooks/content'
+      sp.run(globify(cmd),capture_output=True)
+      cmd = 'rsync -rc ~/.notebooksrepo/images/* ~/notebooks/images'
+      sp.run(globify(cmd),capture_output=True)
+      
+      # Reset cwd
+      os.chdir(se.CWD)
+      
    # For completeness, restore the python environment path
    del sys.path[-1]
 
@@ -93,7 +104,8 @@ def main():
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    
    msg  = 'In addition to updating Ubuntu system, ppa and snap files, also '
-   msg += 'update preinstalled pip3 packages in Python.'
+   msg += 'update preinstalled pip3 packages in Python and synchronize '
+   msg += 'installed jupyter notebooks.'
    parser.add_argument('-a',
       help=msg,
       required=False,
