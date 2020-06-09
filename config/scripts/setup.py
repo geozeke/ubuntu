@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/08/20
+# Date: 06/09/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
@@ -156,15 +156,13 @@ def runScript(se):
    # any git-related files. Per the man page, leaving a trailing slash ('/') on
    # the source directory allows you to have a destination directory with a
    # different name.
-   cmd  = "rsync -rc "
-   cmd += "--exclude \'.git*\' " 
-   cmd += "--exclude \'LICENSE*\' " 
-   cmd += "--exclude \'README*\' " 
-   cmd += "~/.notebooksrepo/ "
-   cmd += "~/notebooks "
-   cmd += "--delete"
-   sp.run(globify(cmd),capture_output=True)
-   
+   cmd  = globify('rsync -rc')
+   cmd += ['--exclude','.git*']
+   cmd += ['--exclude','LICENSE*']
+   cmd += ['--exclude','README*']
+   cmd += globify('~/.notebooksrepo/ ~/notebooks --delete')
+   sp.run(cmd,capture_output=True)
+      
    # Reset cwd
    os.chdir(se.CWD)
    
@@ -271,7 +269,7 @@ def main():
    msg += "Linux machine or dual-boot machine (including lab machines). You "
    msg += "will be prompted for your password during installation."
    
-   epi = "Latest update: 08 Jun 2020"
+   epi = "Latest update: 09 Jun 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    
