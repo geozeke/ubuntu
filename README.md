@@ -47,6 +47,9 @@ Step 2: Create the following directories:
 ~/.config/gedit/snippets
 ~/.vim/colors
 ~/shares
+~/notebooks/content
+~/notebooks/images
+~/.notebooksrepo
 ~/.atom
 ```
 
@@ -110,6 +113,10 @@ Step 8: Set up jupyter.
 ```Shell
 pip3 install --upgrade jupyter
 pip3 install --upgrade jupyterlab
+cd ~/.notebooksrepo  
+git clone https://github.com/geozeke/notebooks.git .
+rsync -rc ~/.notebooksrepo/content/* ~/notebooks/content
+rsync -rc ~/.notebooksrepo/images/* ~/notebooks/images
 ```
 
 Step 9: Setup atom
@@ -169,19 +176,19 @@ sudo snap refresh atom
 
 pip3 install --upgrade jupyter
 pip3 install --upgrade jupyterlab
+cd ~/.notebooksrepo
+git pull
+rsync -rc ~/.notebooksrepo/content/* ~/notebooks/content
+rsync -rc ~/.notebooksrepo/images/* ~/notebooks/images
 ```
 
 ### `swiftInstall.py`
-
-*Note: This does not yet work in Ubuntu 20.04. The folks at swift.org have not yet released an update. It will be interesting to see how this evolves, given that support for python2 is being dropped in Ubuntu 20.04*
 
 In addition to the Swift programming environment, this script also installs the following dependencies:
 
 ```Shell
 sudo apt install -y clang
-sudo apt install -y libcurl4
 sudo apt install -y libpython2.7
-sudo apt install -y libpython2.7-dev
 ```
 
 ### `swiftUpdate.py`

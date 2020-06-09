@@ -2,7 +2,7 @@
 
 When you load Ubuntu, you may see both *Trash* and *Home* icons on your desktop. If you'd prefer to have either of those icons hidden, you can achieve that with a few shell commands.
 
-## Implementation (Ubuntu 20.04)
+## Implementation
 
 ```Shell
 # To hide the home icon:
@@ -25,4 +25,4 @@ N/A
 [How do I remove home folder from the desktop?](https://askubuntu.com/questions/479546/how-do-i-remove-home-folder-from-the-desktop)
 
 ---
-*Last update: 04/12/20*
+*Last update: 06/08/20*

@@ -1,22 +1,17 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 04/26/20
+# Date: 06/09/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
 
 # This script will install the necessary programs and settings files on an
-# Ubuntu 18.04.x Virtual Machine for USNA course work in Computer Science or
+# Ubuntu 20.04.x Virtual Machine for USNA course work in Computer Science or
 # Cyber Operations. This should only be used on a single user Virtual Machine
 # installation for a user account with sudo privileges. Do not attempt to run
 # this script on a standalone Linux machine or dual-boot machine (including lab
 # machines). You will be prompted for your password during installation.
-
-# NOTE to self:
-# As of python 3.7, there is a new parameter to the subprocess.run() module
-# called "capture_output". If set to true, then stdout and stderr are given
-# PIPEs, otherwise they're set to None.
 
 # Imports
 
@@ -50,10 +45,13 @@ def runScript(se):
          cmd + '~/.config/gedit/snippets',
          cmd + '~/.vim/colors',
          cmd + '~/shares',
+         cmd + '~/notebooks/content',
+         cmd + '~/notebooks/images',
+         cmd + '~/.notebooksrepo',
          cmd + '~/.atom',
          cmd + target)]
    batchCommands(packages,se.FMTSTR)
-   
+  
    # Step 3. Copying files
    
    cmd = 'cp -f --backup=numbered '
@@ -85,24 +83,28 @@ def runScript(se):
    # because we're redirecting stdin.
    
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
+   
    cmd = 'dconf reset -f /org/gnome/terminal/'
-   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
+   sp.run(globify(cmd),capture_output=True)
    f = open(se.SYSTEM + '/terminalSettings.txt')
    cmd = 'dconf load /org/gnome/terminal/'
-   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE,stdin=f)
+   sp.run(globify(cmd),capture_output=True,stdin=f)
    f.close()
+   
    print('Complete')
 
    # Step 6. Setting gedit profile. Again, need special handling here, because
    # we're redirecting stdin.
    
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
+   
    cmd = 'dconf reset -f /org/gnome/gedit/'
-   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
+   sp.run(globify(cmd),capture_output=True)
    f = open(se.GEDIT + '/geditSettings.txt')
    cmd = 'dconf load /org/gnome/gedit/'
-   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE,stdin=f)
+   sp.run(globify(cmd),capture_output=True,stdin=f)
    f.close()
+   
    print('Complete')
 
    msg = "\nInstalling additional software. Please enter password if "
@@ -113,7 +115,7 @@ def runScript(se):
    # pull. This will avoid having the password prompt come in the middle of a
    # label when providing status
    
-   sp.run(globify('sudo ls'),stdout=sp.PIPE,stderr=sp.PIPE)
+   sp.run(globify('sudo ls'),capture_output=True)
    
    # Steps 7. Packages from the ppa and zsh
    
@@ -133,7 +135,7 @@ def runScript(se):
       (se.nextLabel(),cmd + 'python3-venv')]
    batchCommands(packages,se.FMTSTR)
    
-   # Step 8 Install jupyter
+   # Step 8 Install jupyter and copy notebooks
    
    cmd = 'pip3 install --upgrade '
    packages = [
@@ -141,12 +143,36 @@ def runScript(se):
       (se.nextLabel(),cmd + 'jupyterlab')]
    batchCommands(packages,se.FMTSTR)
    
+   # Set up jupyter notebooks.
+   print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
+      
+   # Clone the notebook repo
+   os.chdir(se.HOME + '/.notebooksrepo')
+   cmd = 'git clone https://github.com/geozeke/notebooks.git .'
+   sp.run(globify(cmd),capture_output=True)
+   
+   # Sync repo with local notebooks. Use the --delete option so the destination
+   # directory always exactly mirrors the source directory. Also skip syncing
+   # any git-related files. Per the man page, leaving a trailing slash ('/') on
+   # the source directory allows you to have a destination directory with a
+   # different name.
+   cmd  = globify('rsync -rc')
+   cmd += ['--exclude','.git*']
+   cmd += ['--exclude','LICENSE*']
+   cmd += ['--exclude','README*']
+   cmd += globify('~/.notebooksrepo/ ~/notebooks --delete')
+   sp.run(cmd,capture_output=True)
+      
+   # Reset cwd
+   os.chdir(se.CWD)
+   
+   print('Complete')
+
    # Step 9 Install atom
    
    packages = [
       (se.nextLabel(),
-         'sudo snap install atom --classic',
-         'apm install markdown-scroll-sync')]
+         'sudo snap install atom --classic')]
    batchCommands(packages,se.FMTSTR)
    
    print('\nFinal Steps:\n')
@@ -181,7 +207,7 @@ def runScript(se):
 
    # Turn off screen lock
    cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
-   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
+   sp.run(globify(cmd),capture_output=True)
 
    # Set idle timeout to 'never'. This is the command that requires the manual
    # parsing.
@@ -192,11 +218,11 @@ def runScript(se):
       'idle-delay',
       'uint32 0'
    ]
-   sp.run(cmd,stdout=sp.PIPE,stderr=sp.PIPE)
+   sp.run(cmd,capture_output=True)
 
    # Disable auto updates
    cmd = 'sudo cp -f ' + se.SYSTEM + '/20auto-upgrades /etc/apt/apt.conf.d/'
-   sp.run(globify(cmd),stdout=sp.PIPE,stderr=sp.PIPE)
+   sp.run(globify(cmd),capture_output=True)
    
    print('Complete')
    
@@ -243,7 +269,7 @@ def main():
    msg += "Linux machine or dual-boot machine (including lab machines). You "
    msg += "will be prompted for your password during installation."
    
-   epi = "Latest update: 26 Apr 2020"
+   epi = "Latest update: 09 Jun 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

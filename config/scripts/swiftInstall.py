@@ -1,19 +1,12 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 02/01/20
+# Date: 06/08/20
 # License: (see MIT License at the end of this file)
 
 # Title: Swift installation script
 
-# This script will install swift on Ubuntu 18.04.x.
-
-# NOTE to self:
-# The current dependencies that are installed as part of swift have some bugs
-# which throw some errors when you start the command line version of swift.
-# These dependencies also break the dependencies for the atom-updater. I suspect
-# this may be resolved when atom-updater is updated, and when Ubuntu 20.04 is
-# released. Some testing will be required to validate.
+# This script will install swift on Ubuntu 20.04.x.
 
 # Imports
 
@@ -36,7 +29,7 @@ def runScript(se):
    # pull. This will avoid having the password prompt come in the middle of a
    # label when providing status
    
-   sp.run(globify('sudo ls'),stdout=sp.PIPE,stderr=sp.PIPE)
+   sp.run(globify('sudo ls'),capture_output=True)
    
    # Step 1. System initialization - Make Swift temp dir then change to it.
    
@@ -56,9 +49,7 @@ def runScript(se):
    
    packages = [
       (se.nextLabel(),
-         cmd + 'libcurl4',
-         cmd + 'libpython2.7',
-         cmd + 'libpython2.7-dev')]
+         cmd + 'libpython2.7')]
    batchCommands(packages,se.FMTSTR)
          
    # Step 4. Download Swift to the tmp directory
@@ -133,9 +124,9 @@ def main():
    # Build a python argument parser
    
    msg  = "This script will install swift ver " + se.SWIFTVER + " on Ubuntu "
-   msg += "18.04.x. You will be prompted for your password during installation."
+   msg += "20.04.x. You will be prompted for your password during installation."
    
-   epi = "Latest update: 01 Feb 2020"
+   epi = "Latest update: 08 Jun 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 05/18/20
+# Date: 06/08/20
 # License: (see MIT License at the end of this file)
 
 # Title: Config Init
@@ -23,7 +23,7 @@ class ScriptEnvironment:
       
       # Minimum required python version for Ubuntu VM scripts.
       self.MAJOR = 3
-      self.MINOR = 6
+      self.MINOR = 7
 
       # Paths in the repo for installation files.
       self.HOME    = os.path.expanduser('~')
@@ -44,14 +44,14 @@ class ScriptEnvironment:
       # Check the URL on Swift.org to make sure it's correct, but you should
       # only have to change the SWIFTVER variable below to run the script
       # properly.
-      self.SWIFTVER  = '5.2.3'
+      self.SWIFTVER  = '5.2.4'
       
       self.SWIFTURL  = 'https://swift.org/builds/swift-' + self.SWIFTVER
-      self.SWIFTURL += '-release/ubuntu1804/swift-' + self.SWIFTVER
+      self.SWIFTURL += '-release/ubuntu2004/swift-' + self.SWIFTVER
       self.SWIFTURL += '-RELEASE/swift-' + self.SWIFTVER
-      self.SWIFTURL += '-RELEASE-ubuntu18.04.tar.gz'
+      self.SWIFTURL += '-RELEASE-ubuntu20.04.tar.gz'
       
-      self.SWIFTPKG  = 'swift-' + self.SWIFTVER + '-RELEASE-ubuntu18.04.tar.gz'
+      self.SWIFTPKG  = 'swift-' + self.SWIFTVER + '-RELEASE-ubuntu20.04.tar.gz'
       self.SWIFTDIR  = '/usr/share/swift'
       self.TEMPDIR   = "/tmp/placeholder" + str(os.getpid())
       
@@ -93,6 +93,7 @@ class ScriptEnvironment:
          # Step 8
          self.LABELS.append('Installing jupyter')
          self.LABELS.append('Installing jupyter lab')
+         self.LABELS.append('Building jupyter notebooks')
          # Step 9
          self.LABELS.append('Installing atom (please be patient)')
          # Step 10
@@ -106,6 +107,7 @@ class ScriptEnvironment:
       
          self.LABELS.append('Scanning for updates to jupyter')
          self.LABELS.append('Scanning for updates to jupyter lab')
+         self.LABELS.append('Synchronizing jupyter notebooks')
          
       elif self.script == "swiftInstall.py":
          
