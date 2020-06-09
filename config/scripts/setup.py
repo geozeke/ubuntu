@@ -83,24 +83,28 @@ def runScript(se):
    # because we're redirecting stdin.
    
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
+   
    cmd = 'dconf reset -f /org/gnome/terminal/'
    sp.run(globify(cmd),capture_output=True)
    f = open(se.SYSTEM + '/terminalSettings.txt')
    cmd = 'dconf load /org/gnome/terminal/'
    sp.run(globify(cmd),capture_output=True,stdin=f)
    f.close()
+   
    print('Complete')
 
    # Step 6. Setting gedit profile. Again, need special handling here, because
    # we're redirecting stdin.
    
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
+   
    cmd = 'dconf reset -f /org/gnome/gedit/'
    sp.run(globify(cmd),capture_output=True)
    f = open(se.GEDIT + '/geditSettings.txt')
    cmd = 'dconf load /org/gnome/gedit/'
    sp.run(globify(cmd),capture_output=True,stdin=f)
    f.close()
+   
    print('Complete')
 
    msg = "\nInstalling additional software. Please enter password if "
@@ -145,14 +149,20 @@ def runScript(se):
    # Clone the notebook repo
    os.chdir(se.HOME + '/.notebooksrepo')
    cmd = 'git clone https://github.com/geozeke/notebooks.git .'
-   # Leave this command as verbose during testing.
-   sp.run(globify(cmd))
-   # sp.run(globify(cmd),capture_output=True)
-   
-   # Sync notebooks repo with local notebooks directory
-   cmd = 'rsync -rc ~/.notebooksrepo/content/* ~/notebooks/content'
    sp.run(globify(cmd),capture_output=True)
-   cmd = 'rsync -rc ~/.notebooksrepo/images/* ~/notebooks/images'
+   
+   # Sync repo with local notebooks. Use the --delete option so the destination
+   # directory always exactly mirrors the source directory. Also skip syncing
+   # any git-related files. Per the man page, leaving a trailing slash ('/') on
+   # the source directory allows you to have a destination directory with a
+   # different name.
+   cmd  = "rsync -rc "
+   cmd += "--exclude \'.git*\' " 
+   cmd += "--exclude \'LICENSE*\' " 
+   cmd += "--exclude \'README*\' " 
+   cmd += "~/.notebooksrepo/ "
+   cmd += "~/notebooks "
+   cmd += "--delete"
    sp.run(globify(cmd),capture_output=True)
    
    # Reset cwd

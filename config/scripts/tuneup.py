@@ -60,10 +60,18 @@ def runUpdates(args,se):
       os.chdir(se.HOME + '/.notebooksrepo')
       sp.run(globify('git pull'),capture_output=True)
       
-      # Sync repo with local notebooks
-      cmd = 'rsync -rc ~/.notebooksrepo/content/* ~/notebooks/content'
-      sp.run(globify(cmd),capture_output=True)
-      cmd = 'rsync -rc ~/.notebooksrepo/images/* ~/notebooks/images'
+      # Sync repo with local notebooks. Use the --delete option so the
+      # destination directory always exactly mirrors the source directory. Also
+      # skip syncing any git-related files. Per the man page, leaving a trailing
+      # slash ('/') on the source directory allows you to have a destination
+      # directory with a different name.
+      cmd  = "rsync -rc "
+      cmd += "--exclude \'.git*\' " 
+      cmd += "--exclude \'LICENSE*\' " 
+      cmd += "--exclude \'README*\' " 
+      cmd += "~/.notebooksrepo/ "
+      cmd += "~/notebooks "
+      cmd += "--delete"
       sp.run(globify(cmd),capture_output=True)
       
       # Reset cwd

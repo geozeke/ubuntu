@@ -23,7 +23,7 @@ class ScriptEnvironment:
       
       # Minimum required python version for Ubuntu VM scripts.
       self.MAJOR = 3
-      self.MINOR = 6
+      self.MINOR = 7
 
       # Paths in the repo for installation files.
       self.HOME    = os.path.expanduser('~')

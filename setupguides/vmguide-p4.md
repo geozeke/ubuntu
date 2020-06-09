@@ -22,7 +22,11 @@ Click on the *`Passwords and Keys`* icon.
 
 ## Step - 3:
 
-Click on the plus sign (+) in the top left corner of the window. In the pop-up window click on *`GPG Key`*.
+If you see the screen below, click on the arrow in the top left corner of the window.
+
+![](images/image39a.png)
+
+Now click on the plus sign (+) in the top left corner of the *`Passwords and Keys`* window. In the pop-up window that follows click on *`GPG Key`*.
 
 ![](images/image39.png)
 
@@ -40,7 +44,7 @@ Enter the same password you used for your VM login and enter it again to confirm
 
 ## Step - 6:
 
-Once your key pair is generated (it may take a little while) it will show up in your list of keys. To see your key list, click on the *`GnuPG`* keys item in the *Passwords and Keys window*.
+Once your key pair is generated (it may take a little while) it will show up in your list of keys. To see your key list, double-click on the *`GnuPG keys`* item in the *Passwords and Keys window*.
 
 ![](images/image42.png)
 
