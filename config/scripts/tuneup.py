@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/09/20
+# Date: 06/26/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Tuneup Script
@@ -27,7 +27,7 @@ def runUpdates(args,se):
    sp.run(globify('sudo apt -y upgrade'))
    
    # Snap updates (verbose)
-   sp.run(globify('sudo snap refresh atom'))
+   sp.run(globify('sudo snap refresh'))
    
    # Cleaning up
    sp.run(globify('sudo apt -y autoremove'))
@@ -42,12 +42,12 @@ def runUpdates(args,se):
    except KeyError:
       pass
    
-   # Update python pip3 packages and sync jupyter notebooks if -a is selected
+   # Perform additional updates if -a is selected
    if args.updateAll:
       
-      cmd = 'pip3 install --upgrade '
-      print('\nUpgrading python packages\n')
+      print('\nPerforming additional updates\n')
       
+      cmd = 'pip3 install --upgrade '
       packages = [(se.nextLabel(), cmd + 'jupyter')]
       batchCommands(packages,se.FMTSTR)
       packages = [(se.nextLabel(), cmd + 'jupyterlab')]
@@ -107,7 +107,7 @@ def main():
    msg += 'installed through Ubuntu Personal Package Archives (ppa). You will '
    msg += 'be prompted for your password during updating.'
    
-   epi = "Latest update: 09 Feb 2020"
+   epi = "Latest update: 26 Feb 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

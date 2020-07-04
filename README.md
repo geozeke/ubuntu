@@ -47,8 +47,7 @@ Step 2: Create the following directories:
 ~/.config/gedit/snippets
 ~/.vim/colors
 ~/shares
-~/notebooks/content
-~/notebooks/images
+~/notebooks
 ~/.notebooksrepo
 ~/.atom
 ```
@@ -113,17 +112,19 @@ Step 8: Set up jupyter.
 ```Shell
 pip3 install --upgrade jupyter
 pip3 install --upgrade jupyterlab
-cd ~/.notebooksrepo  
+
+cd ~/.notebooksrepo
 git clone https://github.com/geozeke/notebooks.git .
-rsync -rc ~/.notebooksrepo/content/* ~/notebooks/content
-rsync -rc ~/.notebooksrepo/images/* ~/notebooks/images
+rsync -rc	--exclude .git*
+			--exclude LICENSE*
+			--exclude README*
+			~/.notebooksrepo/ ~/notebooks --delete
 ```
 
 Step 9: Setup atom
 
 ```Shell
 sudo snap install atom --classic
-apm install markdown-scroll-sync
 ```
 
 Step 10: Configure favorites
@@ -176,10 +177,13 @@ sudo snap refresh atom
 
 pip3 install --upgrade jupyter
 pip3 install --upgrade jupyterlab
+
 cd ~/.notebooksrepo
 git pull
-rsync -rc ~/.notebooksrepo/content/* ~/notebooks/content
-rsync -rc ~/.notebooksrepo/images/* ~/notebooks/images
+rsync -rc	--exclude .git*
+			--exclude LICENSE*
+			--exclude README*
+			~/.notebooksrepo/ ~/notebooks --delete
 ```
 
 ### `swiftInstall.py`

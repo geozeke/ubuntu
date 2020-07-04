@@ -45,8 +45,7 @@ def runScript(se):
          cmd + '~/.config/gedit/snippets',
          cmd + '~/.vim/colors',
          cmd + '~/shares',
-         cmd + '~/notebooks/content',
-         cmd + '~/notebooks/images',
+         cmd + '~/notebooks',
          cmd + '~/.notebooksrepo',
          cmd + '~/.atom',
          cmd + target)]
@@ -146,9 +145,10 @@ def runScript(se):
    # Set up jupyter notebooks.
    print(se.FMTSTR.format(se.nextLabel()),end='',flush=True)
       
-   # Clone the notebook repo
+   # Clone the notebook repo (single branch, depth 1)
    os.chdir(se.HOME + '/.notebooksrepo')
-   cmd = 'git clone https://github.com/geozeke/notebooks.git .'
+   cmd = 'git clone https://github.com/geozeke/notebooks.git . '
+   cmd += '--single-branch --depth 1'
    sp.run(globify(cmd),capture_output=True)
    
    # Sync repo with local notebooks. Use the --delete option so the destination
@@ -197,7 +197,40 @@ def runScript(se):
       (se.nextLabel(),
          'gsettings set org.gnome.shell favorite-apps ' + target)]
    batchCommands(packages,se.FMTSTR)
-
+   
+   # Patch atom launcher script ---------------------------------------
+   #
+   # Note: This will probably end up getting fixed in the snap store. If so, you
+   # can safely delete this portion of the setup script.
+   #
+   # There's a bug in the snap installation of atom. When opening atom with the
+   # icon in the favorites launcher, it tries to open these two tabs:
+   # 
+   # ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false
+   # /usr/bin/atom
+   #
+   # Running atom from the command line doesn't present the issue. The current
+   # atom versions on atom.io and snap are the same (1.48.0), so this will have
+   # to be fixed in the snap store. If it doesn't get fixed in the snap store,
+   # then you can remove the offending strings from the launcher script using
+   # sed in the ubuntu setup script, like this:
+   #
+   # sudo sed -i 's/ ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false
+   # \/usr\/bin\/atom//' /var/lib/snapd/desktop/applications/atom_atom.desktop
+   #
+   #
+   # Need to "escape" the backslash character so it's passed as an escape
+   # character to the shell. It's a little meta :-)
+   
+   cmd = 'sudo sed -i '
+   cmd += 's/ ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false '
+   cmd += '\\/usr\\/bin\\/atom// '
+   cmd += '/var/lib/snapd/desktop/applications/atom_atom.desktop'
+   sp.run(globify(cmd),capture_output=True)
+   
+   # ---------------------------------------------------------------------
+   
+   
    # Step 11 Tune system settings. This turns off auto screen lock, idle
    # timeout, and auto system updates. Special handling is required, because the
    # command for setting the idle timeout has a space in one of the arguments.

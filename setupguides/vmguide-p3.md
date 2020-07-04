@@ -69,7 +69,7 @@ cd
 Then enter this command:
 
 ```Shell
-git clone -b master --single-branch https://github.com/geozeke/ubuntu.git --depth 1
+git clone https://github.com/geozeke/ubuntu.git --single-branch --depth 1
 ```
 
 ## Step - 11:
