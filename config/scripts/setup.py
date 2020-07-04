@@ -227,7 +227,7 @@ def runScript(se):
    search += '\\/usr\\/bin\\/atom//'
    cmd += [search]
    cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
-   sp.run(globify(cmd),capture_output=True)
+   sp.run(cmd,capture_output=True)
    
    # ---------------------------------------------------------------------
    
