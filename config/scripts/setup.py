@@ -222,10 +222,11 @@ def runScript(se):
    # Need to "escape" the backslash character so it's passed as an escape
    # character to the shell. It's a little meta :-)
    
-   cmd = 'sudo sed -i '
-   cmd += 's/ ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false '
-   cmd += '\\/usr\\/bin\\/atom// '
-   cmd += '/var/lib/snapd/desktop/applications/atom_atom.desktop'
+   cmd = globify('sudo sed -i')
+   search = 's/ ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false '
+   search += '\\/usr\\/bin\\/atom//'
+   cmd += [search]
+   cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
    sp.run(globify(cmd),capture_output=True)
    
    # ---------------------------------------------------------------------
