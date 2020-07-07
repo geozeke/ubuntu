@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/09/20
+# Date: 07/06/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
@@ -218,7 +218,6 @@ def runScript(se):
    # sudo sed -i 's/ ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false
    # \/usr\/bin\/atom//' /var/lib/snapd/desktop/applications/atom_atom.desktop
    #
-   #
    # Need to "escape" the backslash character so it's passed as an escape
    # character to the shell. It's a little meta :-)
    
@@ -303,7 +302,7 @@ def main():
    msg += "Linux machine or dual-boot machine (including lab machines). You "
    msg += "will be prompted for your password during installation."
    
-   epi = "Latest update: 09 Jun 2020"
+   epi = "Latest update: 06 Jul 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

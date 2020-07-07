@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/08/20
+# Date: 07/06/20
 # License: (see MIT License at the end of this file)
 
 # Title: Common utilities for Ubuntu VM Scripts
@@ -75,21 +75,6 @@ def batchCommands(packages, fmtStr, msg='Complete'):
 
 def cleanStr(bytes):
    return bytes.decode('utf-8').rstrip()
-
-# -------------------------------------------------------------------
-
-# Checks that the installed python version is at the minimum required. If it is,
-# then None is returned. If it's not, then an error message is returned.
-
-def checkPythonVersion(se):
-   
-   if sys.version_info.major < se.MAJOR or sys.version_info.minor < se.MINOR:
-      msg  = "Script requires Python "
-      msg += str(se.MAJOR) + "." + str(se.MINOR)
-      msg += " or greater"
-      return msg
-      
-   return None
 
 # -------------------------------------------------------------------
 
