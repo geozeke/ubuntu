@@ -17,6 +17,7 @@ If you have not completed Part 1 of the installation instructions, please do so 
 ## Step - 2:
 
 Start the VMware Workstation Player software. When you get to the startup screen, click on the *`Player`* menu, then select *`File`*, then select *`Preferences…`*
+
 ![](images/image10.png)
 
 ## Step - 3:
