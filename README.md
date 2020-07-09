@@ -4,6 +4,7 @@
 
 *NOTE: When accessing the links below, or accessing any of the links in the guides, please right-click and open the link in a new Tab or Window. That makes it easier to navigate back to this page.*
 
+- [Part-0: Adjusting the BIOS Settings on Your Laptop to Enable Virtualization](setupguides/vmguide-p0.md)
 - [Part-1: Installing Workstation Player and Downloading the Ubuntu VM Image](setupguides/vmguide-p1.md)
 - [Part-2: Installation and Setup of The Ubuntu Virtual Machine](setupguides/vmguide-p2.md)
 - [Part-3: Setup Instructions for Folder Sharing and Repo Cloning](setupguides/vmguide-p3.md)

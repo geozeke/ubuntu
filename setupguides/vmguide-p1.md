@@ -83,6 +83,8 @@ At this point you should have the VMware Workstation Player software installed. 
 
 If you haven’t already done so, download the Ubuntu Linux image file by visiting this link: [https://www.ubuntu.com/download/desktop](https://www.ubuntu.com/download/desktop). Once there, click on the *`Download`* button.
 
+*Note: You may see the listed version as `20.04.1`, `20.04.2`, etc. The point version after `04` reflects a maintenance release. You can download any version that starts with `20.04`.*
+
 ![](images/image08.png)
 
 ## Step - 16:
