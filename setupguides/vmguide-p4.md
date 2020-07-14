@@ -16,7 +16,7 @@ If you have not completed Parts 1, 2 and 3 of the installation instructions, ple
 
 ## Step - 2:
 
-Click on the *`Passwords and Keys`* icon.
+Ensure your VM is running and that you're logged in. When ready, click on the *`Passwords and Keys`* icon.
 
 ![](images/image37.png)
 

@@ -213,23 +213,30 @@ def runScript(se):
    # atom versions on atom.io and snap are the same (1.48.0), so this will have
    # to be fixed in the snap store. If it doesn't get fixed in the snap store,
    # then you can remove the offending strings from the launcher script using
-   # sed in the ubuntu setup script, like this:
+   # sed in the ubuntu setup script. We need to perform two steps (in this
+   # order):
    #
-   # sudo sed -i 's/ ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false
-   # \/usr\/bin\/atom//' /var/lib/snapd/desktop/applications/atom_atom.desktop
+   # 1. Remove " /snap/bin/atom"
+   # 2. Replace "/usr/bin/atom" with "/snap/bin/atom"
    #
    # Need to "escape" the backslash character so it's passed as an escape
    # character to the shell. It's a little meta :-)
    
+   # Step 1:
    cmd = globify('sudo sed -i')
-   search = 's/ ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false '
-   search += '\\/usr\\/bin\\/atom//'
+   search = 's/ \\/snap\\/bin\\/atom//'
    cmd += [search]
    cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
    sp.run(cmd,capture_output=True)
    
+   # Step 2:
+   cmd = globify('sudo sed -i')
+   search = 's/\\/usr\\/bin\\/atom/\\/snap\\/bin\\/atom/'
+   cmd += [search]
+   cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
+   sp.run(cmd,capture_output=True)
+
    # ---------------------------------------------------------------------
-   
    
    # Step 11 Tune system settings. This turns off auto screen lock, idle
    # timeout, and auto system updates. Special handling is required, because the

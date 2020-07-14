@@ -1,6 +1,6 @@
-" Last update: 12/19/18; 1930
+" Last update: 07/12/20; 1701
 
-"Basic setup items
+"Basic setup items. Set columns to 90 to make room for line numbers.
 
 set wrap
 set tabstop=3

@@ -9,7 +9,7 @@ If you have not completed Parts 1 and 2 of the installation instructions please 
 
 ## Step - 2:
 
-You can set up a connection between your Host Machine (Windows) and the Linux Virtual Machine running in VMware Player. This will allow you to not only easily move content from the virtual machine to your Windows machine, but it serves as a great backup strategy if you should ever have an issue with your Ubuntu VM.
+You can set up a connection between your Host Machine (Windows) and the Linux virtual machine running in VMware Player. This will allow you to not only easily move content from the virtual machine to your Windows machine, but it serves as a great backup strategy if you should ever have an issue with your Ubuntu VM.
 
 ## Step - 3:
 
@@ -45,7 +45,7 @@ Navigate to the folder you created in Windows; select it and click *`OK`*. When 
 
 ## Step - 8:
 
-In the *`Specify Shared Folder Attributes Window`*, ensure that *`Enable this share`* is checked and *`Read-only`* is unchecked. Click *`Finish`*. When you return to the Virtual Machine Settings window, click *`OK`*.
+In the *`Specify Shared Folder Attributes Window`*, ensure that *`Enable this share`* is checked and *`Read-only`* is unchecked. Click *`Finish`*. When you return to the virtual machine Settings window, click *`OK`*.
 
 ***Note: If the `Enable this share` option is grayed-out, your VM is probably running. If so, shut it down and restart at step 4.***
 
