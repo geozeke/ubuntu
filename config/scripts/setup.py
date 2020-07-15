@@ -251,13 +251,8 @@ def runScript(se):
 
    # Set idle timeout to 'never'. This is the command that requires the manual
    # parsing.
-   cmd = [
-      'gsettings',
-      'set',
-      'org.gnome.desktop.session',
-      'idle-delay',
-      'uint32 0'
-   ]
+   cmd  = globify('gsettings set org.gnome.desktop.session idle-delay')
+   cmd += ['uint32 0']
    sp.run(cmd,capture_output=True)
 
    # Disable auto updates

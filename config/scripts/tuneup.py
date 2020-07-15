@@ -29,6 +29,26 @@ def runUpdates(args,se):
    # Snap updates (verbose)
    sp.run(globify('sudo snap refresh'))
    
+   # Sometimes a snap refresh reintroduces the atom launcher bug. If so, need to
+   # re-patch the atom launcher script.
+   cmd  = 'sudo grep /usr/bin/atom '
+   cmd += '/var/lib/snapd/desktop/applications/atom_atom.desktop'
+   result = sp.run(globify(cmd),capture_output=True)
+   
+   if result.returncode == 0:
+      
+      cmd = globify('sudo sed -i')
+      search = 's/ \\/snap\\/bin\\/atom//'
+      cmd += [search]
+      cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
+      sp.run(cmd,capture_output=True)
+   
+      cmd = globify('sudo sed -i')
+      search = 's/\\/usr\\/bin\\/atom/\\/snap\\/bin\\/atom/'
+      cmd += [search]
+      cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
+      sp.run(cmd,capture_output=True)
+   
    # Cleaning up
    sp.run(globify('sudo apt -y autoremove'))
    
