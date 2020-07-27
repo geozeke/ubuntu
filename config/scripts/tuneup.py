@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/26/20
+# Date: 07/27/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Tuneup Script
@@ -127,9 +127,9 @@ def main():
    msg += 'installed through Ubuntu Personal Package Archives (ppa). You will '
    msg += 'be prompted for your password during updating.'
    
-   epi = "Latest update: 26 Feb 2020"
+   epi = "Latest update: 27 Jul 2020"
    
-   parser = argparse.ArgumentParser(description=msg,epilog=epi)
+   parser = argparse.ArgumentParser(description=msg,epilog=epi,prog='tuneup')
    
    msg  = 'In addition to updating Ubuntu system, ppa and snap files, also '
    msg += 'update preinstalled pip3 packages in Python and synchronize '
