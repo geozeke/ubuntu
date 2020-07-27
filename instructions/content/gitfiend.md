@@ -8,13 +8,13 @@ Gitfiend is a nice visual Git Client for Linux.
 
 Visit [https://gitfiend.com](https://gitfiend.com) using the browser *from inside* your virtual machine. Once there, click on the download button for Linux. If the button says Windows or Mac, you may not be using the browser *from inside* your virtual machine.
 
-![](images/gitfiend-01.png)
+![](../images/gitfiend-01.png)
 
 ## Step 2: 
 
 In the next window, click on `Download .deb` 
 
-![](images/gitfiend-02.png)
+![](../images/gitfiend-02.png)
 
 ## Step 3:
 
@@ -22,7 +22,7 @@ You'll see the window below, asking you what to do with the file. Note that this
 
 When you're ready, click `OK`.
 
-![](images/gitfiend-03.png)
+![](../images/gitfiend-03.png)
 
 ## Step 4:
 

@@ -22,7 +22,7 @@ graph G {
 
 Renders like this when using a `graphviz` filter:
 
-![](images/graphviz01.png)
+![](../images/graphviz01.png)
 
 ## Installation
 

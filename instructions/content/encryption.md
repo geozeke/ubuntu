@@ -10,13 +10,13 @@ These instructions will guide you through the process for encrypting and decrypt
 
 Select the file to encrypt using Ubuntu's file manager. In the example below, I opened the file manager and selected a file on the `Desktop` called `hello.py`.
 
-![](images/encrypt-01.png)
+![](../images/encrypt-01.png)
 
 ### Step - 2:
 
 Right click on the file you want to encrypt and select `Encrypt...`
 
-![](images/encrypt-02.png)
+![](../images/encrypt-02.png)
  
 ### Step - 3:
 
@@ -29,19 +29,19 @@ When the encryption settings window appears:
 
 *Note: You can select more than one recipient when you encrypt a file. Just remember, if anyone gets the file who is not a chosen recipient they will not be able to access the file's contents. That's whole point of encryption :-)*
 
-![](images/encrypt-03.png)
+![](../images/encrypt-03.png)
 
 ### Step - 4:
 
 The first time you encrypt a file, you should see the dialog below. Enter the password you used when you created your encryption keys (*it was probably the same password that you used for your VM*). If you then check the box that says `Save in password manager` before you click on `OK`, you won't have to type your password again when you encrypt files in the future.
 
-![](images/encrypt-04.png)
+![](../images/encrypt-04.png)
 
 ### Step - 5:
 
 That's it! Your encrypted file will have the same name as the original, but with a `.pgp` extension. You can now safely post the encrypted file on public sites and only the intended recipients will be able to access its contents.
 
-![](images/encrypt-05.png)
+![](../images/encrypt-05.png)
 
 ## Encrypting Multiple Files
 
@@ -49,7 +49,7 @@ That's it! Your encrypted file will have the same name as the original, but with
 
 Select all the files you want to encrypt. In the example below, I held the shift key and clicked on `hello.py` and `README.txt` to select them both.
 
-![](images/encrypt-06.png)
+![](../images/encrypt-06.png)
 
 ### Step - 2:
 
@@ -59,7 +59,7 @@ As with a single file, right-click on your selection and choose `Encrypt...`. Af
 2. Give your package a unique name (leaving the `.zip` extension as-is).
 3. Click `OK`.
 
-![](images/encrypt-07.png)
+![](../images/encrypt-07.png)
 
 ### Step - 3:
 
@@ -67,13 +67,13 @@ When the encryption is complete, you'll see the files show below (from our examp
 
 The file `example.zip.pgp` is your encrypted content and can be safely shared on a public site.
 
-![](images/encrypt-08.png)
+![](../images/encrypt-08.png)
 
 ## Decrypting Files
 
 To decrypt a file, just double-click on it in Ubuntu's file manager. Encrypted files have a `.pgp` extension. In the example below, I double-clicked on the file named `program1.py.pgp` and it produced the file `program1.py`.
 
-![](images/encrypt-09.png)
+![](../images/encrypt-09.png)
 
 ## Additional Help
 

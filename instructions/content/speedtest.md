@@ -40,4 +40,3 @@ Upload: 365.63 Mbit/s
 
 ---
 *Last update: 02/13/20*
-. 
