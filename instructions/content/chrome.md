@@ -1,6 +1,6 @@
 # chrome
 
-The chrome web browser for linux.
+The Chrome web browser for linux.
 
 ## Installation
 
@@ -35,4 +35,4 @@ then pin the icon to your favorites.
 [http://google.com/chrome](http://google.com/chrome)
 
 ---
-*Last update: 02/05/20*
+*Last update: 07/27/20*

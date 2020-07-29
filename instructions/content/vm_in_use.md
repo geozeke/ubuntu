@@ -1,6 +1,8 @@
-# Resolving The *"This virtual machine appears to be in use"* Issue.
+# Fixing The *"This virtual machine appears to be in use"* Issue.
 
-At some point, when you try to start your virtual machine, you may see an error like this:
+## The Issue
+
+At some point, when you try to start your VM, you may see an error like this:
 
 ![](../images/vminuse-01.png)
 
@@ -8,7 +10,7 @@ At some point, when you try to start your virtual machine, you may see an error 
 
 * Shut down any running virtual machines.
 * Close the VMware Workstation Player Software.
-* Using the file browser in Windows, navigate to the directory that contains your virtual machine. It should be something like this:
+* Using the file browser in Windows, navigate to the directory that contains your VM. It should be something like this:
 
 ```Shell
 C:\Users\<your Windows username>\Documents\Virtual Machines\<your VM name>

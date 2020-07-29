@@ -6,7 +6,7 @@ Gitfiend is a nice visual Git Client for Linux.
 
 ## Step 1:
 
-Visit [https://gitfiend.com](https://gitfiend.com) using the browser *from inside* your virtual machine. Once there, click on the download button for Linux. If the button says Windows or Mac, you may not be using the browser *from inside* your virtual machine.
+Visit [https://gitfiend.com](https://gitfiend.com) using the browser *from inside* your VM. Once there, click on the download button for Linux. If the button says Windows or Mac, you may not be using the browser *from inside* your VM.
 
 ![](../images/gitfiend-01.png)
 
@@ -18,7 +18,7 @@ In the next window, click on `Download .deb`
 
 ## Step 3:
 
-You'll see the window below, asking you what to do with the file. Note that this window reflects using the Firefox browser. If you're using Chrome inside your virtual machine, it will look slightly different. Just ensure that you choose to save the file, rather than opening it.
+You'll see the window below, asking you what to do with the file. Note that this window reflects using the Firefox browser. If you're using Chrome inside your VM, it will look slightly different. Just ensure that you choose to save the file, rather than opening it.
 
 When you're ready, click `OK`.
 

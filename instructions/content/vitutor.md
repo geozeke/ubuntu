@@ -1,8 +1,8 @@
 # vi Tutorial
 
-The version of `vi` installed on your virtual machine includes an interactive tutorial to help you get started learning the basics.
+The version of `vi` installed on your VM includes an interactive tutorial to help you get started learning the basics.
 
-*NOTE: `vi` and `vim` (which stands for ***`vi`***-Improved) are often used interchangeably. On your Ubuntu virtual machine, just use `vi` when you want to edit a file and you'll be using the most up-to-date version.* 
+*NOTE: `vi` and `vim` (which stands for ***`vi`***-Improved) are often used interchangeably. On your Ubuntu VM, just use `vi` when you want to edit a file and you'll be using the most up-to-date version.* 
 
 ## Installation
 

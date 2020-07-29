@@ -6,7 +6,7 @@
 * [Installing Git Fiend](content/gitfiend.md)
 * [Installing Graphviz](content/graphviz.md)
 * [Hiding the Home or Trash Icons on the Ubuntu Desktop](content/hideicons.md)
-* [Installing Nuitka (a Python Compiler)](content/nuitka)
+* [Installing Nuitka (a Python Compiler)](content/nuitka.md)
 * [Installing *Speed Test* to check the speed of your network connection](content/speedtest.md)
 * [Running the vi tutor](content/vitutor.md)
 * [Running the z-shell (zsh)](content/zsh.md)
