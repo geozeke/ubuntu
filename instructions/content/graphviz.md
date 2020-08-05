@@ -1,6 +1,6 @@
 # graphviz
 
-The graphviz module is a suite of tools (called *filters*) in linux for visualizing graphs described in plaintext  `dot` files. For example, this `dot` file:
+The graphviz module is a suite of tools (called *filters*) in Linux for visualizing graphs described in plaintext  `dot` files. For example, this `dot` file:
 
 ```
 graph G {
@@ -56,3 +56,4 @@ man dot
 ```
 ---
 *Last update: 02/04/20*
+Linux

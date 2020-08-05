@@ -1,4 +1,4 @@
-# gitfiend
+# GitFiend
 
 Gitfiend is a nice visual Git Client for Linux.
 
