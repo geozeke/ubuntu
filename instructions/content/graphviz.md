@@ -26,7 +26,7 @@ Renders like this when using a `graphviz` filter:
 
 ## Installation
 
-```Shell
+```
 sudo apt install graphviz  
 ```
 
@@ -39,19 +39,19 @@ You don't call graphviz directly. Instead, you call the *filters* that are part 
 
 Common syntax:
 
-```Shell
+```
 fdp <input file> -T <output file format> -o <output file>
 ```
 
 Example:
 
-```Shell
+```
 fdp example.dot -T png -o example.png
 ```
 
 ## Additional Help
 
-```Shell
+```
 man dot 
 ```
 ---

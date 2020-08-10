@@ -44,7 +44,7 @@ class ScriptEnvironment:
       # Check the URL on Swift.org to make sure it's correct, but you should
       # only have to change the SWIFTVER variable below to run the script
       # properly.
-      self.SWIFTVER  = '5.2.4'
+      self.SWIFTVER  = '5.2.5'
       
       self.SWIFTURL  = 'https://swift.org/builds/swift-' + self.SWIFTVER
       self.SWIFTURL += '-release/ubuntu2004/swift-' + self.SWIFTVER

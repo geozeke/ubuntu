@@ -6,13 +6,13 @@ If you'd like to try a shell other than the default (`bash`), the setup script f
 
 To change your shell, enter this command in a terminal window:
 
-```Shell
+```
 chsh
 ```
 
 Provide your password when prompted, then enter this:
 
-```Shell
+```
 /bin/zsh
 ```
 
@@ -27,7 +27,7 @@ Just use it.
 - [Bash vs Zsh: A comparison of two command line shells](https://sunlightmedia.org/bash-vs-zsh/)
 - [https://ohmyz.sh/](https://ohmyz.sh/)
 
-```Shell
+```
 man zsh
 ```
 ---

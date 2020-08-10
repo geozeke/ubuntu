@@ -18,7 +18,7 @@ This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I st
 
 *Note: The following aliases are used:*
 
-```Shell
+```
 HOME    = os.path.expanduser('~')
 CWD     = os.getcwd()
 REPO    = HOME + '/ubuntu/config'
@@ -43,7 +43,7 @@ Step 1: This is a placeholder step for future initialization, if required.
 
 Step 2: Create the following directories:
 
-```Shell
+```
 ~/.config/gedit/tools
 ~/.config/gedit/snippets
 ~/.vim/colors
@@ -55,7 +55,7 @@ Step 2: Create the following directories:
 
 Step 3: Copy the following files using: `cp -f --backup=numbered`
 
-```Shell
+```
 target = '~/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/'
 
 cp ATOM/* ~/.atom
@@ -74,28 +74,28 @@ cp JUPYTER/tracker.jupyterlab-settings target
 
 Step 4: Adjust file permissions:
 
-```Shell
+```
 chmod 744 ~/.tuneup.py
 chmod 744 ~/.config/gedit/tools/flexiwrap
 ```
 
 Step 5: Initialize the terminal profile with:
 
-```Shell
+```
 dconf reset -f /org/gnome/terminal/
 dconf load /org/gnome/terminal/ < SYSTEM/terminalSettings.txt
 ```
 
 Step 6: Initialize the gedit profile with:
 
-```Shell
+```
 dconf reset -f /org/gnome/gedit/
 dconf load /org/gnome/gedit/ < GEDIT/geditSettings.txt
 ```
 
 Step 7: Install the following packages from the ppa and GitHub repos:
 
-```Shell
+```
 vim
 build-essential
 seahorse-nautilus
@@ -110,7 +110,7 @@ python3-venv
 
 Step 8: Set up jupyter.
 
-```Shell
+```
 pip3 install --upgrade jupyter
 pip3 install --upgrade jupyterlab
 
@@ -124,13 +124,13 @@ rsync -rc	--exclude .git*
 
 Step 9: Setup atom
 
-```Shell
+```
 sudo snap install atom --classic
 ```
 
 Step 10: Configure favorites
 
-```Shell
+```
 'firefox.desktop'
 'org.gnome.Calculator.desktop'
 'atom_atom.desktop'
@@ -144,20 +144,21 @@ Step 10: Configure favorites
 
 Step 11: Tune system settings:
 
-```Shell
+```
 # Disable auto screen lock
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 
 # Set idle timeout to 'never'
 gsettings set org.gnome.desktop.session idle-delay 'uint32 0'
 
-# Disable auto system updates
-sudo cp -f SYSTEM/20auto-upgrades /etc/apt/apt.conf.d/
+# Disable Ubuntu auto-updates by using sed to go to
+# /etc/apt/apt.conf.d/20auto-upgrades and change "1" to "0" in the line below.
+APT::Periodic::Update-Package-Lists "1";
 ```
 
 Step 12: Delete unused files
 
-```Shell
+```
 rm -f ~/examples.desktop
 ```
 
@@ -165,7 +166,7 @@ rm -f ~/examples.desktop
 
 This script is used to keep the newly-created Ubuntu VM patched. It performs the following updates:
 
-```Shell
+```
 sudo apt -y update
 sudo apt -y upgrade
 sudo apt -y autoremove
@@ -191,7 +192,7 @@ rsync -rc	--exclude .git*
 
 In addition to the Swift programming environment, this script also installs the following dependencies:
 
-```Shell
+```
 sudo apt install -y clang
 sudo apt install -y libpython2.7
 ```
@@ -208,13 +209,13 @@ Step 1: This is a placeholder step for future initialization, if required.
 
 Step 2: Create the following directory:
 
-```Shell
+```
 ~/.vim/colors
 ```
 
 Step 3: Copy the following files using: `cp -f --backup=numbered`
 
-```Shell
+```
 cp VIM/vimrc.txt ~/.vimrc
 cp VIM/vimcolors/* ~/.vim/colors
 ```

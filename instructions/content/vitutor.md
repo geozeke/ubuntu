@@ -12,7 +12,7 @@ Not required.
 
 To start the `vi` tutorial, enter this command in a terminal window and follow the instructions:
 
-```Shell
+```
 vimtutor
 ```
 

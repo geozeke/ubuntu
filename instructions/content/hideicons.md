@@ -6,7 +6,7 @@ When you first start Ubuntu Linux, you may see both *Home* and *Trash* icons on 
 
 ## Implementation
 
-```Shell
+```
 # To hide the home icon:
 gsettings set org.gnome.shell.extensions.desktop-icons show-home false
 
@@ -18,7 +18,7 @@ gsettings set org.gnome.shell.extensions.desktop-icons show-trash false
 
 ## Usage
 
-```Shell
+```
 N/A
 ```
 

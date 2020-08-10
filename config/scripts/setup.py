@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 07/06/20
+# Date: 08/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
@@ -15,7 +15,7 @@
 
 # Imports
 
-import os, argparse, sys
+import os, argparse, sys, textwrap
 
 # Need to adjust the python environment path to import local modules
 
@@ -219,21 +219,22 @@ def runScript(se):
    # 1. Remove " /snap/bin/atom"
    # 2. Replace "/usr/bin/atom" with "/snap/bin/atom"
    #
-   # Need to "escape" the backslash character so it's passed as an escape
-   # character to the shell. It's a little meta :-)
+   
+   dest = '/var/lib/snapd/desktop/applications/atom_atom.desktop'
    
    # Step 1:
+   # Search for ' snap/bin/atom' (leading space is important) and replace it
+   # with nothing.
    cmd = globify('sudo sed -i')
-   search = 's/ \\/snap\\/bin\\/atom//'
-   cmd += [search]
-   cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
+   cmd += ['s+ /snap/bin/atom++']
+   cmd += [dest]
    sp.run(cmd,capture_output=True)
    
    # Step 2:
+   # Search for '/usr/bin/atom' and replace it with 'snap/bin/atom'
    cmd = globify('sudo sed -i')
-   search = 's/\\/usr\\/bin\\/atom/\\/snap\\/bin\\/atom/'
-   cmd += [search]
-   cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
+   cmd += ['s+/usr/bin/atom+/snap/bin/atom+']
+   cmd += [dest]
    sp.run(cmd,capture_output=True)
 
    # ---------------------------------------------------------------------
@@ -256,8 +257,14 @@ def runScript(se):
    sp.run(cmd,capture_output=True)
 
    # Disable auto updates
-   cmd = 'sudo cp -f ' + se.SYSTEM + '/20auto-upgrades /etc/apt/apt.conf.d/'
-   sp.run(globify(cmd),capture_output=True)
+   cmd  = globify('sudo sed -i')
+   dest = ['/etc/apt/apt.conf.d/20auto-upgrades']
+
+   argument = ['s+Update-Package-Lists "1"+Update-Package-Lists "0"+']
+   sp.run(cmd+argument+dest,capture_output=True)
+
+   argument = ['s+Unattended-Upgrade "1"+Unattended-Upgrade "0"+']
+   sp.run(cmd+argument+dest,capture_output=True)
    
    print('Complete')
    
@@ -274,9 +281,9 @@ def runScript(se):
 
    # Done
    
-   msg  = "\nUbuntu setup complete. Please reboot your VM for the changes to "
-   msg += "take effect.\n\n"
-   sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+   msg  = "Ubuntu setup complete. Please reboot your VM for the changes to "
+   msg += "take effect."
+   print('\n' + textwrap.fill(msg) + '\n')
 
    return
 
@@ -304,7 +311,7 @@ def main():
    msg += "Linux machine or dual-boot machine (including lab machines). You "
    msg += "will be prompted for your password during installation."
    
-   epi = "Latest update: 06 Jul 2020"
+   epi = "Latest update: 10 Aug 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

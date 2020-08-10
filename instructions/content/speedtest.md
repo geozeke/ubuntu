@@ -8,19 +8,19 @@ In addition to accessing *speedtest* via their website or their applications, yo
 
 ## Installation
 
-```Shell
+```
 pip3 install speedtest-cli 
 ```
 
 ## Usage
 
-```Shell
+```
 speedtest-cli
 ```
 
 Here's a sample run of *speedtest-cli*
 
-```Shell
+```
 ubuntu:~$ speedtest-cli
 Retrieving speedtest.net configuration...
 Testing from University of Maryland (136.160.90.6)...

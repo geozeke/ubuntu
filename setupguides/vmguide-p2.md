@@ -128,7 +128,7 @@ Open a new terminal window by right-clicking on the Ubuntu Desktop and selecting
 
 Let’s use the Linux Advanced Packaging Tool (*apt*) to complete a thorough update on your VM. Start the update process by entering this command in the terminal window and pressing the enter key (*Note: all commands will be followed by the enter key*):
 
-```Shell
+```
 sudo apt update && sudo apt -y upgrade
 ```
 
@@ -146,7 +146,7 @@ You may see the window below as your Ubuntu VM is updating. If so, just press th
 
 When the update is complete (back at your command prompt) install the *`git`* application. The use of *`git`* is discussed in Part 3 of the installation guide. For now, enter the following command in your terminal window:
 
-```Shell
+```
 sudo apt -y install git
 ```
 
@@ -154,7 +154,7 @@ sudo apt -y install git
 
 When you're back at your command prompt, shutdown the VM by entering the following command in your terminal window:
 
-```Shell
+```
 shutdown now
 ```
 

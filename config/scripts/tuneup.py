@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 07/27/20
+# Date: 08/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Tuneup Script
@@ -10,7 +10,7 @@
 
 # Imports
 
-import os, argparse, sys
+import os, argparse, sys, textwrap
 
 # Need to adjust the python environment path to import local modules
 
@@ -23,37 +23,45 @@ from configutils import *
 def runUpdates(args,se):
 
    # Ubuntu updates (verbose)
+   
    sp.run(globify('sudo apt -y update'))
    sp.run(globify('sudo apt -y upgrade'))
    
    # Snap updates (verbose)
+   
    sp.run(globify('sudo snap refresh'))
    
    # Sometimes a snap refresh reintroduces the atom launcher bug. If so, need to
    # re-patch the atom launcher script.
+   
    cmd  = 'sudo grep /usr/bin/atom '
    cmd += '/var/lib/snapd/desktop/applications/atom_atom.desktop'
    result = sp.run(globify(cmd),capture_output=True)
    
    if result.returncode == 0:
       
+      dest = '/var/lib/snapd/desktop/applications/atom_atom.desktop'
+      
+      # Search for ' snap/bin/atom' (leading space is important) and replace it
+      # with nothing.
       cmd = globify('sudo sed -i')
-      search = 's/ \\/snap\\/bin\\/atom//'
-      cmd += [search]
-      cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
+      cmd += ['s+ /snap/bin/atom++']
+      cmd += [dest]
       sp.run(cmd,capture_output=True)
    
+      # Search for '/usr/bin/atom' and replace it with 'snap/bin/atom'
       cmd = globify('sudo sed -i')
-      search = 's/\\/usr\\/bin\\/atom/\\/snap\\/bin\\/atom/'
-      cmd += [search]
-      cmd += ['/var/lib/snapd/desktop/applications/atom_atom.desktop']
+      cmd += ['s+/usr/bin/atom+/snap/bin/atom+']
+      cmd += [dest]
       sp.run(cmd,capture_output=True)
    
    # Cleaning up
+   
    sp.run(globify('sudo apt -y autoremove'))
    
    # Check to see if running zsh with oh_my_zsh. If so, then upgrade it
    # silently.
+   
    try:
       zsh = os.environ['ZSH']
       if zsh == se.OHMYZSH:
@@ -63,6 +71,7 @@ def runUpdates(args,se):
       pass
    
    # Perform additional updates if -a is selected
+   
    if args.updateAll:
       
       print('\nPerforming additional updates\n')
@@ -98,12 +107,14 @@ def runUpdates(args,se):
       print('Complete')
       
    # For completeness, restore the python environment path
+   
    del sys.path[-1]
 
    # Done
-   msg  = "\nAll updates and upgrades are complete. A reboot is recommended "
-   msg += "to ensure that the changes take effect.\n\n"
-   sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+   
+   msg  = "All updates and upgrades are complete. A reboot is recommended "
+   msg += "to ensure that the changes take effect."
+   print('\n' + textwrap.fill(msg) + '\n')
 
    return
 
@@ -127,7 +138,7 @@ def main():
    msg += 'installed through Ubuntu Personal Package Archives (ppa). You will '
    msg += 'be prompted for your password during updating.'
    
-   epi = "Latest update: 27 Jul 2020"
+   epi = "Latest update: 10 Aug 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi,prog='tuneup')
    

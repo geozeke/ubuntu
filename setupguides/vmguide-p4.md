@@ -54,13 +54,13 @@ Export your public key to allow others to send you encrypted files. To generate 
 
 Start by changing your directory to the Desktop.
 
-```Shell
+```
 cd ~/Desktop
 ```
 
 Next, enter the command below, replacing my name and email address with your own.
 
-```Shell
+```
 gpg --armor --output nardi.asc --export nardi@usna.edu
 ```
 

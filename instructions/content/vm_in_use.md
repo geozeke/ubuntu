@@ -12,7 +12,7 @@ At some point, when you try to start your VM, you may see an error like this:
 * Close the VMware Workstation Player Software.
 * Using the file browser in Windows, navigate to the directory that contains your VM. It should be something like this:
 
-```Shell
+```
 C:\Users\<your Windows username>\Documents\Virtual Machines\<your VM name>
 ```
 

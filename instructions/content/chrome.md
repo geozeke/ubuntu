@@ -12,7 +12,7 @@ The Chrome web browser for Linux.
 ![](../images/chrome-03.png)<br><br>
 4. Now install Chrome with these commands:
 
-```Shell
+```
 cd ~/Downloads
 sudo apt install ./google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
@@ -22,7 +22,7 @@ rm google-chrome-stable_current_amd64.deb
 
 Enter:
 
-```Shell
+```
 google-chrome-stable &
 ```
 

@@ -30,7 +30,7 @@ The default save location in FireFox is your `Downloads` directory. If you saved
 
 When you're ready, enter these commands (enter your password if prompted):
 
-```Shell
+```
 cd ~/Downloads
 sudo apt install ./GitFiend_0.24.1_amd64.deb
 rm -f GitFiend_0.24.1_amd64.deb
@@ -40,7 +40,7 @@ rm -f GitFiend_0.24.1_amd64.deb
 
 Enter:
 
-```Shell
+```
 gitfiend &
 ```
 

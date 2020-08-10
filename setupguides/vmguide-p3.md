@@ -63,12 +63,12 @@ Make a clone of the git repository for the VM configuration. Git is a tool used 
 
 Open a terminal window (by right-clicking on the desktop, and selecting *`Open in Terminal`*) and enter this command:
 
-```Shell
+```
 cd
 ```
 Then enter this command:
 
-```Shell
+```
 git clone https://github.com/geozeke/ubuntu.git --single-branch --depth 1
 ```
 
@@ -76,13 +76,13 @@ git clone https://github.com/geozeke/ubuntu.git --single-branch --depth 1
 
 Close all other open programs in your VM, so that only your terminal window is running. When ready, enter the following command in the terminal window (no spaces):
 
-```Shell
+```
 ./ubuntu/config/scripts/setup.py
 ```
 
 If prompted for your password, please enter it. It may take a while for the script to run, so please be patient. When the script prompts you to do so, reboot your VM by entering this command in your terminal window:
 
-```Shell
+```
 reboot
 ```
 
@@ -98,13 +98,13 @@ Your VM is ready to go! You can now easily move content between your host (Windo
 
 Ubuntu VM:
 
-```Shell
+```
 /home/nardi/shares/Coursework
 ```
 
 Windows:
 
-```Shell
+```
 c:\Users\nardi\Documents\Coursework
 ```
 
