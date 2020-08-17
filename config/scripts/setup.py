@@ -61,6 +61,7 @@ def runScript(se):
          cmd + se.GEDIT   + '/python.xml ~/.config/gedit/snippets',
          cmd + se.GEDIT   + '/python3.xml ~/.config/gedit/snippets',
          cmd + se.SCRIPTS + '/tuneup.py ~/.tuneup.py',
+         cmd + se.REPO    + '/patches/_patchlog.txt ~/.patchlog',
          cmd + se.SHELL   + '/bashrc.txt ~/.bashrc',
          cmd + se.SHELL   + '/zshrc.txt ~/.zshrc',
          cmd + se.SHELL   + '/profile.txt ~/.profile',
@@ -69,7 +70,7 @@ def runScript(se):
          cmd + se.VIM     + '/vimcolors/* ~/.vim/colors',
          cmd + se.JUPYTER + '/tracker.jupyterlab-settings ' + target)]
    batchCommands(packages,se.FMTSTR)
-         
+
    # Step 4. Adjust file permissions
    
    packages = [
@@ -266,6 +267,12 @@ def runScript(se):
    argument = ['s+Unattended-Upgrade "1"+Unattended-Upgrade "0"+']
    sp.run(cmd+argument+dest,capture_output=True)
    
+   # Patch /etc/fuse.conf to un-comment 'user_allow_other'
+   cmd      = globify('sudo sed -i')
+   argument = ['s+\#user_allow_other+user_allow_other+']
+   dest     = ['/etc/fuse.conf']
+   sp.run(cmd+argument+dest,capture_output=True)
+
    print('Complete')
    
    # Step 12 Cleanup. Silently delete unused files.

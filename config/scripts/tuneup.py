@@ -69,7 +69,7 @@ def runUpdates(args,se):
          sp.run(globify(cmd),capture_output=True)
    except KeyError:
       pass
-   
+      
    # Perform additional updates if -a is selected
    
    if args.updateAll:

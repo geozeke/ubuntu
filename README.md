@@ -63,6 +63,7 @@ cp GEDIT/flexiwrap ~/.config/gedit/tools
 cp GEDIT/python.xml ~/.config/gedit/snippets
 cp GEDIT/python3.xml ~/.config/gedit/snippets
 cp SCRIPTS/tuneup.py ~/.tuneup.py
+cp REPO/patches/_patchlog.txt ~/.patchlog
 cp SHELL/bashrc.txt ~/.bashrc
 cp SHELL/zshrc.txt ~/.zshrc
 cp SHELL/profile.txt ~/.profile
@@ -155,6 +156,9 @@ gsettings set org.gnome.desktop.session idle-delay 'uint32 0'
 # /etc/apt/apt.conf.d/20auto-upgrades and change "1" to "0" in the lines below.
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";
+
+# Patch /etc/fuse.conf to un-comment 'user_allow_other'
+sudo sed -i s+\#user_allow_other+user_allow_other+ /etc/fuse.conf
 ```
 
 Step 12: Delete unused files
