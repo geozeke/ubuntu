@@ -152,8 +152,9 @@ gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.session idle-delay 'uint32 0'
 
 # Disable Ubuntu auto-updates by using sed to go to
-# /etc/apt/apt.conf.d/20auto-upgrades and change "1" to "0" in the line below.
+# /etc/apt/apt.conf.d/20auto-upgrades and change "1" to "0" in the lines below.
 APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
 ```
 
 Step 12: Delete unused files

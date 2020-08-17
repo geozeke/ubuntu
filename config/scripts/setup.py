@@ -106,9 +106,9 @@ def runScript(se):
    
    print('Complete')
 
-   msg = "\nInstalling additional software. Please enter password if "
-   msg += "prompted.\n"
-   sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+   msg = "Installing additional software. Please enter your password if "
+   msg += "prompted."
+   print('\n' + textwrap.fill(msg) + '\n')
    
    # Push a dummy sudo command just to force password entry before first ppa
    # pull. This will avoid having the password prompt come in the middle of a
