@@ -4,7 +4,7 @@
 
 *NOTE: When accessing the links below, or accessing any of the links in the guides, please right-click and open the link in a new Tab or Window. That makes it easier to navigate back to this page.*
 
-- [Part-0: Adjusting the BIOS Settings on Your Laptop to Enable Virtualization](setupguides/vmguide-p0.md)
+- [Part-0: Adjusting the BIOS Settings on Your HP Laptop to Enable Virtualization](setupguides/vmguide-p0.md)
 - [Part-1: Installing Workstation Player and Downloading the Ubuntu VM Image](setupguides/vmguide-p1.md)
 - [Part-2: Installation and Setup of The Ubuntu Virtual Machine](setupguides/vmguide-p2.md)
 - [Part-3: Setup Instructions for Folder Sharing and Repo Cloning](setupguides/vmguide-p3.md)
@@ -63,7 +63,6 @@ cp GEDIT/flexiwrap ~/.config/gedit/tools
 cp GEDIT/python.xml ~/.config/gedit/snippets
 cp GEDIT/python3.xml ~/.config/gedit/snippets
 cp SCRIPTS/tuneup.py ~/.tuneup.py
-cp REPO/patches/_patchlog.txt ~/.patchlog
 cp SHELL/bashrc.txt ~/.bashrc
 cp SHELL/zshrc.txt ~/.zshrc
 cp SHELL/profile.txt ~/.profile
@@ -99,6 +98,7 @@ Step 7: Install the following packages from the ppa and GitHub repos:
 ```
 vim
 build-essential
+ccache
 seahorse-nautilus
 gedit-plugins
 gedit-plugin-text-size
@@ -157,7 +157,9 @@ gsettings set org.gnome.desktop.session idle-delay 'uint32 0'
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";
 
-# Patch /etc/fuse.conf to un-comment 'user_allow_other'
+# Patch /etc/fuse.conf to un-comment 'user_allow_other'. This 
+# allows for starting programs from the command line when
+# inside the share directory.
 sudo sed -i s+\#user_allow_other+user_allow_other+ /etc/fuse.conf
 ```
 
@@ -178,10 +180,8 @@ sudo apt -y autoremove
 
 sudo snap refresh atom
 
-# Upgrade ohMyZsh. Check first to see if zsh is the current shell
-# and oh-my-zsh is installed. 
-~/.oh-my-zsh/tools/upgrade.sh
-
+cd ~/ubuntu
+git pull  
 pip3 install --upgrade jupyter
 pip3 install --upgrade jupyterlab
 

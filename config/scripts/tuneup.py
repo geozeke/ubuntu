@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 08/10/20
+# Date: 12/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Tuneup Script
@@ -31,55 +31,28 @@ def runUpdates(args,se):
    
    sp.run(globify('sudo snap refresh'))
    
-   # Sometimes a snap refresh reintroduces the atom launcher bug. If so, need to
-   # re-patch the atom launcher script.
-   
-   cmd  = 'sudo grep /usr/bin/atom '
-   cmd += '/var/lib/snapd/desktop/applications/atom_atom.desktop'
-   result = sp.run(globify(cmd),capture_output=True)
-   
-   if result.returncode == 0:
-      
-      dest = '/var/lib/snapd/desktop/applications/atom_atom.desktop'
-      
-      # Search for ' snap/bin/atom' (leading space is important) and replace it
-      # with nothing.
-      cmd = globify('sudo sed -i')
-      cmd += ['s+ /snap/bin/atom++']
-      cmd += [dest]
-      sp.run(cmd,capture_output=True)
-   
-      # Search for '/usr/bin/atom' and replace it with 'snap/bin/atom'
-      cmd = globify('sudo sed -i')
-      cmd += ['s+/usr/bin/atom+/snap/bin/atom+']
-      cmd += [dest]
-      sp.run(cmd,capture_output=True)
-   
    # Cleaning up
    
    sp.run(globify('sudo apt -y autoremove'))
-   
-   # Check to see if running zsh with oh_my_zsh. If so, then upgrade it
-   # silently.
-   
-   try:
-      zsh = os.environ['ZSH']
-      if zsh == se.OHMYZSH:
-         cmd = 'sh ' + zsh + '/tools/upgrade.sh'
-         sp.run(globify(cmd),capture_output=True)
-   except KeyError:
-      pass
-      
+         
    # Perform additional updates if -a is selected
    
    if args.updateAll:
       
       print('\nPerforming additional updates\n')
-      
-      cmd = 'pip3 install --upgrade '
-      packages = [(se.nextLabel(), cmd + 'jupyter')]
+
+      # Pull updates to the ubuntu git repo. This facilitates installing custom
+      # patches later.
+      os.chdir(se.HOME + '/ubuntu')
+      cmd = 'git pull'
+      packages = [(se.nextLabel(),cmd)]
       batchCommands(packages,se.FMTSTR)
-      packages = [(se.nextLabel(), cmd + 'jupyterlab')]
+
+      # Update jupyter and jupyterlab
+      cmd = 'pip3 install --upgrade '
+      packages = [(se.nextLabel(),cmd + 'jupyter')]
+      batchCommands(packages,se.FMTSTR)
+      packages = [(se.nextLabel(),cmd + 'jupyterlab')]
       batchCommands(packages,se.FMTSTR)
 
       # Sync jupyter notebooks
@@ -138,7 +111,7 @@ def main():
    msg += 'installed through Ubuntu Personal Package Archives (ppa). You will '
    msg += 'be prompted for your password during updating.'
    
-   epi = "Latest update: 10 Aug 2020"
+   epi = "Latest update: 10 Dec 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi,prog='tuneup')
    

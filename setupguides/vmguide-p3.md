@@ -74,13 +74,13 @@ git clone https://github.com/geozeke/ubuntu.git --single-branch --depth 1
 
 ## Step - 11:
 
-Close all other open programs in your VM, so that only your terminal window is running. When ready, enter the following command in the terminal window (no spaces):
+Close all other open programs in your VM, so that only your terminal window is running. When you're ready, enter the following command in the terminal window (no spaces):
 
 ```
 ./ubuntu/config/scripts/setup.py
 ```
 
-If prompted for your password, please enter it. It may take a while for the script to run, so please be patient. When the script prompts you to do so, reboot your VM by entering this command in your terminal window:
+If prompted for your password, enter it. It may take a while for the script to run, so please be patient. When the script prompts you to do so, reboot your VM by entering this command in your terminal window:
 
 ```
 reboot

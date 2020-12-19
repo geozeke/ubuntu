@@ -2,6 +2,7 @@
   core:
     disabledPackages: [
       "whitespace"
+      "autocomplete-plus"
     ]
     telemetryConsent: "no"
   editor:

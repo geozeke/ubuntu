@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/08/20
+# Date: 12/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: Swift Update script
@@ -10,7 +10,7 @@
 
 # Imports
 
-import os, argparse, sys
+import os, argparse, sys, textwrap
 
 # Need to adjust the python environment path to import local modules
 
@@ -107,9 +107,9 @@ def runScript(se):
 
    # Done
    
-   msg  = '\nSwift is now updated to version ' + se.SWIFTVER + '. Please '
-   msg += 'reboot your VM for the changes to take effect.\n\n'
-   sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+   msg  = 'Swift is now updated to version ' + se.SWIFTVER + '. Please '
+   msg += 'reboot your VM for the changes to take effect.'
+   print('\n' + textwrap.fill(msg) + '\n\n')
    
    return
 
@@ -132,7 +132,7 @@ def main():
    msg  = "This script will update swift to ver " + se.SWIFTVER + " on Ubuntu "
    msg += "20.04.x. You will be prompted for your password during installation."
    
-   epi = "Latest update: 08 Jun 2020"
+   epi = "Latest update: 10 Dec 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    
@@ -146,7 +146,7 @@ def main():
    if installedVersion.returncode != 0:
       msg  = 'Swift is not installed. Please run the swift installation '
       msg += 'script before attempting an update.'
-      sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+      print('\n' + textwrap.fill(msg) + '\n\n')
       sys.exit(installedVersion.returncode)
       
    # Check to see if it's already at the current version.
@@ -154,9 +154,9 @@ def main():
    versionString = cleanStr(installedVersion.stdout)
    versionString = versionString.split('\n')[0].split()[2]
    if versionString == se.SWIFTVER:
-      msg  = '\nSwift is already at the most recent version (' + se.SWIFTVER
-      msg += '). No update is necessary.\n\n'
-      sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+      msg  = 'Swift is already at the most recent version (' + se.SWIFTVER
+      msg += '). No update is necessary.'
+      print('\n' + textwrap.fill(msg) + '\n\n')
       sys.exit(installedVersion.returncode)
 
    # Verify that the user wants to update.

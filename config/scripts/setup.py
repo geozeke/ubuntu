@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 08/10/20
+# Date: 12/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
@@ -61,7 +61,6 @@ def runScript(se):
          cmd + se.GEDIT   + '/python.xml ~/.config/gedit/snippets',
          cmd + se.GEDIT   + '/python3.xml ~/.config/gedit/snippets',
          cmd + se.SCRIPTS + '/tuneup.py ~/.tuneup.py',
-         cmd + se.REPO    + '/patches/_patchlog.txt ~/.patchlog',
          cmd + se.SHELL   + '/bashrc.txt ~/.bashrc',
          cmd + se.SHELL   + '/zshrc.txt ~/.zshrc',
          cmd + se.SHELL   + '/profile.txt ~/.profile',
@@ -107,7 +106,7 @@ def runScript(se):
    
    print('Complete')
 
-   msg = "Installing additional software. Please enter your password if "
+   msg  = "Installing additional software. Please enter your password if "
    msg += "prompted."
    print('\n' + textwrap.fill(msg) + '\n')
    
@@ -122,7 +121,9 @@ def runScript(se):
    cmd = 'sudo apt -y install '
    packages = [
       (se.nextLabel(),cmd + 'vim'),
-      (se.nextLabel(),cmd + 'build-essential'),
+      (se.nextLabel(),
+         cmd + 'build-essential',
+         cmd + 'ccache'),
       (se.nextLabel(),cmd + 'seahorse-nautilus'),
       (se.nextLabel(),
          cmd + 'gedit-plugins',
@@ -148,7 +149,7 @@ def runScript(se):
       
    # Clone the notebook repo (single branch, depth 1)
    os.chdir(se.HOME + '/.notebooksrepo')
-   cmd = 'git clone https://github.com/geozeke/notebooks.git . '
+   cmd  = 'git clone https://github.com/geozeke/notebooks.git . '
    cmd += '--single-branch --depth 1'
    sp.run(globify(cmd),capture_output=True)
    
@@ -199,47 +200,6 @@ def runScript(se):
          'gsettings set org.gnome.shell favorite-apps ' + target)]
    batchCommands(packages,se.FMTSTR)
    
-   # Patch atom launcher script ---------------------------------------
-   #
-   # Note: This will probably end up getting fixed in the snap store. If so, you
-   # can safely delete this portion of the setup script.
-   #
-   # There's a bug in the snap installation of atom. When opening atom with the
-   # icon in the favorites launcher, it tries to open these two tabs:
-   # 
-   # ATOM_DISABLE_SHELLING_OUT_FOR_ENVIRONMENT=false
-   # /usr/bin/atom
-   #
-   # Running atom from the command line doesn't present the issue. The current
-   # atom versions on atom.io and snap are the same (1.48.0), so this will have
-   # to be fixed in the snap store. If it doesn't get fixed in the snap store,
-   # then you can remove the offending strings from the launcher script using
-   # sed in the ubuntu setup script. We need to perform two steps (in this
-   # order):
-   #
-   # 1. Remove " /snap/bin/atom"
-   # 2. Replace "/usr/bin/atom" with "/snap/bin/atom"
-   #
-   
-   dest = '/var/lib/snapd/desktop/applications/atom_atom.desktop'
-   
-   # Step 1:
-   # Search for ' snap/bin/atom' (leading space is important) and replace it
-   # with nothing.
-   cmd = globify('sudo sed -i')
-   cmd += ['s+ /snap/bin/atom++']
-   cmd += [dest]
-   sp.run(cmd,capture_output=True)
-   
-   # Step 2:
-   # Search for '/usr/bin/atom' and replace it with 'snap/bin/atom'
-   cmd = globify('sudo sed -i')
-   cmd += ['s+/usr/bin/atom+/snap/bin/atom+']
-   cmd += [dest]
-   sp.run(cmd,capture_output=True)
-
-   # ---------------------------------------------------------------------
-   
    # Step 11 Tune system settings. This turns off auto screen lock, idle
    # timeout, and auto system updates. Special handling is required, because the
    # command for setting the idle timeout has a space in one of the arguments.
@@ -267,7 +227,9 @@ def runScript(se):
    argument = ['s+Unattended-Upgrade "1"+Unattended-Upgrade "0"+']
    sp.run(cmd+argument+dest,capture_output=True)
    
-   # Patch /etc/fuse.conf to un-comment 'user_allow_other'
+   # Patch /etc/fuse.conf to un-comment 'user_allow_other'. This allows users to
+   # start programs from the command line when their current working directory
+   # is inside the share.
    cmd      = globify('sudo sed -i')
    argument = ['s+\#user_allow_other+user_allow_other+']
    dest     = ['/etc/fuse.conf']
@@ -318,7 +280,7 @@ def main():
    msg += "Linux machine or dual-boot machine (including lab machines). You "
    msg += "will be prompted for your password during installation."
    
-   epi = "Latest update: 10 Aug 2020"
+   epi = "Latest update: 10 Dec 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/08/20
+# Date: 12/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: Swift installation script
@@ -10,7 +10,7 @@
 
 # Imports
 
-import os, argparse, sys
+import os, argparse, sys, textwrap
 
 # Need to adjust the python environment path to import local modules
 
@@ -101,9 +101,9 @@ def runScript(se):
 
    # Done
    
-   msg  = '\nSwift version ' + se.SWIFTVER + ' installation complete. Please '
-   msg += 'reboot your VM for the changes to take effect.\n\n'
-   sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+   msg  = 'Swift version ' + se.SWIFTVER + ' installation complete. Please '
+   msg += 'reboot your VM for the changes to take effect.'
+   print('\n' + textwrap.fill(msg) + '\n\n')
    
    return
 
@@ -126,7 +126,7 @@ def main():
    msg  = "This script will install swift ver " + se.SWIFTVER + " on Ubuntu "
    msg += "20.04.x. You will be prompted for your password during installation."
    
-   epi = "Latest update: 08 Jun 2020"
+   epi = "Latest update: 10 Dec 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

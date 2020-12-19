@@ -2,7 +2,7 @@
 
 Notes: Please read carefully before proceeding.
 
-1. Some of the graphics in this setup guide might show version numbers that differ slightly from what you see on screen. For example: a graphic in this handout might show version 15.5.1, but when you download the software it will actually be version 15.5.2. This is normal and will have no impact on the installation of your virtual machine.
+1. Some of the graphics in this setup guide might show version numbers that differ slightly from what you see on screen. For example: a graphic in this handout might show version 16.1.0, but when you download the software it will actually be version 16.1.1. This is normal and will have no impact on the installation of your virtual machine.
 
 2. You will be asked to type a series of commands in your virtual machine. All commands are case-sensitive. That means uppercase is different than lowercase. For example: ***ThisIsACommand*** is different than ***thisisacommand***.
 
@@ -126,7 +126,7 @@ Open a new terminal window by right-clicking on the Ubuntu Desktop and selecting
 
 ## Step - 21:
 
-Let’s use the Linux Advanced Packaging Tool (*apt*) to complete a thorough update on your VM. Start the update process by entering this command in the terminal window and pressing the enter key (*Note: all commands will be followed by the enter key*):
+Let’s use the Linux Advanced Packaging Tool (*apt*) to complete a thorough update on your VM. Start the update process by entering this command in the terminal window and pressing the <kbd>enter</kbd> key (*Note: all commands will be followed by the <kbd>enter</kbd> key*):
 
 ```
 sudo apt update && sudo apt -y upgrade
@@ -138,7 +138,7 @@ If prompted for your password, enter the password you used when you created your
 
 ## Step - 22:
 
-You may see the window below as your Ubuntu VM is updating. If so, just press the *`Enter`* key.
+You may see the window below as your Ubuntu VM is updating. If so, just press the <kbd>enter</kbd> key.
 
 ![](images/image25.png)
 

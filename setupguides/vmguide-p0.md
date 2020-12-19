@@ -1,12 +1,14 @@
-# Part-0: Adjusting the BIOS Settings on Your Laptop to Enable Virtualization
+# Part-0: Adjusting the BIOS Settings on Your HP Laptop to Enable Virtualization
 
 Notes:
 
-1.  Please read and follow these instructions carefully. They're short, so it's recommended that you read them once through, in their entirety, then run through them again to perform the required steps.
+1. These bios instructions apply to the *HP EliteBook* family of  laptops.
 
-2.  It may be easier to bring these instruction up on your phone or another device, since you will not be able to use your computer while you adjust the BIOS.
+2. Please read and follow these instructions carefully. They're short, so it's recommended that you read them once through, in their entirety, then run through them again to perform the required steps.
 
-3.  [Click here](https://www.howtogeek.com/179789/htg-explains-what-is-bios-and-when-should-i-use-it/) to learn more about BIOS: 
+3.  It may be easier to bring these instruction up on your phone or another device, since you will not be able to use your computer while you adjust the BIOS.
+
+4.  [Click here](https://www.howtogeek.com/179789/htg-explains-what-is-bios-and-when-should-i-use-it/) to learn more about BIOS: 
 
 ---
 
@@ -16,9 +18,9 @@ Quit all running programs on your computer, saving your work, if necessary.
 
 ## Step - 2:
 
-Restart your computer and watch the screen carefully. As soon as it goes blank, press and hold the F10 key (on the top row of keys). When you see the HP logo shown below, release the F10 key.
+Restart your computer and watch the screen carefully. As soon as it goes blank, press and hold the <kbd>F10</kbd> key (on the top row of keys). When you see the HP logo shown below, release the <kbd>F10</kbd> key.
 
-If your computer presents you with the Windows login screen, don't worry, just start over from step 2. The timing on pressing the F10 key can be tricky sometimes.
+If your computer presents you with the Windows login screen, don't worry, just start over from step 2. The timing on pressing the <kbd>F10</kbd> key can be tricky sometimes.
  
 ![](images/image46.png)
 

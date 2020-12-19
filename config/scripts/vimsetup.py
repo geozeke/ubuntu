@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 02/11/20
+# Date: 12/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: vim Setup script
@@ -16,7 +16,7 @@
 
 # Imports
 
-import os, argparse, sys
+import os, argparse, sys, textwrap
 
 # Need to adjust the python environment path to import local modules
 
@@ -59,9 +59,9 @@ def runScript(se):
 
    # Done
    
-   msg  = "\nvim setup complete. You're now ready to use vi or vim and "
-   msg += "enjoy a pleasing visual experience.\n\n"
-   sp.run(globify('fmt -w 70'),input=msg,encoding='ascii')
+   msg  = "vim setup complete. You are now ready to use vi or vim and "
+   msg += "enjoy a pleasing visual experience."
+   print('\n' + textwrap.fill(msg) + '\n\n')
 
    return
 
@@ -85,7 +85,7 @@ def main():
    msg += "for a pleasant visual experience in vi. NOTE: If you've already "
    msg += "run the ubuntu setup script, there's no need to run this script."
    
-   epi = "Latest update: 11 Feb 2020"
+   epi = "Latest update: 10 Dec 2020"
    
    parser = argparse.ArgumentParser(description=msg,epilog=epi)
    

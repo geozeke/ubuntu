@@ -4,7 +4,7 @@ Notes: Please read carefully before proceeding.
 
 1. Installation of the VMware Workstation Player will likely require you to restart your computer. Take time now to close any open programs and / or logout of any websites.
 
-2. Some of the graphics in this setup guide might show version numbers that differ slightly from what you see on screen. For example: a graphic in this handout might show version 15.5.1, but when you download the software it will actually be version 15.5.2. This is normal and will have no impact on the installation of your virtual machine.
+2. Some of the graphics in this setup guide might show version numbers that differ slightly from what you see on screen. For example: a graphic in this handout might show version 16.1.0, but when you download the software it will actually be version 16.1.1. This is normal and will have no impact on the installation of your virtual machine.
 
 3. You will be asked to type a series of commands in your virtual machine. All commands are case-sensitive. That means uppercase is different than lowercase. For example: ***ThisIsACommand*** is different than ***thisisacommand***.
 
@@ -30,7 +30,7 @@ If Windows prompts you with: *`Do you want to allow this app to make changes to 
 
 ## Step - 5:
 
-Click *`Next`* on the *`Welcome to the VMWorkstation 15 Player Setup Wizard`* screen.
+Click *`Next`* on the *`Welcome to the VMWorkstation 16 Player Setup Wizard`* screen.
 
 ## Step - 6:
 
@@ -39,7 +39,7 @@ Check the checkbox next to *`I accept the terms in the License Agreement`* and c
 ![](images/image03.png)
 
 ## Step - 7:
-Make sure the *`Enhanced Keyboard Driver`* option is unchecked, then accept the default *`Install to:`* location by clicking *`Next`*.
+Make sure the *`Enhanced Keyboard Driver`* option is unchecked; and the *`Add VMware Workstation console tools into system PATH`* option is checked. Accept the default *`Install to:`* location by clicking *`Next`*.
 
 ## Step - 8:
 
@@ -63,7 +63,7 @@ Once the Installation Wizard finishes, you may see a notification (like the one 
 
 ## Step - 12:
 
-The first time you run VMware Workstation Player you may be asked to choose a licensing option (like the one below, right). Select the radio button next to *`Use VMware Workstation 15 Player for free for non-commercial use`*, then click continue.
+The first time you run VMware Workstation Player you may be asked to choose a licensing option (like the one below, right). Select the radio button next to *`Use VMware Workstation 16 Player for free for non-commercial use`*, then click continue.
 
 ![](images/image06.png)
 
@@ -75,7 +75,7 @@ You may see the window shown below (left). If so, click on *`Finish`*. If you th
 
 ## Step 14:
 
-If you are presented with a *`Welcome To Workstation 15 Player`* window you have successfully installed VMware Workstation Player.
+If you are presented with a *`Welcome To Workstation 16 Player`* window you have successfully installed VMware Workstation Player.
 
 ## Step 15:
 

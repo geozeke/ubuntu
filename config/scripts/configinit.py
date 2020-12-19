@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 06/08/20
+# Date: 12/10/20
 # License: (see MIT License at the end of this file)
 
 # Title: Config Init
@@ -44,7 +44,7 @@ class ScriptEnvironment:
       # Check the URL on Swift.org to make sure it's correct, but you should
       # only have to change the SWIFTVER variable below to run the script
       # properly.
-      self.SWIFTVER  = '5.2.5'
+      self.SWIFTVER  = '5.3.1'
       
       self.SWIFTURL  = 'https://swift.org/builds/swift-' + self.SWIFTVER
       self.SWIFTURL += '-release/ubuntu2004/swift-' + self.SWIFTVER
@@ -105,6 +105,7 @@ class ScriptEnvironment:
 
       elif self.script == ".tuneup.py":
       
+         self.LABELS.append('Pulling updates to git repo')
          self.LABELS.append('Scanning for updates to jupyter')
          self.LABELS.append('Scanning for updates to jupyter lab')
          self.LABELS.append('Synchronizing jupyter notebooks')
