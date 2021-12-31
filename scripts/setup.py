@@ -1,0 +1,502 @@
+#!/usr/bin/env python3
+
+# Author: Peter Nardi
+# Date: 12/30/21
+# License: (see MIT License at the end of this file)
+
+# Title: VM Setup script
+
+# This script will install the necessary programs and settings files on an
+# Ubuntu 20.04.x Virtual Machine for USNA course work in Computer Science or
+# Cyber Operations. This should only be used on a single user Virtual Machine
+# installation for a user account with sudo privileges. Do not attempt to run
+# this script on a standalone Linux machine or dual-boot machine (including lab
+# machines). You will be prompted for your password during installation.
+
+# Imports
+
+import argparse
+import textwrap
+
+from library import clear
+from library import copyFiles
+from library import Environment
+from library import minPythonVersion
+from library import runManyArguments
+from library import runOneCommand
+
+# -------------------------------------------------------------------
+
+
+def runScript(e):
+
+    clear()
+
+    # ------------------------------------------
+
+    # Setup status labels
+
+    labels = []
+    labels.append('System initialization')
+    labels.append('Creating new directories')
+    labels.append('Copying files')
+    labels.append('Adjusting file permissions')
+    labels.append('Setting terminal profile')
+    labels.append('Setting gedit profile')
+    labels.append('Installing developer tools')
+    labels.append('Installing seahorse nautilus')
+    labels.append('Installing gedit support')
+    labels.append('Installing zsh')
+    labels.append('Installing python pip3')
+    labels.append('Installing python venv')
+    labels.append('Creating virtual environment (env)')
+    labels.append('Installing Google Chrome')
+    labels.append('Setting up jupyter notebooks')
+    labels.append('Refreshing snaps (please be patient)')
+    labels.append('Installing atom')
+    labels.append('Configuring favorites')
+    labels.append('Disabling auto screen lock')
+    labels.append('Setting idle timeout to \'never\'')
+    labels.append('Disabling auto updates')
+    labels.append('Patching fuse.conf')
+    labels.append('Cleaning up')
+    pad = len(max(labels, key=len)) + 3
+
+    # ------------------------------------------
+
+    # Step 1: System initialization. Right now, it's just a placeholder for
+    # future capability.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    print(e.PASS)
+
+    # ------------------------------------------
+
+    # Step 2: Create new directories
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
+    targets.append(e.HOME/'.config/gedit/tools')
+    targets.append(e.HOME/'.config/gedit/snippets')
+    targets.append(e.HOME/'.vim/colors')
+    targets.append(e.HOME/'shares')
+    targets.append(e.HOME/'notebooks')
+    targets.append(e.HOME/'.notebooksrepo')
+    targets.append(e.HOME/'.atom')
+    targets.append(e.HOME/'pyenvs')
+
+    for target in targets:
+        if e.DEBUG:
+            print(f'\nMaking: {str(target)}')
+        else:
+            target.mkdir(parents=True, exist_ok=True)
+
+    print(e.PASS)
+
+    # ------------------------------------------
+
+    # Step 3: Copy files
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
+    targets.append((e.ATOM/'*', e.HOME/'.atom'))
+    targets.append((e.GEDIT/'flexiwrap', e.HOME/'.config/gedit/tools'))
+    targets.append((e.GEDIT/'*.xml', e.HOME/'.config/gedit/snippets'))
+    targets.append((e.SHELL/'bashrc.txt', e.HOME/'.bashrc'))
+    targets.append((e.SHELL/'zshrc.txt', e.HOME/'.zshrc'))
+    targets.append((e.SHELL/'profile.txt', e.HOME/'.profile'))
+    targets.append((e.SHELL/'dircolors.txt', e.HOME/'.dircolors'))
+    targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
+    targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
+
+    copyFiles(e, targets)
+
+    print(e.PASS)
+
+    # ------------------------------------------
+
+    # Step 4: Adjust these file permissions, just to make sure they're correct.
+    # It may not be absolutely necessary, but it won't hurt.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
+    targets.append(str(e.SCRIPTS/'tuneup.py'))
+    targets.append(str(e.SCRIPTS/'cacheburn.py'))
+    targets.append(str(e.HOME/'.config/gedit/tools/flexiwrap'))
+
+    cmd = 'chmod 754 TARGET'
+
+    print(runManyArguments(e, cmd, targets))
+
+    # ------------------------------------------
+
+    # Step 5: Setting terminal profile. Need a little special handling here,
+    # because we're redirecting stdin.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    cmd = 'dconf reset -f /org/gnome/terminal/'
+    result = runOneCommand(e, cmd.split())
+    if result == e.PASS:
+        cmd = 'dconf load /org/gnome/terminal/'
+        path = e.SYSTEM/'terminalSettings.txt'
+        if e.DEBUG:
+            print(f'Opening: {path}')
+            print(f'Running: {cmd.split()}')
+        else:
+            with open(path) as f:
+                result = runOneCommand(e, cmd.split(), std_in=f)
+
+    print(result)
+
+    # ------------------------------------------
+
+    # Step 6: Setting gedit profile. Again, need special handling here, because
+    # we're redirecting stdin.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    cmd = 'dconf reset -f /org/gnome/gedit/'
+    result = runOneCommand(e, cmd.split())
+    if result == e.PASS:
+        cmd = 'dconf load /org/gnome/gedit/'
+        path = e.GEDIT/'geditSettings.txt'
+        if e.DEBUG:
+            print(f'Opening: {path}')
+            print(f'Running: {cmd.split()}')
+        else:
+            with open(path) as f:
+                result = runOneCommand(e, cmd.split(), std_in=f)
+
+    print(result)
+
+    # ------------------------------------------
+
+    msg = "Installing additional software. Please enter your password if "
+    msg += "prompted."
+    print('\n' + textwrap.dedent(msg) + '\n')
+
+    # Push a dummy sudo command just to force password entry before first ppa
+    # pull. This will avoid having the password prompt come in the middle of a
+    # label when providing status
+
+    runOneCommand(e, 'sudo ls'.split())
+
+    # ------------------------------------------
+
+    # Step 7: Packages from the ppa and zsh
+
+    # NOTE: libnss3-tools, libpcsclite1, pcscd, and pcsc-tools are needed for
+    # certificate fixes at USNA. These can be deleted for future non-USNA
+    # installations.
+
+    # Build tools
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    cmd = 'sudo apt -y install TARGET'
+
+    targets = []
+    targets.append('build-essential')
+    targets.append('libnss3-tools')
+    targets.append('libpcsclite1')
+    targets.append('pcscd')
+    targets.append('pcsc-tools')
+    targets.append('ccache')
+    targets.append('vim')
+
+    print(runManyArguments(e, cmd, targets))
+
+    # ------------------------------------------
+
+    # Step-8: seahorse nautilus
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
+    targets.append('seahorse-nautilus')
+
+    print(runManyArguments(e, cmd, targets))
+
+    # ------------------------------------------
+
+    # Step-9: Gedit support
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
+    targets.append('gedit-plugins')
+    targets.append('gedit-plugin-text-size')
+
+    print(runManyArguments(e, cmd, targets))
+
+    # ------------------------------------------
+
+    # Step-10: zsh. Also copy over the peter zsh theme.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
+    targets.append('zsh')
+    targets.append('powerline')
+    targets.append('fonts-powerline')
+
+    result = runManyArguments(e, cmd, targets)
+
+    if result == e.PASS:
+        zshclone = 'git clone '
+        zshclone += 'https://github.com/robbyrussell/oh-my-zsh.git '
+        zshclone += str(e.HOME/'.oh-my-zsh') + ' --depth 1'
+        result = runOneCommand(e, zshclone.split())
+
+    src = e.SHELL/'peter.zsh-theme'
+    dest = e.HOME/'.oh-my-zsh/custom/themes'
+    targets = [(src, dest)]
+    copyFiles(e, targets)
+
+    print(result)
+
+    # ------------------------------------------
+
+    # Step-11: pip3
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    cmd = 'sudo apt install -y python3-pip'
+    print(runOneCommand(e, cmd.split()))
+
+    # ------------------------------------------
+
+    # Step-12: python3 venv
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    cmd = 'sudo apt install -y python3-venv'
+    print(runOneCommand(e, cmd.split()))
+
+    # ------------------------------------------
+
+    # Step-13: Create Python virtual environment
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    cmd = 'python3 -m venv ' + str(e.HOME/'pyenvs/env')
+    print(runOneCommand(e, cmd.split()))
+
+    # ------------------------------------------
+
+    # Step-14: Google Chrome
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    googleDest = '/tmp/google-chrome-stable_current_amd64.deb'
+    cmd = 'wget -O ' + googleDest
+    cmd += ' https://dl.google.com/linux/direct/'
+    cmd += googleDest.split('/')[-1]
+    result = runOneCommand(e, cmd.split())
+
+    if result == e.PASS:
+        cmd = 'sudo dpkg -i ' + googleDest
+        result = runOneCommand(e, cmd.split())
+
+    print(result)
+
+    # ------------------------------------------
+
+    # Step-15: Set up jupyter notebooks
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    # Clone the notebook repo (single branch, depth 1)
+    cmd = 'git clone https://github.com/geozeke/notebooks.git '
+    cmd += str(e.HOME/'.notebooksrepo')
+    cmd += ' --single-branch --depth 1'
+    result = runOneCommand(e, cmd.split())
+
+    # Sync repo with local notebooks. Use the --delete option so the
+    # destination directory always exactly mirrors the source directory. Also
+    # skip syncing any git-related files. Per the man page, leaving a trailing
+    # slash ('/') on the source directory allows you to have a destination
+    # directory with a different name.
+    if result == e.PASS:
+        cmd = 'rsync -rc '
+        cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
+        cmd += str(e.HOME/'.notebooksrepo') + '/ '
+        cmd += str(e.HOME/'notebooks') + ' --delete'
+        result = runOneCommand(e, cmd.split())
+
+    print(result)
+
+    # ------------------------------------------
+
+    # Step-16: Refresh snaps
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    cmd = 'sudo snap refresh'
+    print(runOneCommand(e, cmd.split()))
+
+    # ------------------------------------------
+
+    # Step-17: Install atom
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    cmd = 'sudo snap install atom --classic'
+    print(runOneCommand(e, cmd.split()))
+
+    # ------------------------------------------
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    # Step-18: Configure favorites. NOTE: To get the information needed for the
+    # code below, setup desired favorites, then run this command: gsettings get
+    # org.gnome.shell favorite-apps
+
+    cmd = 'gsettings set org.gnome.shell favorite-apps [\''
+    parts = []
+    parts.append('google-chrome.desktop')
+    parts.append('firefox.desktop')
+    parts.append('org.gnome.Calculator.desktop')
+    parts.append('atom_atom.desktop')
+    parts.append('org.gnome.gedit.desktop')
+    parts.append('org.gnome.Nautilus.desktop')
+    parts.append('org.gnome.Terminal.desktop')
+    parts.append('gnome-control-center.desktop')
+    parts.append('snap-store_ubuntu-software.desktop')
+    parts.append('org.gnome.seahorse.Application.desktop')
+    cmd += '\',\''.join(parts) + '\']'
+
+    print(runOneCommand(e, cmd.split()))
+
+    # ------------------------------------------
+
+    # Step-19: Disable auto screen lock
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
+    print(runOneCommand(e, cmd.split()))
+
+    # ------------------------------------------
+
+    # Step-20: Set idle timeout to 'never'.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    cmd = 'gsettings set org.gnome.desktop.session idle-delay'.split()
+    cmd += ['uint32 0']
+    print(runOneCommand(e, cmd))
+
+    # ------------------------------------------
+
+    # Step-21: Disable auto updates.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    cmd = 'sudo sed -i'.split()
+    dest = ['/etc/apt/apt.conf.d/20auto-upgrades']
+    argument = ['s+Update-Package-Lists "1"+Update-Package-Lists "0"+']
+
+    result = runOneCommand(e, cmd+argument+dest)
+
+    if result == e.PASS:
+        argument = ['s+Unattended-Upgrade "1"+Unattended-Upgrade "0"+']
+        result = runOneCommand(e, cmd+argument+dest)
+
+    print(result)
+
+    # ------------------------------------------
+
+    # Step-22: Patch /etc/fuse.conf to un-comment 'user_allow_other'. This
+    # allows users to start programs from the command line when their current
+    # working directory is inside the share.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    cmd = 'sudo sed -i'.split()
+    argument = [r's+\#user_allow_other+user_allow_other+']
+    dest = ['/etc/fuse.conf']
+
+    print(runOneCommand(e, cmd+argument+dest))
+
+    # ------------------------------------------
+
+    # Step 23: Cleanup. Silently delete unused files.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
+
+    targets.append(str(e.HOME/'examples.desktop'))
+    targets.append(googleDest)
+
+    cmd = 'rm -f TARGET'
+
+    print(runManyArguments(e, cmd, targets))
+
+    # ------------------------------------------
+
+    # Done
+
+    msg = 'Ubuntu setup complete. Install additional tools or reboot '
+    msg += 'your VM now for the changes to take effect.'
+    print(f'\n{textwrap.fill(msg)}\n')
+
+    return
+
+# -------------------------------------------------------------------
+
+
+def main():
+
+    # Get a new Environment variable with all the necessary properties
+    # initialized.
+
+    e = Environment()
+    if (result := minPythonVersion(e)) is not None:
+        raise RuntimeError(result)
+
+    msg = """This script will install the necessary programs and settings
+    files on an Ubuntu 20.04.x Virtual Machine for USNA course work in
+    Computing Sciences or Cyber Operations. This should only be used on
+    a single user Virtual Machine installation for a user account with
+    sudo privileges. Do not attempt to run this script on a standalone
+    Linux machine or dual-boot machine (including lab machines). You will
+    be prompted for your password during installation."""
+
+    epi = "Latest update: 12/30/21"
+
+    parser = argparse.ArgumentParser(description=msg, epilog=epi)
+    args = parser.parse_args()
+    runScript(e)
+
+    return
+
+# -------------------------------------------------------------------
+
+
+if __name__ == '__main__':
+    main()
+
+# ========================================================================
+
+# MIT License
+
+# Copyright 2019-2022 Peter Nardi
+
+# Terms of use for source code:
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
