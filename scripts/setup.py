@@ -320,8 +320,7 @@ def runScript(e):
     if result == e.PASS:
         cmd = 'rsync -rc '
         cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
-        cmd += f'{e.HOME}/.notebooksrepo/ '
-        cmd += f'{e.HOME}/notebooks --delete'
+        cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
         result = runOneCommand(e, cmd.split())
 
     print(result)
