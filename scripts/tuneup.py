@@ -23,10 +23,10 @@ from library import runOneCommand
 def updatePIP(e, pip, labels, pad):
 
     # Update pip package only if it's already installed
-    piptest = 'pip3 show ' + pip
+    piptest = f'pip3 show {pip}'
     if runOneCommand(e, piptest.split()) == e.PASS:
         print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-        cmd = 'pip3 install --upgrade ' + pip
+        cmd = f'pip3 install --upgrade {pip}'
         print(runOneCommand(e, cmd.split()))
 
     # Dump the label if the package is not installed
@@ -68,7 +68,7 @@ def runUpdates(args, e):
         # Pull updates to the ubuntu git repo. This facilitates installing
         # custom patches later.
         print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-        cmd = 'git -C ' + str(e.HOME/'ubuntu') + ' pull'
+        cmd = f'git -C {e.HOME}/ubuntu pull'
         print(runOneCommand(e, cmd.split()))
 
         # Update jupyter, jupyterlab & pytest (if installed)
@@ -78,7 +78,7 @@ def runUpdates(args, e):
 
         # Sync jupyter notebooks
         print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-        cmd = 'git -C ' + str(e.HOME/'.notebooksrepo') + ' pull'
+        cmd = f'git -C {e.HOME}/.notebooksrepo pull'
         result = runOneCommand(e, cmd.split())
 
         # Sync repo with local notebooks. Use the --delete option so the
@@ -89,8 +89,8 @@ def runUpdates(args, e):
         if result == e.PASS:
             cmd = 'rsync -rc '
             cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
-            cmd += str(e.HOME/'.notebooksrepo') + '/ '
-            cmd += str(e.HOME/'notebooks') + ' --delete'
+            cmd += f'{e.HOME}/.notebooksrepo/ '
+            cmd += f'{e.HOME}/notebooks --delete'
             result = runOneCommand(e, cmd.split())
 
         print(result)

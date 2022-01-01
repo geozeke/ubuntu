@@ -17,7 +17,6 @@ import textwrap
 from library import Environment
 from library import minPythonVersion
 from library import runOneCommand
-from pathlib import Path
 
 # -------------------------------------------------------------------
 

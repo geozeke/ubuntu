@@ -177,7 +177,7 @@ def runScript(e):
 
     msg = "Installing additional software. Please enter your password if "
     msg += "prompted."
-    print('\n' + textwrap.dedent(msg) + '\n')
+    print(f'\n{textwrap.fill(msg)}\n')
 
     # Push a dummy sudo command just to force password entry before first ppa
     # pull. This will avoid having the password prompt come in the middle of a
@@ -187,7 +187,7 @@ def runScript(e):
 
     # ------------------------------------------
 
-    # Step 7: Packages from the ppa and zsh
+    # Step 7: Packages from the ppa.
 
     # NOTE: libnss3-tools, libpcsclite1, pcscd, and pcsc-tools are needed for
     # certificate fixes at USNA. These can be deleted for future non-USNA
@@ -247,10 +247,10 @@ def runScript(e):
     result = runManyArguments(e, cmd, targets)
 
     if result == e.PASS:
-        zshclone = 'git clone '
-        zshclone += 'https://github.com/robbyrussell/oh-my-zsh.git '
-        zshclone += str(e.HOME/'.oh-my-zsh') + ' --depth 1'
-        result = runOneCommand(e, zshclone.split())
+        src = 'https://github.com/robbyrussell/oh-my-zsh.git'
+        dest = e.HOME/'.oh-my-zsh'
+        cmd = f'git clone {src} {dest} --depth 1'
+        result = runOneCommand(e, cmd.split())
 
     src = e.SHELL/'peter.zsh-theme'
     dest = e.HOME/'.oh-my-zsh/custom/themes'
@@ -289,14 +289,13 @@ def runScript(e):
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
 
-    googleDest = '/tmp/google-chrome-stable_current_amd64.deb'
-    cmd = 'wget -O ' + googleDest
-    cmd += ' https://dl.google.com/linux/direct/'
-    cmd += googleDest.split('/')[-1]
+    googledeb = 'google-chrome-stable_current_amd64.deb'
+    src = f'https://dl.google.com/linux/direct/{googledeb}'
+    cmd = f'wget -O /tmp/{googledeb} {src}'
     result = runOneCommand(e, cmd.split())
 
     if result == e.PASS:
-        cmd = 'sudo dpkg -i ' + googleDest
+        cmd = f'sudo dpkg -i /tmp/{googledeb}'
         result = runOneCommand(e, cmd.split())
 
     print(result)
@@ -308,9 +307,9 @@ def runScript(e):
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
 
     # Clone the notebook repo (single branch, depth 1)
-    cmd = 'git clone https://github.com/geozeke/notebooks.git '
-    cmd += str(e.HOME/'.notebooksrepo')
-    cmd += ' --single-branch --depth 1'
+    src = 'https://github.com/geozeke/notebooks.git'
+    dest = e.HOME/'.notebooksrepo'
+    cmd = f'git clone {src} {dest} --single-branch --depth 1'
     result = runOneCommand(e, cmd.split())
 
     # Sync repo with local notebooks. Use the --delete option so the
@@ -321,8 +320,8 @@ def runScript(e):
     if result == e.PASS:
         cmd = 'rsync -rc '
         cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
-        cmd += str(e.HOME/'.notebooksrepo') + '/ '
-        cmd += str(e.HOME/'notebooks') + ' --delete'
+        cmd += f'{e.HOME}/.notebooksrepo/ '
+        cmd += f'{e.HOME}/notebooks --delete'
         result = runOneCommand(e, cmd.split())
 
     print(result)
@@ -424,8 +423,8 @@ def runScript(e):
 
     targets = []
 
-    targets.append(str(e.HOME/'examples.desktop'))
-    targets.append(googleDest)
+    targets.append(f'{e.HOME}/examples.desktop')
+    targets.append(f'/tmp/{googledeb}')
 
     cmd = 'rm -f TARGET'
 
