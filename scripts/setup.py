@@ -145,10 +145,8 @@ def runScript(e):
         path = e.SYSTEM/'terminalSettings.txt'
         if e.DEBUG:
             print(f'Opening: {path}')
-            print(f'Running: {cmd.split()}')
-        else:
-            with open(path) as f:
-                result = runOneCommand(e, cmd.split(), std_in=f)
+        with open(path, 'r') as f:
+            result = runOneCommand(e, cmd.split(), std_in=f)
 
     print(result)
 
@@ -166,10 +164,8 @@ def runScript(e):
         path = e.GEDIT/'geditSettings.txt'
         if e.DEBUG:
             print(f'Opening: {path}')
-            print(f'Running: {cmd.split()}')
-        else:
-            with open(path) as f:
-                result = runOneCommand(e, cmd.split(), std_in=f)
+        with open(path, 'r') as f:
+            result = runOneCommand(e, cmd.split(), std_in=f)
 
     print(result)
 
@@ -252,10 +248,11 @@ def runScript(e):
         cmd = f'git clone {src} {dest} --depth 1'
         result = runOneCommand(e, cmd.split())
 
-    src = e.SHELL/'peter.zsh-theme'
-    dest = e.HOME/'.oh-my-zsh/custom/themes'
-    targets = [(src, dest)]
-    copyFiles(e, targets)
+    if result == e.PASS:
+        src = e.SHELL/'peter.zsh-theme'
+        dest = e.HOME/'.oh-my-zsh/custom/themes'
+        targets = [(src, dest)]
+        copyFiles(e, targets)
 
     print(result)
 
@@ -280,7 +277,7 @@ def runScript(e):
     # Step-13: Create Python virtual environment
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-    cmd = 'python3 -m venv ' + str(e.HOME/'pyenvs/env')
+    cmd = f'python3 -m venv {e.HOME}/pyenvs/env'
     print(runOneCommand(e, cmd.split()))
 
     # ------------------------------------------
@@ -343,11 +340,11 @@ def runScript(e):
 
     # ------------------------------------------
 
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-
     # Step-18: Configure favorites. NOTE: To get the information needed for the
     # code below, setup desired favorites, then run this command: gsettings get
     # org.gnome.shell favorite-apps
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
 
     cmd = 'gsettings set org.gnome.shell favorite-apps [\''
     parts = []
@@ -378,9 +375,8 @@ def runScript(e):
     # Step-20: Set idle timeout to 'never'.
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-    cmd = 'gsettings set org.gnome.desktop.session idle-delay'.split()
-    cmd += ['uint32 0']
-    print(runOneCommand(e, cmd))
+    cmd = 'gsettings*set*org.gnome.desktop.session*idle-delay*uint32 0'
+    print(runOneCommand(e, cmd.split('*')))
 
     # ------------------------------------------
 
@@ -388,15 +384,15 @@ def runScript(e):
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
 
-    cmd = 'sudo sed -i'.split()
-    dest = ['/etc/apt/apt.conf.d/20auto-upgrades']
-    argument = ['s+Update-Package-Lists "1"+Update-Package-Lists "0"+']
-
-    result = runOneCommand(e, cmd+argument+dest)
+    dest = '/etc/apt/apt.conf.d/20auto-upgrades'
+    argument = 's+Update-Package-Lists "1"+Update-Package-Lists "0"+'
+    cmd = f'sudo*sed*-i*{argument}*{dest}'
+    result = runOneCommand(e, cmd.split('*'))
 
     if result == e.PASS:
-        argument = ['s+Unattended-Upgrade "1"+Unattended-Upgrade "0"+']
-        result = runOneCommand(e, cmd+argument+dest)
+        argument = 's+Unattended-Upgrade "1"+Unattended-Upgrade "0"+'
+        cmd = f'sudo*sed*-i*{argument}*{dest}'
+        result = runOneCommand(e, cmd.split('*'))
 
     print(result)
 
@@ -408,11 +404,11 @@ def runScript(e):
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
 
-    cmd = 'sudo sed -i'.split()
-    argument = [r's+\#user_allow_other+user_allow_other+']
-    dest = ['/etc/fuse.conf']
+    argument = r's+\#user_allow_other+user_allow_other+'
+    dest = '/etc/fuse.conf'
+    cmd = f'sudo*sed*-i*{argument}*{dest}'
 
-    print(runOneCommand(e, cmd+argument+dest))
+    print(runOneCommand(e, cmd.split('*')))
 
     # ------------------------------------------
 
