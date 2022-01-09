@@ -61,12 +61,8 @@ def runScript(e):
 
     src = e.SYSTEM/'githubdesktop.txt'
     dest = '/etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list'
-    if e.DEBUG:
-        print(f'\nCopying:\n{src}\nto:\n{dest}')
-        print(e.PASS)
-    else:
-        cmd = f'sudo cp -f {src} {dest}'
-        print(runOneCommand(e, cmd.split()))
+    cmd = f'sudo cp -f {src} {dest}'
+    print(runOneCommand(e, cmd.split()))
 
     # Step 4. Refresh ppa
 
