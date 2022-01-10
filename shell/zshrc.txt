@@ -130,14 +130,14 @@ fi
 ###########################################################
 
 # Custom function called 've' to activate python virtual environments. This is
-# setup assuming that all your venvs are in ~/pyenvs. If you had a venv called
+# setup assuming that all your venvs are in ~/.venv. If you had a venv called
 # 'pydev', you would activate it like this: ve pydev
 
 # If you put your venvs in another directory, then adjust the function below
 # accordingly.
 
 function ve() {
-   source ~/pyenvs/$1/bin/activate
+    source ~/.venv/$1/bin/activate
 }
 
 ###########################################################
