@@ -83,7 +83,7 @@ def copyFiles(e, targets):
 
 
 def minPythonVersion(e):
-    msg = f'Minumum required Python version is {e.MAJOR}.{e.MINOR}'
+    msg = f'Minimum required Python version is {e.MAJOR}.{e.MINOR}'
     if ((sys.version_info.major < e.MAJOR) or
        (sys.version_info.minor < e.MINOR)):
         return msg

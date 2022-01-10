@@ -84,7 +84,7 @@ def runScript(e):
     targets.append(e.HOME/'notebooks')
     targets.append(e.HOME/'.notebooksrepo')
     targets.append(e.HOME/'.atom')
-    targets.append(e.HOME/'pyenvs')
+    targets.append(e.HOME/'.venv')
 
     for target in targets:
         if e.DEBUG:
@@ -277,7 +277,7 @@ def runScript(e):
     # Step-13: Create Python virtual environment
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-    cmd = f'python3 -m venv {e.HOME}/pyenvs/env'
+    cmd = f'python3 -m venv {e.HOME}/.venv/env'
     print(runOneCommand(e, cmd.split()))
 
     # ------------------------------------------
