@@ -18,7 +18,6 @@ from library import clear
 from library import copyFiles
 from library import Environment
 from library import minPythonVersion
-from library import runOneCommand
 
 # -------------------------------------------------------------------
 
@@ -94,7 +93,7 @@ def main():
     epi = "Latest update: 12/30/21"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
-    args = parser.parse_args()
+    parser.parse_args()
     runScript(e)
 
     return

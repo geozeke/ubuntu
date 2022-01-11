@@ -203,6 +203,7 @@ def runScript(e):
     targets.append('pcsc-tools')
     targets.append('ccache')
     targets.append('vim')
+    targets.append('tree')
 
     print(runManyArguments(e, cmd, targets))
 
@@ -458,7 +459,7 @@ def main():
     epi = "Latest update: 12/30/21"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
-    args = parser.parse_args()
+    parser.parse_args()
     runScript(e)
 
     return

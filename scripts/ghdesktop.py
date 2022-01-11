@@ -109,7 +109,7 @@ def main():
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
-    args = parser.parse_args()
+    parser.parse_args()
 
     runScript(e)
 

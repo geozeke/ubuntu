@@ -12,7 +12,6 @@
 # Imports
 
 import argparse
-import textwrap
 
 from library import Environment
 from library import minPythonVersion
@@ -83,7 +82,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description=msg, epilog=epi, prog='cacheburn')
-    args = parser.parse_args()
+    parser.parse_args()
     print()
     burnitup(e)
     print()

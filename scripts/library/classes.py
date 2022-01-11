@@ -32,7 +32,7 @@ class Environment:
 
         self.PASS = '\033[0;32;49m' + u'\u2714' + '\x1b[0m'
         self.FAIL = '\033[0;31;49m' + u'\u2718' + '\x1b[0m'
-        self.DEBUG = False
+        self.DEBUG = True
         self.RESULT = None
 
         # Paths in the repo for installation files.
