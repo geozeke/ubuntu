@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 12/30/21
+# Date: 01/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: cacheburn
@@ -78,7 +78,7 @@ def main():
     msg = """This script will scan the ~/shares directory to wipe
     caches, and delete other temporary files."""
 
-    epi = "Latest update: 12/30/21"
+    epi = "Latest update: 01/17/22"
 
     parser = argparse.ArgumentParser(
         description=msg, epilog=epi, prog='cacheburn')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 12/30/21
+# Date: 01/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: Python tools installation script
@@ -18,9 +18,9 @@
 import argparse
 import textwrap
 
+from library import Environment
 from library import clear
 from library import copyFiles
-from library import Environment
 from library import minPythonVersion
 from library import runOneCommand
 
@@ -110,7 +110,7 @@ def main():
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 12/30/21"
+    epi = "Latest update: 01/17/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

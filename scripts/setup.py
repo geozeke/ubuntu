@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 12/30/21
+# Date: 01/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
@@ -18,9 +18,9 @@
 import argparse
 import textwrap
 
+from library import Environment
 from library import clear
 from library import copyFiles
-from library import Environment
 from library import minPythonVersion
 from library import runManyArguments
 from library import runOneCommand
@@ -448,15 +448,16 @@ def main():
     if (result := minPythonVersion(e)) is not None:
         raise RuntimeError(result)
 
-    msg = """This script will install the necessary programs and settings
-    files on an Ubuntu 20.04.x Virtual Machine for USNA course work in
-    Computing Sciences or Cyber Operations. This should only be used on
-    a single user Virtual Machine installation for a user account with
-    sudo privileges. Do not attempt to run this script on a standalone
-    Linux machine or dual-boot machine (including lab machines). You will
-    be prompted for your password during installation."""
+    msg = """This script will install the necessary programs and
+    settings files on an Ubuntu 20.04.x Virtual Machine for USNA course
+    work in Computing Sciences or Cyber Operations. This should only be
+    used on a single user Virtual Machine installation for a user
+    account with sudo privileges. Do not attempt to run this script on a
+    standalone Linux machine or dual-boot machine (including lab
+    machines). You will be prompted for your password during
+    installation."""
 
-    epi = "Latest update: 12/30/21"
+    epi = "Latest update: 01/17/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

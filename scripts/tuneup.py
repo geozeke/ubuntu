@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Author: Peter Nardi
-# Date: 12/30/21
+# Date: 01/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: VM Tuneup Script
@@ -120,7 +120,7 @@ def main():
     software installed through Ubuntu Personal Package Archives (ppa).
     You will be prompted for your password during updating."""
 
-    epi = "Latest update: 12/30/21"
+    epi = "Latest update: 01/17/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,
