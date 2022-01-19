@@ -17,7 +17,6 @@ This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I st
 * [tuneup.py](#tuneup)
 * [cacheburn.py](#cacheburn)
 * [vimsetup.py](#vimsetup)
-* [ghdesktop.py](#ghdesktop)
 
 ### <a id="setup"></a> `setup.py`
 
@@ -140,15 +139,5 @@ Copy the following files from the repo at `/ubuntu/`:
 #### usage:
 
 `~/ubuntu/scripts/vimsetup.py`
-
-[top](#top)
-
-### <a id="ghdesktop"></a> `ghdesktop.py`
-
-This script installs the Linux Fork of the GitHub Desktop client. More information is [available here](https://github.com/shiftkey/desktop).
-
-#### usage:
-
-`~/ubuntu/scripts/ghdesktop.py`
 
 [top](#top)
