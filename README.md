@@ -24,46 +24,46 @@ This script sets up a new Ubuntu VM with the following software and settings:
 
 * Create new directories to hold various settings/resource files.
 * Copy new settings files for:
-	* atom
-	* gedit
-	* bash
-	* zsh
-	* profile
-	* vi
+  * atom
+  * gedit
+  * bash
+  * zsh
+  * profile
+  * vi
 * Set the correct file permissions for scripts.
 * Initialize the terminal profile with a nicer color scheme.
 * Initialize the gedit profile with more friendly and consistent default settings.
 * Install the following packages from the ppa:
-	* build-essential
-	* libnss3-tools
-	* libpcsclite1
-	* pcscd
-	* pcsc-tools
-	* ccache
-	* vim
-	* seahorse-nautilus
-	* gedit-plugins
-	* gedit-plugin-text-size
-	* zsh
-	* powerline
-	* fonts-powerline
-	* python3-pip
-	* python3-venv
+  * build-essential
+  * libnss3-tools
+  * libpcsclite1
+  * pcscd
+  * pcsc-tools
+  * ccache
+  * vim
+  * seahorse-nautilus
+  * gedit-plugins
+  * gedit-plugin-text-size
+  * zsh
+  * powerline
+  * fonts-powerline
+  * python3-pip
+  * python3-venv
 * Install the following software / tools from developer sites:
-	* oh-my-zsh (GitHub)
-	* atom (snap store)
-	* Google Chrome (vendor site)
+  * oh-my-zsh (GitHub)
+  * atom (snap store)
+  * Google Chrome (vendor site)
 * Setup and configure a series of jupyter notebooks for introductory topics in Python. More information is [available here](https://github.com/geozeke/notebooks).
 * Configure the gnome favorites in the application launcher.
-* Setup a default Python virtual environment located here: `~/pyenvs/env`.
+* Setup a default Python virtual environment located here: `~/.venv/env`.
 * Tune system settings:
-	* Disable auto screen lock.
-	* Set idle timeout to 'never'.
-	* Disable Ubuntu auto-updates.
-	* Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits starting programs from the command line when you're inside a directory in the share point.
+  * Disable auto screen lock.
+  * Set idle timeout to 'never'.
+  * Disable Ubuntu auto-updates.
+  * Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits starting programs from the command line when you're inside a directory in the share point.
 * Clean up and delete temporary and unused files.
 
-#### usage:
+#### usage
 
 Follow the [VM Setup Guides](#top).
 
@@ -77,7 +77,7 @@ This script installs the following Python tools. *Recommend activating a python 
 * jupyterlab
 * pytest
 
-#### usage:
+#### usage
 
 `~/ubuntu/scripts/pytools.py`
 
@@ -88,12 +88,12 @@ This script installs the following Python tools. *Recommend activating a python 
 This script is used to keep the newly-created Ubuntu VM patched. It performs the following updates:
 
 * `sudo apt update && sudo apt upgrade`
-*  `sudo apt -y auto remove`
+* `sudo apt -y auto remove`
 * `sudo snap refresh`
 * Pull updates to this repo to support patching if necessary.
 * Synchronize jupyter notebooks to catch updates.
 
-#### usage:
+#### usage
 
 An alias for this script is created when the VM is setup. To run the tuneup script and get help, just enter: `tuneup -h`.
 
@@ -104,16 +104,17 @@ An alias for this script is created when the VM is setup. To run the tuneup scri
 This script is used to clean caches and temp files from the share point. The following are deleted from `~/shares`:
 
 Directories:
-* \__pycache__
-* .pytest_cache
-* .ipynb_checkpoints
+
+* `__pycache__`
+* `.pytest_cache`
+* `.ipynb_checkpoints`
 
 Files:
 
 * Icon?
 * desktop.ini
 
-#### usage:
+#### usage
 
 An alias for this script is created when the VM is setup. To run the cacheburn script and get help, just enter: `cacheburn -h`.
 
@@ -125,18 +126,18 @@ This is a standalone script that allows you to install the necessary files and s
 
 Create the following directory:
 
-```
+```bash
 ~/.vim/colors
 ```
 
 Copy the following files from the repo at `/ubuntu/`:
 
-```
+```bash
 /vim/vimrc.txt -> ~/.vimrc
 /vim/vimcolors/* -> ~/.vim/colors/
 ```
 
-#### usage:
+#### usage
 
 `~/ubuntu/scripts/vimsetup.py`
 
