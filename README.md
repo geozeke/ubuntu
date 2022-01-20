@@ -126,13 +126,13 @@ This is a standalone script that allows you to install the necessary files and s
 
 Create the following directory:
 
-```shell
+```text
 ~/.vim/colors
 ```
 
 Copy the following files from the repo at `/ubuntu/`:
 
-```shell
+```text
 /vim/vimrc.txt -> ~/.vimrc
 /vim/vimcolors/* -> ~/.vim/colors/
 ```
