@@ -1,0 +1,5 @@
+# development
+
+autopep8
+flake8
+flake8-docstrings

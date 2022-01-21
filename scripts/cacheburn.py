@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Clean up cache files and directories."""
+
 # Author: Peter Nardi
 # Date: 01/17/22
 # License: (see MIT License at the end of this file)
@@ -21,7 +23,14 @@ from library import runOneCommand
 
 
 def burnitup(e):
+    """Perform cached file cleaning operation.
 
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    """
     labels = []
     labels.append('Deleting __pycache__ directories')
     labels.append('Deleting .pytest_cache directories')
@@ -64,7 +73,7 @@ def burnitup(e):
 # -------------------------------------------------------------------
 
 
-def main():
+def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.

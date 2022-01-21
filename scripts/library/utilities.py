@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Utilities for ubuntu scripts."""
+
 # Author: Peter Nardi
 # Date: 01/17/22
 # License: (see MIT License at the end of this file)
@@ -17,28 +19,66 @@ import sys
 
 
 def clear():
-    """Clear the screen
+    """Clear the screen.
 
     This is an os-agnostic version, which will work with both Windows
     and Linux.
     """
-    return os.system('clear' if os.name == 'posix' else 'cls')
+    os.system('clear' if os.name == 'posix' else 'cls')
 
 # -------------------------------------------------------------------
 
-# Performs the utf-8 conversion of a byte stream and strips any trailing
-# white space or newline characters
-
 
 def cleanStr(bytes):
+    """Convert a bytestring.
+
+    Performs the utf-8 conversion of a byte stream and strips any
+    trailing white space or newline characters
+
+    Parameters
+    ----------
+    bytes : bytes
+        A byte string to be converted.
+
+    Returns
+    -------
+    str
+        A utf-8 string.
+    """
     return bytes.decode('utf-8').rstrip()
 
 # -------------------------------------------------------------------
 
-# Run a single command
-
 
 def runOneCommand(e, cmd, capture=True, std_in=None, std_out=None):
+    """Run a single command in the shell.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    cmd : [str]
+        A shell command (with potentially options) saved as a Python
+        list of strings.
+    capture : bool, optional
+        Determine if stdout should be suppressed (True) or displayed
+        (False), by default True.
+    std_in : _io.TextIOWrapper, optional
+        If stdin needs to be redirected on the command line, you can
+        pass an open file descriptor here for that purpose, by default
+        None.
+    std_out : _io.TextIOWrapper, optional
+        If stdin needs to be redirected on the command line, you can
+        pass an open file descriptor here for that purpose, by default
+        None.
+
+    Returns
+    -------
+    unicode
+        Returns a unicode string, represeting either a green checkmark
+        (PASS) or a red X (FAIL).
+    """
     if e.DEBUG:
         print(f'\nRunning: {cmd}')
         return e.PASS
@@ -51,10 +91,28 @@ def runOneCommand(e, cmd, capture=True, std_in=None, std_out=None):
 
 # -------------------------------------------------------------------
 
-# Run a single command, multiple times, with different arguments.
-
 
 def runManyArguments(e, cmd, targets):
+    """Run the same command with multiple arguments.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    cmd : [str]
+        A shell command (with potentially options) saved as a Python
+        list of strings.
+    targets : [str]
+        A Python list of strings, representing the different arguments
+        to be used on multiple runs of the command.
+
+    Returns
+    -------
+    unicode
+        Returns a unicode string, represeting either a green checkmark
+        (PASS) or a red X (FAIL).
+    """
     for target in targets:
         result = runOneCommand(e,
                                cmd.replace('TARGET', target).split())
@@ -66,6 +124,17 @@ def runManyArguments(e, cmd, targets):
 
 
 def copyFiles(e, targets):
+    """Copy files from source to destination.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    targets : [(str, str)]
+        A list of tuples. Files will be copied from source [0] to
+        destination [1].
+    """
     for target in targets:
         copy_from, copy_to = target[0], target[1]
         if e.DEBUG:
@@ -82,6 +151,20 @@ def copyFiles(e, targets):
 
 
 def minPythonVersion(e):
+    """Determine if Python is at required min version.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+
+    Returns
+    -------
+    str | None
+        If Python is at the minimum version, return None. If not,
+        return a string error message.
+    """
     msg = f'Minimum required Python version is {e.MAJOR}.{e.MINOR}'
     if ((sys.version_info.major < e.MAJOR) or
        (sys.version_info.minor < e.MINOR)):
@@ -91,7 +174,7 @@ def minPythonVersion(e):
 # -------------------------------------------------------------------
 
 
-def main():
+def main():  # noqa
     return
 
 # -------------------------------------------------------------------
