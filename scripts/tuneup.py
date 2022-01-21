@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+"""Tuneup the Ubuntu Virtual Machine.
+
+Raises
+------
+RuntimeError
+    If Python is not at the minimum required version.
+"""
+
 # Author: Peter Nardi
 # Date: 01/17/22
 # License: (see MIT License at the end of this file)
@@ -21,7 +29,22 @@ from library import runOneCommand
 
 
 def updatePIP(e, pip, labels, pad):
+    """Update a single installed Python package.
 
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    pip : str
+        The Python packged to be updated.
+    labels : [str]
+        A list of strings. Strings are popped during execution and shown
+        to the user to provide status on progress.
+    pad : int
+        A number to be used for padding output labels to keep consistent
+        justification.
+    """
     # Update pip package only if it's already installed
     piptest = f'pip3 show {pip}'
     if runOneCommand(e, piptest.split()) == e.PASS:
@@ -39,7 +62,17 @@ def updatePIP(e, pip, labels, pad):
 
 
 def runUpdates(args, e):
+    """Perform system updates.
 
+    Parameters
+    ----------
+    args : argparse
+        If `args.all` is set, then update Python packages, in addition
+        to performing system updates.
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    """
     labels = []
     labels.append('Pulling updates to git repo')
     labels.append('Scanning for updates to jupyter')
@@ -105,7 +138,7 @@ def runUpdates(args, e):
 # -------------------------------------------------------------------
 
 
-def main():
+def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.

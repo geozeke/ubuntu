@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+"""Install Ubuntu tools, programs and settings.
+
+Raises
+------
+RuntimeError
+    If Python is not at the minimum required version.
+"""
+
 # Author: Peter Nardi
 # Date: 01/17/22
 # License: (see MIT License at the end of this file)
@@ -29,7 +37,14 @@ from library import runOneCommand
 
 
 def runScript(e):
+    """Perform tool installation and setup.
 
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    """
     clear()
 
     # ------------------------------------------
@@ -439,7 +454,7 @@ def runScript(e):
 # -------------------------------------------------------------------
 
 
-def main():
+def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.

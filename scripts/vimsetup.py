@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Configure vim settings in Ubuntu."""
+
 # Author: Peter Nardi
 # Date: 01/17/22
 # License: (see MIT License at the end of this file)
@@ -23,7 +25,14 @@ from library import minPythonVersion
 
 
 def runScript(e):
+    """Configure vim.
 
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    """
     clear()
 
     labels = []
@@ -74,7 +83,7 @@ def runScript(e):
 # -------------------------------------------------------------------
 
 
-def main():
+def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.

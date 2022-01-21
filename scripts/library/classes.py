@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Support classes for ubuntu setup scripts."""
+
 # Author: Peter Nardi
 # Date: 01/17/22
 # License: (see MIT License at the end of this file)
@@ -18,6 +20,12 @@ from pathlib import Path
 
 
 class Environment:
+    """Class for holding environment variables.
+
+    This class sets up the environment for the ubuntu scripts. All the
+    paths, debugging flags, and pass/fail glyphs are created and
+    initialized here.
+    """
 
     def __init__(self):
 

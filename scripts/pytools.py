@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""Install Python development tools."""
+
 # Author: Peter Nardi
 # Date: 01/17/22
 # License: (see MIT License at the end of this file)
@@ -28,7 +30,14 @@ from library import runOneCommand
 
 
 def runScript(e):
+    """Install development tools.
 
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables, saved as attributes in an
+        Environment object.
+    """
     clear()
 
     labels = []
@@ -93,7 +102,7 @@ def runScript(e):
 # -------------------------------------------------------------------
 
 
-def main():
+def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.
