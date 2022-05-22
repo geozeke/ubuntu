@@ -37,4 +37,4 @@ fi
 
 # Enable shared volumes with host OS
 
-vmhgfs-fuse ~/shares -o auto_unmount -o nonempty -o allow_other
+vmhgfs-fuse ~/shares -o auto_unmount,allow_other

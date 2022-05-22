@@ -74,6 +74,7 @@ def runScript(e):
     labels.append('Setting idle timeout to \'never\'')
     labels.append('Disabling auto updates')
     labels.append('Patching fuse.conf')
+    labels.append('Arranging icons')
     labels.append('Cleaning up')
     pad = len(max(labels, key=len)) + 3
 
@@ -213,7 +214,6 @@ def runScript(e):
     targets = []
     targets.append('build-essential')
     targets.append('libnss3-tools')
-    targets.append('libpcsclite1')
     targets.append('pcscd')
     targets.append('pcsc-tools')
     targets.append('ccache')
@@ -241,7 +241,6 @@ def runScript(e):
 
     targets = []
     targets.append('gedit-plugins')
-    targets.append('gedit-plugin-text-size')
 
     print(runManyArguments(e, cmd, targets))
 
@@ -254,7 +253,6 @@ def runScript(e):
     targets = []
     targets.append('zsh')
     targets.append('powerline')
-    targets.append('fonts-powerline')
 
     result = runManyArguments(e, cmd, targets)
 
@@ -365,7 +363,7 @@ def runScript(e):
     cmd = 'gsettings set org.gnome.shell favorite-apps [\''
     parts = []
     parts.append('google-chrome.desktop')
-    parts.append('firefox.desktop')
+    parts.append('firefox_firefox.desktop')
     parts.append('org.gnome.Calculator.desktop')
     parts.append('atom_atom.desktop')
     parts.append('org.gnome.gedit.desktop')
@@ -391,8 +389,8 @@ def runScript(e):
     # Step-20: Set idle timeout to 'never'.
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-    cmd = 'gsettings*set*org.gnome.desktop.session*idle-delay*uint32 0'
-    print(runOneCommand(e, cmd.split('*')))
+    cmd = 'gsettings set org.gnome.desktop.session idle-delay 0'
+    print(runOneCommand(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -428,17 +426,27 @@ def runScript(e):
 
     # ------------------------------------------
 
-    # Step 23: Cleanup. Silently delete unused files.
+    # Step 23: Arrange icons.
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
 
     targets = []
+    base = 'org.gnome.shell.extensions.'
+    targets.append(f'{base}dash-to-dock show-trash false')
+    targets.append(f'{base}.dash-to-dock show-mounts false')
+    targets.append(f'{base}ding start-corner bottom-left')
+    cmd = 'gsettings set TARGET'
+    print(runManyArguments(e, cmd, targets))
 
-    targets.append(f'{e.HOME}/examples.desktop')
+    # ------------------------------------------
+
+    # Step 24: Silently delete unused files.
+
+    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+
+    targets = []
     targets.append(f'/tmp/{googledeb}')
-
     cmd = 'rm -f TARGET'
-
     print(runManyArguments(e, cmd, targets))
 
     # ------------------------------------------
