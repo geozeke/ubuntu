@@ -433,7 +433,7 @@ def runScript(e):
     targets = []
     base = 'org.gnome.shell.extensions.'
     targets.append(f'{base}dash-to-dock show-trash false')
-    targets.append(f'{base}.dash-to-dock show-mounts false')
+    targets.append(f'{base}dash-to-dock show-mounts false')
     targets.append(f'{base}ding start-corner bottom-left')
     cmd = 'gsettings set TARGET'
     print(runManyArguments(e, cmd, targets))
