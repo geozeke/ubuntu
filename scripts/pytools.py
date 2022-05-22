@@ -3,7 +3,7 @@
 """Install Python development tools."""
 
 # Author: Peter Nardi
-# Date: 01/17/22
+# Date: 05/22/22
 # License: (see MIT License at the end of this file)
 
 # Title: Python tools installation script
@@ -119,7 +119,7 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 01/17/22"
+    epi = "Latest update: 05/22/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
