@@ -435,6 +435,7 @@ def runScript(e):
     targets.append(f'{base}dash-to-dock show-trash false')
     targets.append(f'{base}dash-to-dock show-mounts false')
     targets.append(f'{base}ding start-corner bottom-left')
+    targets.append(f'{base}ding show-trash true')
     cmd = 'gsettings set TARGET'
     print(runManyArguments(e, cmd, targets))
 
