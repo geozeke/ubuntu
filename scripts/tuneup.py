@@ -86,6 +86,7 @@ def runUpdates(args, e):
     commands = []
     commands.append('sudo apt -y update')
     commands.append('sudo apt -y upgrade')
+    commands.append('sudo apt -y autoclean')
     commands.append('sudo apt -y autoremove')
     commands.append('sudo snap refresh')
 
