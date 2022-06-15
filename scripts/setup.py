@@ -141,6 +141,7 @@ def runScript(e):
     targets = []
     targets.append(str(e.SCRIPTS/'tuneup.py'))
     targets.append(str(e.SCRIPTS/'cacheburn.py'))
+    targets.append(str(e.SCRIPTS/'usnapatch.py'))
     targets.append(str(e.HOME/'.config/gedit/tools/flexiwrap'))
 
     cmd = 'chmod 754 TARGET'
