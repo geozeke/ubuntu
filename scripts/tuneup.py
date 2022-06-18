@@ -9,7 +9,7 @@ RuntimeError
 """
 
 # Author: Peter Nardi
-# Date: 05/22/22
+# Date: 06/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: VM Tuneup Script
@@ -154,7 +154,7 @@ def main():  # noqa
     software installed through Ubuntu Personal Package Archives (ppa).
     You will be prompted for your password during updating."""
 
-    epi = "Latest update: 05/22/22"
+    epi = "Latest update: 06/17/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,

@@ -3,7 +3,7 @@
 """Install Python development tools."""
 
 # Author: Peter Nardi
-# Date: 05/22/22
+# Date: 06/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: Python tools installation script
@@ -22,7 +22,6 @@ import textwrap
 
 from library import Environment
 from library import clear
-from library import copyFiles
 from library import minPythonVersion
 from library import runOneCommand
 
@@ -42,8 +41,6 @@ def runScript(e):
 
     labels = []
     labels.append('System initialization')
-    labels.append('Creating new directories')
-    labels.append('Copying files')
     labels.append('Installing jupyter')
     labels.append('Installing jupyter lab')
     labels.append('Installing pytest')
@@ -55,30 +52,7 @@ def runScript(e):
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
     print(e.PASS)
 
-    # Step 2. Creating new directories
-
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-
-    p = e.HOME/'.jupyter/lab/user-settings/@jupyterlab/notebook-extension/'
-    if e.DEBUG:
-        print(f'\nMaking: {str(p)}')
-    else:
-        p.mkdir(parents=True, exist_ok=True)
-
-    print(e.PASS)
-
-    # Step 3. Copying files
-
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-
-    targets = []
-    targets.append((e.JUPYTER/'tracker.jupyterlab-settings', p))
-
-    copyFiles(e, targets)
-
-    print(e.PASS)
-
-    # Step 4, 5, 6 Install jupyter, jupyterlab & pytest
+    # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
 
     base = 'pip3 install --upgrade TARGET'
 
@@ -119,7 +93,7 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 05/22/22"
+    epi = "Latest update: 06/17/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

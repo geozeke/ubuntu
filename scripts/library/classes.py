@@ -3,7 +3,7 @@
 """Support classes for ubuntu setup scripts."""
 
 # Author: Peter Nardi
-# Date: 05/22/22
+# Date: 06/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: Environment
@@ -52,7 +52,6 @@ class Environment:
         self.UBUNTU = Path(__file__).resolve().parents[2]
         self.ATOM = self.UBUNTU/'atom'
         self.GEDIT = self.UBUNTU/'gedit'
-        self.JUPYTER = self.UBUNTU/'jupyter'
         self.OHMYZSH = self.HOME/'.oh-my-zsh'
         self.SCRIPTS = self.UBUNTU/'scripts'
         self.SHELL = self.UBUNTU/'shell'

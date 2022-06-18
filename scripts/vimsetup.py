@@ -3,7 +3,7 @@
 """Configure vim settings in Ubuntu."""
 
 # Author: Peter Nardi
-# Date: 05/22/22
+# Date: 06/17/22
 # License: (see MIT License at the end of this file)
 
 # Title: vim Setup script
@@ -99,7 +99,7 @@ def main():  # noqa
     you\'ve already run the ubuntu setup script, there's no need to run
     this script."""
 
-    epi = "Latest update: 05/22/22"
+    epi = "Latest update: 06/17/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
