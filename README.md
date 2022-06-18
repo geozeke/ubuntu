@@ -41,6 +41,7 @@ This script sets up a new Ubuntu VM with the following software and settings:
     * pcsc-tools
     * ccache
     * vim
+    * tree
     * seahorse-nautilus
     * gedit-plugins
     * zsh
