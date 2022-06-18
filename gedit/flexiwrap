@@ -8,9 +8,10 @@
 # Shortcut=<Shift><Alt>w
 # Languages=plain,python,python3
 
+"""Bring text wrapping of python comments to gedit."""
 
-import sys
 import subprocess as sp
+import sys
 
 selection = sys.stdin.read()
 
