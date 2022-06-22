@@ -442,14 +442,18 @@ def runScript(e):
 
     # ------------------------------------------
 
-    # Step 24: Silently delete unused files.
+    # Step 24: Silently delete unused files. This includes the Firefox browser.
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
 
     targets = []
     targets.append(f'/tmp/{googledeb}')
     cmd = 'rm -f TARGET'
-    print(runManyArguments(e, cmd, targets))
+    result = runManyArguments(e, cmd, targets)
+
+    if result == e.PASS:
+        result = runOneCommand(e, 'sudo snap remove firefox'.split())
+    print(result)
 
     # ------------------------------------------
 
