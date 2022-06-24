@@ -28,39 +28,6 @@ from library import runOneCommand
 # -------------------------------------------------------------------
 
 
-def updatePIP(e, pip, labels, poplabel):
-    """Update a single installed Python package.
-
-    Parameters
-    ----------
-    e : Environment
-        All the environment variables, saved as attributes in an
-        Environment object.
-    pip : str
-        The Python packged to be updated.
-    labels : [str]
-        A list of strings. Strings are popped during execution and shown
-        to the user to provide status on progress.
-    poplabel : lambda
-        This is a lambda function that handles the popping of status
-        labels.
-    """
-    # Update pip package only if it's already installed
-    piptest = f'pip3 show {pip}'
-    if runOneCommand(e, piptest.split()) == e.PASS:
-        poplabel(0)
-        cmd = f'pip3 install --upgrade {pip}'
-        print(runOneCommand(e, cmd.split()))
-
-    # Dump the label if the package is not installed
-    else:
-        labels.pop(0)
-
-    return
-
-# -------------------------------------------------------------------
-
-
 def runUpdates(args, e):
     """Perform system updates.
 
@@ -110,7 +77,14 @@ def runUpdates(args, e):
         # Update jupyter, jupyterlab & pytest (if installed)
         pips = ['jupyter', 'jupyterlab', 'pytest']
         for pip in pips:
-            updatePIP(e, pip, labels, poplabel)
+            piptest = f'pip3 show {pip}'
+            if runOneCommand(e, piptest.split()) == e.PASS:
+                poplabel(0)
+                cmd = f'pip3 install --upgrade {pip}'
+                print(runOneCommand(e, cmd.split()))
+            # Dump the label if the package is not installed
+            else:
+                labels.pop(0)
 
         # Sync jupyter notebooks
         poplabel(0)
