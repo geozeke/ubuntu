@@ -38,6 +38,8 @@ def burnitup(e):
     labels.append('Zapping pesky Icon files')
     labels.append('Crunching annoying desktop.ini files')
     pad = len(max(labels, key=len)) + 3
+    poplabel = (
+        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # Start with cache directories:
 
@@ -52,7 +54,7 @@ def burnitup(e):
     commands.append(base.replace('DIR', '.ipynb_checkpoints'))
 
     for cmd in commands:
-        print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+        poplabel(0)
         print(runOneCommand(e, cmd.split()))
 
     # Tee up files for deletion. You can sneak some other options in for the
@@ -65,7 +67,7 @@ def burnitup(e):
     commands.append(base.replace('FILE', 'desktop.ini'))
 
     for cmd in commands:
-        print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+        poplabel(0)
         print(runOneCommand(e, cmd.split()))
 
     return

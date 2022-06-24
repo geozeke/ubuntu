@@ -52,6 +52,8 @@ def runScript(args, e):
     labels.append('Updating system certificates')
     labels.append('Updating browser certificates')
     pad = len(max(labels, key=len)) + 3
+    poplabel = (
+        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # ------------------------------------------
 
@@ -69,7 +71,7 @@ def runScript(args, e):
     # Step 1: System initialization. Right now, it's just a placeholder for
     # future capability.
 
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    poplabel(0)
     print(e.PASS)
 
     # ------------------------------------------
@@ -77,7 +79,7 @@ def runScript(args, e):
     # Step 2: Patch openssl
 
     if args.mode == 'system':
-        print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+        poplabel(0)
         target = '/usr/lib/ssl/openssl.cnf'
         command = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
         print(runOneCommand(e, command.split()))
@@ -92,17 +94,17 @@ def runScript(args, e):
 
     if args.mode == 'system':
         url = 'apt.cs.usna.edu/ssl/install-ssl-system.sh'
-        labels.pop(1)
+        labels.pop(1)  # Discard the trailing label
     else:
         url = 'apt.cs.usna.edu/ssl/install-ssl-browsers.sh'
-        labels.pop(0)
+        labels.pop(0)  # Discard the leading label
 
     commands = []
     commands.append(f'curl -o {fname} {url}')
     commands.append(f'chmod 754 {fname}')
     commands.append(f'{fname}')
 
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    poplabel(0)
 
     success = True
     for command in commands:

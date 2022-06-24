@@ -40,16 +40,18 @@ def runScript(e):
     labels.append('Creating new directories')
     labels.append('Copying files')
     pad = len(max(labels, key=len)) + 3
+    poplabel = (
+        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # Step 1. System initialization. Right now, it's just a placeholder for
     # future capability.
 
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    poplabel(0)
     print(e.PASS)
 
     # Step 2. Creating new directory
 
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    poplabel(0)
 
     p = e.HOME/'.vim/colors'
     if e.DEBUG:
@@ -61,7 +63,7 @@ def runScript(e):
 
     # Step 3. Copying files
 
-    print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+    poplabel(0)
 
     targets = []
 

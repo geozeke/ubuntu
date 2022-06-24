@@ -28,7 +28,7 @@ from library import runOneCommand
 # -------------------------------------------------------------------
 
 
-def updatePIP(e, pip, labels, pad):
+def updatePIP(e, pip, labels, poplabel):
     """Update a single installed Python package.
 
     Parameters
@@ -41,14 +41,14 @@ def updatePIP(e, pip, labels, pad):
     labels : [str]
         A list of strings. Strings are popped during execution and shown
         to the user to provide status on progress.
-    pad : int
-        A number to be used for padding output labels to keep consistent
-        justification.
+    poplabel : lambda
+        This is a lambda function that handles the popping of status
+        labels.
     """
     # Update pip package only if it's already installed
     piptest = f'pip3 show {pip}'
     if runOneCommand(e, piptest.split()) == e.PASS:
-        print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+        poplabel(0)
         cmd = f'pip3 install --upgrade {pip}'
         print(runOneCommand(e, cmd.split()))
 
@@ -80,6 +80,8 @@ def runUpdates(args, e):
     labels.append('Scanning for updates to pytest')
     labels.append('Synchronizing jupyter notebooks')
     pad = len(max(labels, key=len)) + 3
+    poplabel = (
+        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # Ubuntu updates (verbose)
 
@@ -101,17 +103,17 @@ def runUpdates(args, e):
 
         # Pull updates to the ubuntu git repo. This facilitates installing
         # custom patches later.
-        print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+        poplabel(0)
         cmd = f'git -C {e.HOME}/ubuntu pull'
         print(runOneCommand(e, cmd.split()))
 
         # Update jupyter, jupyterlab & pytest (if installed)
         pips = ['jupyter', 'jupyterlab', 'pytest']
         for pip in pips:
-            updatePIP(e, pip, labels, pad)
+            updatePIP(e, pip, labels, poplabel)
 
         # Sync jupyter notebooks
-        print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
+        poplabel(0)
         cmd = f'git -C {e.HOME}/.notebooksrepo pull'
         result = runOneCommand(e, cmd.split())
 
