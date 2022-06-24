@@ -228,22 +228,16 @@ def runScript(e):
     # Step-8: seahorse nautilus
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-
-    targets = []
-    targets.append('seahorse-nautilus')
-
-    print(runManyArguments(e, cmd, targets))
+    doThis = cmd.replace('TARGET', 'seahorse-nautilus')
+    print(runOneCommand(e, doThis.split()))
 
     # ------------------------------------------
 
     # Step-9: Gedit support
 
     print(f'{labels.pop(0):.<{pad}}', end='', flush=True)
-
-    targets = []
-    targets.append('gedit-plugins')
-
-    print(runManyArguments(e, cmd, targets))
+    doThis = cmd.replace('TARGET', 'gedit-plugins')
+    print(runOneCommand(e, doThis.split()))
 
     # ------------------------------------------
 
@@ -364,7 +358,6 @@ def runScript(e):
     cmd = 'gsettings set org.gnome.shell favorite-apps [\''
     parts = []
     parts.append('google-chrome.desktop')
-    parts.append('firefox_firefox.desktop')
     parts.append('org.gnome.Calculator.desktop')
     parts.append('atom_atom.desktop')
     parts.append('org.gnome.gedit.desktop')
