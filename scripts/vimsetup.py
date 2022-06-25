@@ -3,7 +3,7 @@
 """Configure vim settings in Ubuntu."""
 
 # Author: Peter Nardi
-# Date: 06/17/22
+# Date: 06/25/22
 # License: (see MIT License at the end of this file)
 
 # Title: vim Setup script
@@ -43,7 +43,7 @@ def runScript(e):
     poplabel = (
         lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
-    # Step 1. System initialization. Right now, it's just a placeholder for
+    # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
 
     poplabel(0)
@@ -101,7 +101,7 @@ def main():  # noqa
     you\'ve already run the ubuntu setup script, there's no need to run
     this script."""
 
-    epi = "Latest update: 06/17/22"
+    epi = "Latest update: 06/25/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

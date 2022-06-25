@@ -9,7 +9,7 @@ RuntimeError
 """
 
 # Author: Peter Nardi
-# Date: 06/17/22
+# Date: 06/25/22
 # License: (see MIT License at the end of this file)
 
 # Title: VM Setup script
@@ -82,7 +82,7 @@ def runScript(e):
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now, it's just a placeholder for
+    # Step 1: System initialization. Right now it's just a placeholder for
     # future capability.
 
     poplabel(0)
@@ -481,7 +481,7 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 06/17/22"
+    epi = "Latest update: 06/25/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

@@ -3,7 +3,7 @@
 """Clean up cache files and directories."""
 
 # Author: Peter Nardi
-# Date: 06/17/22
+# Date: 06/25/22
 # License: (see MIT License at the end of this file)
 
 # Title: cacheburn
@@ -89,7 +89,7 @@ def main():  # noqa
     msg = """This script will scan the ~/shares directory to wipe
     caches, and delete other temporary files."""
 
-    epi = "Latest update: 06/17/22"
+    epi = "Latest update: 06/25/22"
 
     parser = argparse.ArgumentParser(
         description=msg, epilog=epi, prog='cacheburn')

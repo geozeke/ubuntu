@@ -9,7 +9,7 @@ RuntimeError
 """
 
 # Author: Peter Nardi
-# Date: 06/17/22
+# Date: 06/25/22
 # License: (see MIT License at the end of this file)
 
 # Title: USNA Patching Script
@@ -68,7 +68,7 @@ def runScript(args, e):
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now, it's just a placeholder for
+    # Step 1: System initialization. Right now it's just a placeholder for
     # future capability.
 
     poplabel(0)
@@ -142,7 +142,7 @@ def main():  # noqa
     on the USNA mission network. You will be prompted for your password
     during installation."""
 
-    epi = "Latest update: 06/17/22"
+    epi = "Latest update: 06/25/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 

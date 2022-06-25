@@ -3,7 +3,7 @@
 """Install Python development tools."""
 
 # Author: Peter Nardi
-# Date: 06/17/22
+# Date: 06/25/22
 # License: (see MIT License at the end of this file)
 
 # Title: Python tools installation script
@@ -48,7 +48,7 @@ def runScript(e):
     poplabel = (
         lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
-    # Step 1. System initialization. Right now, it's just a placeholder for
+    # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
 
     poplabel(0)
@@ -95,7 +95,7 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 06/17/22"
+    epi = "Latest update: 06/25/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
