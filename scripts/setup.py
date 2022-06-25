@@ -360,11 +360,11 @@ def runScript(e):
     cmd = 'gsettings set org.gnome.shell favorite-apps [\''
     parts = []
     parts.append('google-chrome.desktop')
-    parts.append('org.gnome.Calculator.desktop')
     parts.append('atom_atom.desktop')
     parts.append('org.gnome.gedit.desktop')
-    parts.append('org.gnome.Nautilus.desktop')
     parts.append('org.gnome.Terminal.desktop')
+    parts.append('org.gnome.Nautilus.desktop')
+    parts.append('org.gnome.Calculator.desktop')
     parts.append('gnome-control-center.desktop')
     parts.append('snap-store_ubuntu-software.desktop')
     parts.append('org.gnome.seahorse.Application.desktop')
