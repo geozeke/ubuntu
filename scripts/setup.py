@@ -126,6 +126,7 @@ def runScript(e):
     targets.append((e.SHELL/'zshrc.txt', e.HOME/'.zshrc'))
     targets.append((e.SHELL/'profile.txt', e.HOME/'.profile'))
     targets.append((e.SHELL/'profile.txt', e.HOME/'.zprofile'))
+    targets.append((e.SHELL/'dircolors.txt', e.HOME/'.dircolors'))
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
 
