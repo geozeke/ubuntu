@@ -1,3 +1,0 @@
-# Pointer to the ppa for the Linux fork of GitHub desktop. For more
-# information, see: https://github.com/shiftkey/desktop
-deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main
