@@ -36,6 +36,10 @@ def runScript(args, e):
 
     Parameters
     ----------
+    args : argparse object
+        This will contain the argparse object, which allows us to
+        extract the mode. The mode determines which operation to
+        perform: system, browser.
     e : Environment
         All the environment variables, saved as attributes in an
         Environment object.
