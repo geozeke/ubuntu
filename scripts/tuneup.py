@@ -33,7 +33,7 @@ def runUpdates(args, e):
 
     Parameters
     ----------
-    args : argparse
+    args : argparse object
         If `args.all` is set, then update Python packages, in addition
         to performing system updates.
     e : Environment
