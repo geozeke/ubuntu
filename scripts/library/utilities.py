@@ -9,7 +9,7 @@ import sys
 from typing import Text
 from typing import TextIO
 
-from scripts.library.classes import Environment
+from .classes import Environment
 
 
 def clear() -> None:
