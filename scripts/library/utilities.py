@@ -70,7 +70,7 @@ def runOneCommand(e: Environment,
     Returns
     -------
     Text
-        Returns a unicode string, represeting either a green checkmark
+        Returns a unicode string, representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
     if e.DEBUG:
@@ -102,7 +102,7 @@ def runManyArguments(e: Environment, cmd: str, targets: list[str]) -> Text:
     Returns
     -------
     Text
-        Returns a unicode string, represeting either a green checkmark
+        Returns a unicode string, representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
     for target in targets:

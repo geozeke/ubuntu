@@ -453,7 +453,7 @@ def main():  # noqa
         raise RuntimeError(result)
 
     msg = """This script will install the necessary programs and
-    settings files on an Ubuntu 20.04.x Virtual Machine for USNA course
+    settings files on an Ubuntu 22.04.x Virtual Machine for USNA course
     work in Computing Sciences or Cyber Operations. This should only be
     used on a single user Virtual Machine installation for a user
     account with sudo privileges. Do not attempt to run this script on a

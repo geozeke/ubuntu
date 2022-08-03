@@ -52,7 +52,7 @@ def runScript(e: Environment) -> None:
     # Done
 
     msg = 'Python tools installation complete. Install additional '
-    msg += 'tools or reboot your VM now for the changes to take effect.'
+    msg += 'tools if desired. No reboot is necessary.'
     print(f'\n{textwrap.fill(msg)}\n')
 
     return
