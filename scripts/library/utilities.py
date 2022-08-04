@@ -77,8 +77,10 @@ def runOneCommand(e: Environment,
         print(f'\nRunning: {cmd}')
         return e.PASS
     else:
-        e.RESULT = sp.run(cmd, capture_output=capture,
-                          stdin=std_in, stdout=std_out)
+        e.RESULT = sp.run(cmd,
+                          capture_output=capture,
+                          stdin=std_in,
+                          stdout=std_out)
         if e.RESULT.returncode != 0:
             return e.FAIL
     return e.PASS
