@@ -1,24 +1,18 @@
 #!/usr/bin/env python3
-
 """Utilities for ubuntu scripts."""
 
-# Author: Peter Nardi
-# Date: 06/25/22
-# License: (see MIT License at the end of this file)
-
-# Title: Common utilities for Ubuntu VM Scripts
-
-# Imports
-
 import os
+import pathlib
 import shutil
 import subprocess as sp
 import sys
+from typing import Text
+from typing import TextIO
 
-# -------------------------------------------------------------------
+from .classes import Environment
 
 
-def clear():
+def clear() -> None:
     """Clear the screen.
 
     This is an os-agnostic version, which will work with both Windows
@@ -26,10 +20,8 @@ def clear():
     """
     os.system('clear' if os.name == 'posix' else 'cls')
 
-# -------------------------------------------------------------------
 
-
-def cleanStr(bytes):
+def cleanStr(bstr: bytes) -> Text:
     """Convert a bytestring.
 
     Performs the utf-8 conversion of a byte stream and strips any
@@ -37,20 +29,22 @@ def cleanStr(bytes):
 
     Parameters
     ----------
-    bytes : bytes
+    bstr : bytes
         A byte string to be converted.
 
     Returns
     -------
-    str
+    Text
         A utf-8 string.
     """
-    return bytes.decode('utf-8').rstrip()
-
-# -------------------------------------------------------------------
+    return bstr.decode('utf-8').rstrip()
 
 
-def runOneCommand(e, cmd, capture=True, std_in=None, std_out=None):
+def runOneCommand(e: Environment,
+                  cmd: list[str],
+                  capture: bool = True,
+                  std_in: TextIO | None = None,
+                  std_out: TextIO | None = None) -> Text:
     """Run a single command in the shell.
 
     Parameters
@@ -58,41 +52,41 @@ def runOneCommand(e, cmd, capture=True, std_in=None, std_out=None):
     e : Environment
         All the environment variables, saved as attributes in an
         Environment object.
-    cmd : [str]
+    cmd : list[str]
         A shell command (with potentially options) saved as a Python
         list of strings.
     capture : bool, optional
         Determine if stdout should be suppressed (True) or displayed
         (False), by default True.
-    std_in : _io.TextIOWrapper, optional
+    std_in : TextIO | None
         If stdin needs to be redirected on the command line, you can
         pass an open file descriptor here for that purpose, by default
         None.
-    std_out : _io.TextIOWrapper, optional
+    std_out : TextIO | None
         If stdin needs to be redirected on the command line, you can
         pass an open file descriptor here for that purpose, by default
         None.
 
     Returns
     -------
-    unicode
-        Returns a unicode string, represeting either a green checkmark
+    Text
+        Returns a unicode string, representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
     if e.DEBUG:
         print(f'\nRunning: {cmd}')
         return e.PASS
     else:
-        e.RESULT = sp.run(cmd, capture_output=capture, stdin=std_in,
+        e.RESULT = sp.run(cmd,
+                          capture_output=capture,
+                          stdin=std_in,
                           stdout=std_out)
         if e.RESULT.returncode != 0:
             return e.FAIL
     return e.PASS
 
-# -------------------------------------------------------------------
 
-
-def runManyArguments(e, cmd, targets):
+def runManyArguments(e: Environment, cmd: str, targets: list[str]) -> Text:
     """Run the same command with multiple arguments.
 
     Parameters
@@ -100,30 +94,28 @@ def runManyArguments(e, cmd, targets):
     e : Environment
         All the environment variables, saved as attributes in an
         Environment object.
-    cmd : [str]
+    cmd : str
         A shell command (with potentially options) saved as a Python
-        list of strings.
-    targets : [str]
+        string.
+    targets : list[str]
         A Python list of strings, representing the different arguments
         to be used on multiple runs of the command.
 
     Returns
     -------
-    unicode
-        Returns a unicode string, represeting either a green checkmark
+    Text
+        Returns a unicode string, representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
     for target in targets:
-        result = runOneCommand(e,
-                               cmd.replace('TARGET', target).split())
+        result = runOneCommand(e, cmd.replace('TARGET', target).split())
         if result == e.FAIL:
             return result
     return result
 
-# -------------------------------------------------------------------
 
-
-def copyFiles(e, targets):
+def copyFiles(e: Environment,
+              targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
     """Copy files from source to destination.
 
     Parameters
@@ -131,7 +123,7 @@ def copyFiles(e, targets):
     e : Environment
         All the environment variables, saved as attributes in an
         Environment object.
-    targets : [(str, str)]
+    targets : list[tuple[pathlib.Path, pathlib.Path]]
         A list of tuples. Files will be copied from source [0] to
         destination [1].
     """
@@ -147,10 +139,8 @@ def copyFiles(e, targets):
                 shutil.copy(copy_from, copy_to)
     return
 
-# -------------------------------------------------------------------
 
-
-def minPythonVersion(e):
+def minPythonVersion(e: Environment) -> str | None:
     """Determine if Python is at required min version.
 
     Parameters
@@ -171,40 +161,6 @@ def minPythonVersion(e):
         return msg
     return None
 
-# -------------------------------------------------------------------
-
-
-def main():  # noqa
-    return
-
-# -------------------------------------------------------------------
-
 
 if __name__ == '__main__':
-    main()
-
-# ========================================================================
-
-# MIT License
-
-# Copyright 2019-2022 Peter Nardi
-
-# Terms of use for source code:
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+    pass

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """Tuneup the Ubuntu Virtual Machine.
 
 Raises
@@ -8,16 +7,6 @@ RuntimeError
     If Python is not at the minimum required version.
 """
 
-# Author: Peter Nardi
-# Date: 06/25/22
-# License: (see MIT License at the end of this file)
-
-# Title: VM Tuneup Script
-
-# This script will perform system updates to an Ubuntu VM.
-
-# Imports
-
 import argparse
 import textwrap
 
@@ -25,15 +14,13 @@ from library import Environment
 from library import minPythonVersion
 from library import runOneCommand
 
-# -------------------------------------------------------------------
 
-
-def runUpdates(args, e):
+def runUpdates(args: argparse.Namespace, e: Environment) -> None:
     """Perform system updates.
 
     Parameters
     ----------
-    args : argparse object
+    args : argparse.Namespace
         If `args.all` is set, then update Python packages, in addition
         to performing system updates.
     e : Environment
@@ -112,25 +99,20 @@ def runUpdates(args, e):
 
     return
 
-# -------------------------------------------------------------------
-
 
 def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.
-
     e = Environment()
     if (result := minPythonVersion(e)) is not None:
         raise RuntimeError(result)
-
-    # Build a python argument parser
 
     msg = """This script will perform updates of system files and
     software installed through Ubuntu Personal Package Archives (ppa).
     You will be prompted for your password during updating."""
 
-    epi = "Latest update: 06/25/22"
+    epi = "Latest update: 08/03/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,
@@ -148,34 +130,6 @@ def main():  # noqa
 
     return
 
-# -------------------------------------------------------------------
-
 
 if __name__ == '__main__':
     main()
-
-# ========================================================================
-
-# MIT License
-
-# Copyright 2019-2022 Peter Nardi
-
-# Terms of use for source code:
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.

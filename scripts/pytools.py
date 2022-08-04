@@ -1,21 +1,5 @@
 #!/usr/bin/env python3
-
 """Install Python development tools."""
-
-# Author: Peter Nardi
-# Date: 06/25/22
-# License: (see MIT License at the end of this file)
-
-# Title: Python tools installation script
-
-# This script will install several Python tools. The script installs the tools
-# globally (not generally a good idea), but having this script allows for an
-# "air gap" between these tools and the base Ubuntu installation. It's fine for
-# an introductory class, but for more advanced students, either create and
-# activate a Python virtual environment before running this script, or skip
-# this script and install the tools in a Python virtual environment manually.
-
-# Imports
 
 import argparse
 import textwrap
@@ -25,10 +9,8 @@ from library import clear
 from library import minPythonVersion
 from library import runOneCommand
 
-# -------------------------------------------------------------------
 
-
-def runScript(e):
+def runScript(e: Environment) -> None:
     """Install development tools.
 
     Parameters
@@ -70,24 +52,19 @@ def runScript(e):
     # Done
 
     msg = 'Python tools installation complete. Install additional '
-    msg += 'tools or reboot your VM now for the changes to take effect.'
+    msg += 'tools if desired. No reboot is necessary.'
     print(f'\n{textwrap.fill(msg)}\n')
 
     return
-
-# -------------------------------------------------------------------
 
 
 def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.
-
     e = Environment()
     if (result := minPythonVersion(e)) is not None:
         raise RuntimeError(result)
-
-    # Build a python argument parser
 
     msg = """This script will install several Python tools.
     Specifically: jupyter, jupyterlab, and pytest. It\'s recommend that
@@ -95,7 +72,7 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 06/25/22"
+    epi = "Latest update: 08/03/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
@@ -103,34 +80,6 @@ def main():  # noqa
 
     return
 
-# -------------------------------------------------------------------
-
 
 if __name__ == '__main__':
     main()
-
-# ========================================================================
-
-# MIT License
-
-# Copyright 2019-2022 Peter Nardi
-
-# Terms of use for source code:
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.

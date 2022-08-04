@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """Patch files and run scripts to support network connections at USNA.
 
 Raises
@@ -7,17 +6,6 @@ Raises
 RuntimeError
     If Python is not at the minimum required version.
 """
-
-# Author: Peter Nardi
-# Date: 06/25/22
-# License: (see MIT License at the end of this file)
-
-# Title: USNA Patching Script
-
-# This script installs a patched openssl configuration file and runs the
-# necessary scripts to support networking on the USNA mission network.
-
-# Imports
 
 import argparse
 import tempfile
@@ -28,15 +16,13 @@ from library import clear
 from library import minPythonVersion
 from library import runOneCommand
 
-# -------------------------------------------------------------------
 
-
-def runScript(args, e):
+def runScript(args: argparse.Namespace, e: Environment) -> None:
     """Patch openssl configuration and run certificate scripts.
 
     Parameters
     ----------
-    args : argparse object
+    args : argparse.Namespace
         This will contain the argparse object, which allows us to
         extract the mode. The mode determines which operation to
         perform: system, browser.
@@ -129,14 +115,11 @@ def runScript(args, e):
 
     return
 
-# -------------------------------------------------------------------
-
 
 def main():  # noqa
 
     # Get a new Environment variable with all the necessary properties
     # initialized.
-
     e = Environment()
     if (result := minPythonVersion(e)) is not None:
         raise RuntimeError(result)
@@ -146,7 +129,7 @@ def main():  # noqa
     on the USNA mission network. You will be prompted for your password
     during installation."""
 
-    epi = "Latest update: 06/25/22"
+    epi = "Latest update: 08/03/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
@@ -162,34 +145,6 @@ def main():  # noqa
 
     return
 
-# -------------------------------------------------------------------
-
 
 if __name__ == '__main__':
     main()
-
-# ========================================================================
-
-# MIT License
-
-# Copyright 2019-2022 Peter Nardi
-
-# Terms of use for source code:
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
