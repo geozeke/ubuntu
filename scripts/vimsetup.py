@@ -16,7 +16,7 @@ def runScript(e: Environment) -> None:
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     clear()
@@ -79,7 +79,7 @@ def main():  # noqa
 
     msg = """This script installs the necessary settings files and
     color schemes for a pleasant visual experience in vi. NOTE: If
-    you\'ve already run the ubuntu setup script, there's no need to run
+    you\'ve already run the ubuntu setup script there's no need to run
     this script."""
 
     epi = "Latest update: 08/03/22"

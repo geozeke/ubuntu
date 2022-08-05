@@ -11,12 +11,12 @@ from library import runOneCommand
 
 
 def runScript(e: Environment) -> None:
-    """Install development tools.
+    """Install Python development tools.
 
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     clear()

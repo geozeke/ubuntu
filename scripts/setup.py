@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install Ubuntu tools, programs and settings.
+"""Install Ubuntu tools, programs, and settings.
 
 Raises
 ------
@@ -24,7 +24,7 @@ def runScript(e: Environment) -> None:
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     clear()

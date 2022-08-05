@@ -27,7 +27,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
         extract the mode. The mode determines which operation to
         perform: system, browser.
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     clear()

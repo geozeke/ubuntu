@@ -14,7 +14,7 @@ def burnitup(e: Environment) -> None:
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     labels = []
@@ -68,13 +68,14 @@ def main():  # noqa
         raise RuntimeError(result)
 
     msg = """This script will scan the ~/shares directory to wipe
-    caches, and delete other temporary files."""
+    caches and delete other temporary files."""
 
     epi = "Latest update: 08/03/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,
                                      prog='cacheburn')
+
     parser.parse_args()
     print()
     burnitup(e)

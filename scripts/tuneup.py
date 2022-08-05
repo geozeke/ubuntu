@@ -21,10 +21,10 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
     Parameters
     ----------
     args : argparse.Namespace
-        If `args.all` is set, then update Python packages, in addition
+        If `args.all` is set then update Python packages in addition
         to performing system updates.
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     labels = []
@@ -118,7 +118,7 @@ def main():  # noqa
                                      epilog=epi,
                                      prog='tuneup')
 
-    msg = """In addition to updating Ubuntu system, ppa and snap files,
+    msg = """In addition to updating Ubuntu system, ppa, and snap files,
     also update preinstalled pip3 packages in Python and synchronize
     installed jupyter notebooks."""
     parser.add_argument('-a', '--all',
