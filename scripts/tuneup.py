@@ -12,6 +12,7 @@ import textwrap
 
 from library import Environment
 from library import minPythonVersion
+from library import printlabel
 from library import runOneCommand
 
 
@@ -34,8 +35,6 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
     labels.append('Scanning for updates to pytest')
     labels.append('Synchronizing jupyter notebooks')
     pad = len(max(labels, key=len)) + 3
-    poplabel = (
-        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # Ubuntu updates (verbose)
 
@@ -57,7 +56,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
 
         # Pull updates to the ubuntu git repo. This facilitates installing
         # custom patches later.
-        poplabel(0)
+        printlabel(labels.pop(0), pad)
         cmd = f'git -C {e.HOME}/ubuntu pull'
         print(runOneCommand(e, cmd.split()))
 
@@ -66,7 +65,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
         for pip in pips:
             piptest = f'pip3 show {pip}'
             if runOneCommand(e, piptest.split()) == e.PASS:
-                poplabel(0)
+                printlabel(labels.pop(0), pad)
                 cmd = f'pip3 install --upgrade {pip}'
                 print(runOneCommand(e, cmd.split()))
             # Dump the label if the package is not installed
@@ -74,7 +73,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
                 labels.pop(0)
 
         # Sync jupyter notebooks
-        poplabel(0)
+        printlabel(labels.pop(0), pad)
         cmd = f'git -C {e.HOME}/.notebooksrepo pull'
         result = runOneCommand(e, cmd.split())
 

@@ -14,6 +14,7 @@ import textwrap
 from library import Environment
 from library import clear
 from library import minPythonVersion
+from library import printlabel
 from library import runOneCommand
 
 
@@ -42,8 +43,6 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     labels.append('Updating system certificates')
     labels.append('Updating browser certificates')
     pad = len(max(labels, key=len)) + 3
-    poplabel = (
-        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # ------------------------------------------
 
@@ -61,7 +60,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     # Step 1: System initialization. Right now it's just a placeholder for
     # future capability.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     print(e.PASS)
 
     # ------------------------------------------
@@ -69,7 +68,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     # Step 2: Patch openssl
 
     if args.mode == 'system':
-        poplabel(0)
+        printlabel(labels.pop(0), pad)
         target = '/usr/lib/ssl/openssl.cnf'
         command = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
         print(runOneCommand(e, command.split()))
@@ -84,7 +83,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
 
     if args.mode == 'system':
         url = 'apt.cs.usna.edu/ssl/install-ssl-system.sh'
-        labels.pop(1)  # Discard the trailing label
+        labels.pop(-1)  # Discard the trailing label
     else:
         url = 'apt.cs.usna.edu/ssl/install-ssl-browsers.sh'
         labels.pop(0)  # Discard the leading label
@@ -94,7 +93,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     commands.append(f'chmod 754 {fname}')
     commands.append(f'{fname}')
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     success = True
     for command in commands:

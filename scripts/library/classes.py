@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Support classes for ubuntu setup scripts."""
 
-
 from pathlib import Path
 
 
