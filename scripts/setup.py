@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install Ubuntu tools, programs and settings.
+"""Install Ubuntu tools, programs, and settings.
 
 Raises
 ------
@@ -14,6 +14,7 @@ from library import Environment
 from library import clear
 from library import copyFiles
 from library import minPythonVersion
+from library import printlabel
 from library import runManyArguments
 from library import runOneCommand
 
@@ -24,7 +25,7 @@ def runScript(e: Environment) -> None:
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     clear()
@@ -59,22 +60,20 @@ def runScript(e: Environment) -> None:
     labels.append('Arranging icons')
     labels.append('Cleaning up')
     pad = len(max(labels, key=len)) + 3
-    poplabel = (
-        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # ------------------------------------------
 
     # Step 1: System initialization. Right now it's just a placeholder for
     # future capability.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     print(e.PASS)
 
     # ------------------------------------------
 
     # Step 2: Create new directories
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     targets = []
     targets.append(e.HOME/'.config/gedit/tools')
@@ -98,7 +97,7 @@ def runScript(e: Environment) -> None:
 
     # Step 3: Copy files
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     targets = []
     targets.append((e.ATOM/'*', e.HOME/'.atom'))
@@ -121,7 +120,7 @@ def runScript(e: Environment) -> None:
     # Step 4: Adjust these file permissions, just to make sure they're correct.
     # It may not be absolutely necessary, but it won't hurt.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     targets = []
     targets.append(str(e.SCRIPTS/'tuneup.py'))
@@ -138,7 +137,7 @@ def runScript(e: Environment) -> None:
     # Step 5: Setting terminal profile. Need a little special handling here,
     # because we're redirecting stdin.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     cmd = 'dconf reset -f /org/gnome/terminal/'
     result = runOneCommand(e, cmd.split())
@@ -157,7 +156,7 @@ def runScript(e: Environment) -> None:
     # Step 6: Setting gedit profile. Again, need special handling here, because
     # we're redirecting stdin.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     cmd = 'dconf reset -f /org/gnome/gedit/'
     result = runOneCommand(e, cmd.split())
@@ -193,7 +192,7 @@ def runScript(e: Environment) -> None:
 
     # Build tools
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     cmd = 'sudo apt -y install TARGET'
 
@@ -212,7 +211,7 @@ def runScript(e: Environment) -> None:
 
     # Step-8: seahorse nautilus
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     doThis = cmd.replace('TARGET', 'seahorse-nautilus')
     print(runOneCommand(e, doThis.split()))
 
@@ -220,7 +219,7 @@ def runScript(e: Environment) -> None:
 
     # Step-9: Gedit support
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     doThis = cmd.replace('TARGET', 'gedit-plugins')
     print(runOneCommand(e, doThis.split()))
 
@@ -228,7 +227,7 @@ def runScript(e: Environment) -> None:
 
     # Step-10: zsh. Also copy over the peter zsh theme.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     targets = []
     targets.append('zsh')
@@ -254,7 +253,7 @@ def runScript(e: Environment) -> None:
 
     # Step-11: pip3
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     cmd = 'sudo apt install -y python3-pip'
     print(runOneCommand(e, cmd.split()))
 
@@ -262,7 +261,7 @@ def runScript(e: Environment) -> None:
 
     # Step-12: python3 venv
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     cmd = 'sudo apt install -y python3-venv'
     print(runOneCommand(e, cmd.split()))
 
@@ -270,7 +269,7 @@ def runScript(e: Environment) -> None:
 
     # Step-13: Create Python virtual environment
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     cmd = f'python3 -m venv {e.HOME}/.venv/env'
     print(runOneCommand(e, cmd.split()))
 
@@ -278,7 +277,7 @@ def runScript(e: Environment) -> None:
 
     # Step-14: Google Chrome
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     googledeb = 'google-chrome-stable_current_amd64.deb'
     src = f'https://dl.google.com/linux/direct/{googledeb}'
@@ -295,7 +294,7 @@ def runScript(e: Environment) -> None:
 
     # Step-15: Set up jupyter notebooks
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     # Clone the notebook repo (single branch, depth 1)
     src = 'https://github.com/geozeke/notebooks.git'
@@ -320,7 +319,7 @@ def runScript(e: Environment) -> None:
 
     # Step-16: Refresh snaps
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     cmd = 'sudo snap refresh'
     print(runOneCommand(e, cmd.split()))
 
@@ -328,7 +327,7 @@ def runScript(e: Environment) -> None:
 
     # Step-17: Install atom
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     cmd = 'sudo snap install atom --classic'
     print(runOneCommand(e, cmd.split()))
 
@@ -338,7 +337,7 @@ def runScript(e: Environment) -> None:
     # code below, setup desired favorites, then run this command: gsettings get
     # org.gnome.shell favorite-apps
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     cmd = 'gsettings set org.gnome.shell favorite-apps [\''
     parts = []
@@ -359,7 +358,7 @@ def runScript(e: Environment) -> None:
 
     # Step-19: Disable auto screen lock
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
     print(runOneCommand(e, cmd.split()))
 
@@ -367,7 +366,7 @@ def runScript(e: Environment) -> None:
 
     # Step-20: Set idle timeout to 'never'.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     cmd = 'gsettings set org.gnome.desktop.session idle-delay 0'
     print(runOneCommand(e, cmd.split()))
 
@@ -375,7 +374,7 @@ def runScript(e: Environment) -> None:
 
     # Step-21: Disable auto updates.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     dest = '/etc/apt/apt.conf.d/20auto-upgrades'
     argument = 's+Update-Package-Lists "1"+Update-Package-Lists "0"+'
@@ -395,7 +394,7 @@ def runScript(e: Environment) -> None:
     # allows users to start programs from the command line when their current
     # working directory is inside the share.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     argument = r's+\#user_allow_other+user_allow_other+'
     dest = '/etc/fuse.conf'
@@ -407,7 +406,7 @@ def runScript(e: Environment) -> None:
 
     # Step 23: Arrange icons.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     targets = []
     base = 'org.gnome.shell.extensions.'
@@ -422,7 +421,7 @@ def runScript(e: Environment) -> None:
 
     # Step 24: Silently delete unused files. This includes the Firefox browser.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     targets = []
     targets.append(f'/tmp/{googledeb}')

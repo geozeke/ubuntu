@@ -8,6 +8,7 @@ from library import Environment
 from library import clear
 from library import copyFiles
 from library import minPythonVersion
+from library import printlabel
 
 
 def runScript(e: Environment) -> None:
@@ -16,7 +17,7 @@ def runScript(e: Environment) -> None:
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     clear()
@@ -26,18 +27,16 @@ def runScript(e: Environment) -> None:
     labels.append('Creating new directories')
     labels.append('Copying files')
     pad = len(max(labels, key=len)) + 3
-    poplabel = (
-        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     print(e.PASS)
 
     # Step 2. Creating new directory
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     p = e.HOME/'.vim/colors'
     if e.DEBUG:
@@ -49,10 +48,9 @@ def runScript(e: Environment) -> None:
 
     # Step 3. Copying files
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
 
     targets = []
-
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
 
@@ -79,7 +77,7 @@ def main():  # noqa
 
     msg = """This script installs the necessary settings files and
     color schemes for a pleasant visual experience in vi. NOTE: If
-    you\'ve already run the ubuntu setup script, there's no need to run
+    you\'ve already run the ubuntu setup script there's no need to run
     this script."""
 
     epi = "Latest update: 08/03/22"

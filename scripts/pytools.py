@@ -7,16 +7,17 @@ import textwrap
 from library import Environment
 from library import clear
 from library import minPythonVersion
+from library import printlabel
 from library import runOneCommand
 
 
 def runScript(e: Environment) -> None:
-    """Install development tools.
+    """Install Python development tools.
 
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     """
     clear()
@@ -27,13 +28,11 @@ def runScript(e: Environment) -> None:
     labels.append('Installing jupyter lab')
     labels.append('Installing pytest')
     pad = len(max(labels, key=len)) + 3
-    poplabel = (
-        lambda x: print(f'{labels.pop(x):.<{pad}}', end='', flush=True))
 
     # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
 
-    poplabel(0)
+    printlabel(labels.pop(0), pad)
     print(e.PASS)
 
     # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
@@ -46,7 +45,7 @@ def runScript(e: Environment) -> None:
     commands.append(base.replace('TARGET', 'pytest'))
 
     for cmd in commands:
-        poplabel(0)
+        printlabel(labels.pop(0), pad)
         print(runOneCommand(e, cmd.split()))
 
     # Done

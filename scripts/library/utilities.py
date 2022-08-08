@@ -40,6 +40,22 @@ def cleanStr(bstr: bytes) -> Text:
     return bstr.decode('utf-8').rstrip()
 
 
+def printlabel(label: str, pad: int) -> None:
+    """Print the provided label.
+
+    The label will be printed with leading periods and appropriated
+    padding.
+
+    Parameters
+    ----------
+    label : str
+        A label.
+    pad : int
+        The padding to be used for right-justified spacing.
+    """
+    return print(f'{label:.<{pad}}', end='', flush=True)
+
+
 def runOneCommand(e: Environment,
                   cmd: list[str],
                   capture: bool = True,
@@ -50,7 +66,7 @@ def runOneCommand(e: Environment,
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     cmd : list[str]
         A shell command (with potentially options) saved as a Python
@@ -59,18 +75,18 @@ def runOneCommand(e: Environment,
         Determine if stdout should be suppressed (True) or displayed
         (False), by default True.
     std_in : TextIO | None
-        If stdin needs to be redirected on the command line, you can
+        If stdin needs to be redirected on the command line you can
         pass an open file descriptor here for that purpose, by default
         None.
     std_out : TextIO | None
-        If stdin needs to be redirected on the command line, you can
+        If stdin needs to be redirected on the command line you can
         pass an open file descriptor here for that purpose, by default
         None.
 
     Returns
     -------
     Text
-        Returns a unicode string, representing either a green checkmark
+        Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
     if e.DEBUG:
@@ -92,19 +108,19 @@ def runManyArguments(e: Environment, cmd: str, targets: list[str]) -> Text:
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     cmd : str
         A shell command (with potentially options) saved as a Python
         string.
     targets : list[str]
-        A Python list of strings, representing the different arguments
+        A Python list of strings representing the different arguments
         to be used on multiple runs of the command.
 
     Returns
     -------
     Text
-        Returns a unicode string, representing either a green checkmark
+        Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
     for target in targets:
@@ -121,7 +137,7 @@ def copyFiles(e: Environment,
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
     targets : list[tuple[pathlib.Path, pathlib.Path]]
         A list of tuples. Files will be copied from source [0] to
@@ -146,13 +162,13 @@ def minPythonVersion(e: Environment) -> str | None:
     Parameters
     ----------
     e : Environment
-        All the environment variables, saved as attributes in an
+        All the environment variables saved as attributes in an
         Environment object.
 
     Returns
     -------
     str | None
-        If Python is at the minimum version, return None. If not,
+        If Python is at the minimum version return None. If not,
         return a string error message.
     """
     msg = f'Minimum required Python version is {e.MAJOR}.{e.MINOR}'

@@ -25,43 +25,43 @@ This script sets up a new Ubuntu VM with the following software and settings:
 
 * Create new directories to hold various settings/resource files.
 * Copy new settings files for:
-    * atom
-    * gedit
-    * bash
-    * zsh
-    * profile
-    * vi
+  * atom
+  * gedit
+  * bash
+  * zsh
+  * profile
+  * vi
 * Set the correct file permissions for scripts.
 * Initialize the terminal profile with a nicer color scheme.
 * Initialize the gedit profile with more friendly and consistent default settings.
 * Install the following packages from the ppa:
-    * build-essential
-    * libnss3-tools
-    * pcscd
-    * pcsc-tools
-    * ccache
-    * vim
-    * tree
-    * seahorse-nautilus
-    * gedit-plugins
-    * zsh
-    * powerline
-    * python3-pip
-    * python3-venv
+  * build-essential
+  * libnss3-tools
+  * pcscd
+  * pcsc-tools
+  * ccache
+  * vim
+  * tree
+  * seahorse-nautilus
+  * gedit-plugins
+  * zsh
+  * powerline
+  * python3-pip
+  * python3-venv
 * Install the following software / tools from developer sites:
-    * oh-my-zsh (GitHub)
-    * atom (snap store)
-    * Google Chrome (vendor site)
+  * oh-my-zsh (GitHub)
+  * atom (snap store)
+  * Google Chrome (vendor site)
 * Setup and configure a series of jupyter notebooks for introductory topics in Python. More information is [available here](https://github.com/geozeke/notebooks).
 * Configure the gnome favorites in the application launcher.
 * Setup a default Python virtual environment located here: `~/.venv/env`.
 * Tune system settings:
-    * Disable auto screen lock.
-    * Set idle timeout to 'never'.
-    * Disable Ubuntu auto-updates.
-    * Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits starting programs from the command line when you're inside a directory in the share point.
-    * Neatly arrange icons on the favorites launcher.
-    * Clean up and delete temporary and unused files.
+  * Disable auto screen lock.
+  * Set idle timeout to 'never'.
+  * Disable Ubuntu auto-updates.
+  * Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits starting programs from the command line when you're inside a directory in the share point.
+  * Neatly arrange icons on the favorites launcher.
+  * Clean up and delete temporary and unused files.
 
 #### usage
 
