@@ -11,8 +11,8 @@ import argparse
 import textwrap
 
 from library import Environment
+from library import Labels
 from library import minPythonVersion
-from library import printlabel
 from library import runOneCommand
 
 
@@ -28,13 +28,12 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
         All the environment variables saved as attributes in an
         Environment object.
     """
-    labels = []
-    labels.append('Pulling updates to git repo')
-    labels.append('Scanning for updates to jupyter')
-    labels.append('Scanning for updates to jupyter lab')
-    labels.append('Scanning for updates to pytest')
-    labels.append('Synchronizing jupyter notebooks')
-    pad = len(max(labels, key=len)) + 3
+    labels = Labels("""
+        Pulling updates to git repo
+        Scanning for updates to jupyter
+        Scanning for updates to jupyter lab
+        Scanning for updates to pytest
+        Synchronizing jupyter notebooks""")
 
     # Ubuntu updates (verbose)
 
@@ -56,7 +55,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
 
         # Pull updates to the ubuntu git repo. This facilitates installing
         # custom patches later.
-        printlabel(labels.pop(0), pad)
+        labels.next()
         cmd = f'git -C {e.HOME}/ubuntu pull'
         print(runOneCommand(e, cmd.split()))
 
@@ -65,15 +64,15 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
         for pip in pips:
             piptest = f'pip3 show {pip}'
             if runOneCommand(e, piptest.split()) == e.PASS:
-                printlabel(labels.pop(0), pad)
+                labels.next()
                 cmd = f'pip3 install --upgrade {pip}'
                 print(runOneCommand(e, cmd.split()))
             # Dump the label if the package is not installed
             else:
-                labels.pop(0)
+                labels.popfirst()
 
         # Sync jupyter notebooks
-        printlabel(labels.pop(0), pad)
+        labels.next()
         cmd = f'git -C {e.HOME}/.notebooksrepo pull'
         result = runOneCommand(e, cmd.split())
 

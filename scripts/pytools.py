@@ -5,9 +5,9 @@ import argparse
 import textwrap
 
 from library import Environment
+from library import Labels
 from library import clear
 from library import minPythonVersion
-from library import printlabel
 from library import runOneCommand
 
 
@@ -22,17 +22,16 @@ def runScript(e: Environment) -> None:
     """
     clear()
 
-    labels = []
-    labels.append('System initialization')
-    labels.append('Installing jupyter')
-    labels.append('Installing jupyter lab')
-    labels.append('Installing pytest')
-    pad = len(max(labels, key=len)) + 3
+    labels = Labels("""
+        System initialization
+        Installing jupyter
+        Installing jupyter lab
+        Installing pytest""")
 
     # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
 
-    printlabel(labels.pop(0), pad)
+    labels.next()
     print(e.PASS)
 
     # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
@@ -45,7 +44,7 @@ def runScript(e: Environment) -> None:
     commands.append(base.replace('TARGET', 'pytest'))
 
     for cmd in commands:
-        printlabel(labels.pop(0), pad)
+        labels.next()
         print(runOneCommand(e, cmd.split()))
 
     # Done

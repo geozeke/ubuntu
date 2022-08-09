@@ -40,22 +40,6 @@ def cleanStr(bstr: bytes) -> Text:
     return bstr.decode('utf-8').rstrip()
 
 
-def printlabel(label: str, pad: int) -> None:
-    """Print the provided label.
-
-    The label will be printed with leading periods and appropriated
-    padding.
-
-    Parameters
-    ----------
-    label : str
-        A label.
-    pad : int
-        The padding to be used for right-justified spacing.
-    """
-    return print(f'{label:.<{pad}}', end='', flush=True)
-
-
 def runOneCommand(e: Environment,
                   cmd: list[str],
                   capture: bool = True,

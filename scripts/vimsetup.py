@@ -5,10 +5,10 @@ import argparse
 import textwrap
 
 from library import Environment
+from library import Labels
 from library import clear
 from library import copyFiles
 from library import minPythonVersion
-from library import printlabel
 
 
 def runScript(e: Environment) -> None:
@@ -22,21 +22,20 @@ def runScript(e: Environment) -> None:
     """
     clear()
 
-    labels = []
-    labels.append('System initialization')
-    labels.append('Creating new directories')
-    labels.append('Copying files')
-    pad = len(max(labels, key=len)) + 3
+    labels = Labels("""
+        System initialization
+        Creating new directories
+        Copying files""")
 
     # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
 
-    printlabel(labels.pop(0), pad)
+    labels.next()
     print(e.PASS)
 
     # Step 2. Creating new directory
 
-    printlabel(labels.pop(0), pad)
+    labels.next()
 
     p = e.HOME/'.vim/colors'
     if e.DEBUG:
@@ -48,7 +47,7 @@ def runScript(e: Environment) -> None:
 
     # Step 3. Copying files
 
-    printlabel(labels.pop(0), pad)
+    labels.next()
 
     targets = []
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))

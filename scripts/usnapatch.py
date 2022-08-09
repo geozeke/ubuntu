@@ -9,12 +9,11 @@ RuntimeError
 
 import argparse
 import tempfile
-import textwrap
 
 from library import Environment
+from library import Labels
 from library import clear
 from library import minPythonVersion
-from library import printlabel
 from library import runOneCommand
 
 
@@ -37,19 +36,17 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
 
     # Setup status labels
 
-    labels = []
-    labels.append('System initialization')
-    labels.append('Patching openssl configuration')
-    labels.append('Updating system certificates')
-    labels.append('Updating browser certificates')
-    pad = len(max(labels, key=len)) + 3
+    labels = Labels("""
+        System initialization
+        Patching openssl configuration
+        Updating system certificates
+        Updating browser certificates""")
 
     # ------------------------------------------
 
     # Step 0: Capture sudo permissions
 
-    msg = "Please enter your password if prompted."
-    print(f'\n{textwrap.fill(msg)}\n')
+    print("\nPlease enter your password if prompted.\n")
     # Push a dummy sudo command just to force password entry before first
     # command. This will avoid having the password prompt come in the middle of
     # a label when providing status
@@ -60,7 +57,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     # Step 1: System initialization. Right now it's just a placeholder for
     # future capability.
 
-    printlabel(labels.pop(0), pad)
+    labels.next()
     print(e.PASS)
 
     # ------------------------------------------
@@ -68,12 +65,12 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     # Step 2: Patch openssl
 
     if args.mode == 'system':
-        printlabel(labels.pop(0), pad)
+        labels.next()
         target = '/usr/lib/ssl/openssl.cnf'
         command = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
         print(runOneCommand(e, command.split()))
     else:
-        labels.pop(0)
+        labels.popfirst()
 
     # ------------------------------------------
 
@@ -83,17 +80,17 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
 
     if args.mode == 'system':
         url = 'apt.cs.usna.edu/ssl/install-ssl-system.sh'
-        labels.pop(-1)  # Discard the trailing label
+        labels.poplast()  # Discard the trailing label
     else:
         url = 'apt.cs.usna.edu/ssl/install-ssl-browsers.sh'
-        labels.pop(0)  # Discard the leading label
+        labels.popfirst()  # Discard the leading label
 
     commands = []
     commands.append(f'curl -o {fname} {url}')
     commands.append(f'chmod 754 {fname}')
     commands.append(f'{fname}')
 
-    printlabel(labels.pop(0), pad)
+    labels.next()
 
     success = True
     for command in commands:
