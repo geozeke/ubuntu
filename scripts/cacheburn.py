@@ -4,8 +4,8 @@
 import argparse
 
 from library import Environment
+from library import Labels
 from library import minPythonVersion
-from library import printlabel
 from library import runOneCommand
 
 
@@ -18,13 +18,12 @@ def burnitup(e: Environment) -> None:
         All the environment variables saved as attributes in an
         Environment object.
     """
-    labels = []
-    labels.append('Deleting __pycache__ directories')
-    labels.append('Deleting .pytest_cache directories')
-    labels.append('Deleting .ipynb_checkpoints directories')
-    labels.append('Zapping pesky Icon files')
-    labels.append('Crunching annoying desktop.ini files')
-    pad = len(max(labels, key=len)) + 3
+    labels = Labels("""
+        Deleting __pycache__ directories
+        Deleting .pytest_cache directories
+        Deleting .ipynb_checkpoints directories
+        Zapping pesky Icon files
+        Crunching annoying desktop.ini files""")
 
     # Start with cache directories:
 
@@ -39,7 +38,7 @@ def burnitup(e: Environment) -> None:
     commands.append(base.replace('DIR', '.ipynb_checkpoints'))
 
     for cmd in commands:
-        printlabel(labels.pop(0), pad)
+        labels.next()
         print(runOneCommand(e, cmd.split()))
 
     # Tee up files for deletion. You can sneak some other options in for the
@@ -52,7 +51,7 @@ def burnitup(e: Environment) -> None:
     commands.append(base.replace('FILE', 'desktop.ini'))
 
     for cmd in commands:
-        printlabel(labels.pop(0), pad)
+        labels.next()
         print(runOneCommand(e, cmd.split()))
 
     return
@@ -66,10 +65,10 @@ def main():  # noqa
     if (result := minPythonVersion(e)) is not None:
         raise RuntimeError(result)
 
-    msg = """This script will scan the ~/shares directory to wipe
-    caches and delete other temporary files."""
+    msg = """This script will scan the ~/shares directory to wipe caches
+    and delete other temporary files."""
 
-    epi = "Latest update: 08/03/22"
+    epi = "Latest update: 08/09/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,

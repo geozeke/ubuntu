@@ -6,6 +6,7 @@ import pathlib
 import shutil
 import subprocess as sp
 import sys
+import textwrap
 from typing import Text
 from typing import TextIO
 
@@ -40,20 +41,26 @@ def cleanStr(bstr: bytes) -> Text:
     return bstr.decode('utf-8').rstrip()
 
 
-def printlabel(label: str, pad: int) -> None:
-    """Print the provided label.
+def wrapTight(msg: str, columns=70) -> str:
+    """Clean up a multi-line docstring.
 
-    The label will be printed with leading periods and appropriated
-    padding.
+    Take a multi-line docstring and wrap it cleanly as a paragraph to a
+    specified column width.
 
     Parameters
     ----------
-    label : str
-        A label.
-    pad : int
-        The padding to be used for right-justified spacing.
+    msg : str
+        The docstring to be wrapped.
+    columns : int, optional
+        Column width for wrapping, by default 70
+
+    Returns
+    -------
+    str
+        A wrapped paragraph.
     """
-    return print(f'{label:.<{pad}}', end='', flush=True)
+    clean = ' '.join([t for token in msg.split('\n') if (t := token.strip())])
+    return textwrap.fill(clean, width=columns)
 
 
 def runOneCommand(e: Environment,
