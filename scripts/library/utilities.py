@@ -42,7 +42,10 @@ def cleanStr(bstr: bytes) -> Text:
 
 
 def wrapTight(msg: str, columns=70) -> str:
-    """Clean up a docstring and wrap it cleanly as a paragraph.
+    """Clean up a multi-line docstring.
+
+    Take a multi-line docstring and wrap it cleanly as a paragraph to a
+    specified column width.
 
     Parameters
     ----------
