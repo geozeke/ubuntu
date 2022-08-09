@@ -22,7 +22,7 @@ def clear() -> None:
     os.system('clear' if os.name == 'posix' else 'cls')
 
 
-def cleanStr(bstr: bytes) -> Text:
+def clean_str(bstr: bytes) -> Text:
     """Convert a bytestring.
 
     Performs the utf-8 conversion of a byte stream and strips any
@@ -41,7 +41,7 @@ def cleanStr(bstr: bytes) -> Text:
     return bstr.decode('utf-8').rstrip()
 
 
-def wrapTight(msg: str, columns=70) -> str:
+def wrap_tight(msg: str, columns=70) -> str:
     """Clean up a multi-line docstring.
 
     Take a multi-line docstring and wrap it cleanly as a paragraph to a
@@ -63,11 +63,11 @@ def wrapTight(msg: str, columns=70) -> str:
     return textwrap.fill(clean, width=columns)
 
 
-def runOneCommand(e: Environment,
-                  cmd: list[str],
-                  capture: bool = True,
-                  std_in: TextIO | None = None,
-                  std_out: TextIO | None = None) -> Text:
+def run_one_command(e: Environment,
+                    cmd: list[str],
+                    capture: bool = True,
+                    std_in: TextIO | None = None,
+                    std_out: TextIO | None = None) -> Text:
     """Run a single command in the shell.
 
     Parameters
@@ -109,7 +109,7 @@ def runOneCommand(e: Environment,
     return e.PASS
 
 
-def runManyArguments(e: Environment, cmd: str, targets: list[str]) -> Text:
+def run_many_arguments(e: Environment, cmd: str, targets: list[str]) -> Text:
     """Run the same command with multiple arguments.
 
     Parameters
@@ -131,14 +131,14 @@ def runManyArguments(e: Environment, cmd: str, targets: list[str]) -> Text:
         (PASS) or a red X (FAIL).
     """
     for target in targets:
-        result = runOneCommand(e, cmd.replace('TARGET', target).split())
+        result = run_one_command(e, cmd.replace('TARGET', target).split())
         if result == e.FAIL:
             return result
     return result
 
 
-def copyFiles(e: Environment,
-              targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
+def copy_files(e: Environment,
+               targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
     """Copy files from source to destination.
 
     Parameters
@@ -163,7 +163,7 @@ def copyFiles(e: Environment,
     return
 
 
-def minPythonVersion(e: Environment) -> str | None:
+def min_python_version(e: Environment) -> str | None:
     """Determine if Python is at required min version.
 
     Parameters

@@ -11,9 +11,9 @@ import argparse
 
 from library import Environment
 from library import Labels
-from library import minPythonVersion
-from library import runOneCommand
-from library import wrapTight
+from library import min_python_version
+from library import run_one_command
+from library import wrap_tight
 
 
 def runUpdates(args: argparse.Namespace, e: Environment) -> None:
@@ -45,7 +45,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
     commands.append('sudo snap refresh')
 
     for cmd in commands:
-        runOneCommand(e, cmd.split(), capture=False)
+        run_one_command(e, cmd.split(), capture=False)
 
     # Perform additional updates if -a is selected
 
@@ -57,24 +57,24 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
         # custom patches later.
         labels.next()
         cmd = f'git -C {e.HOME}/ubuntu pull'
-        print(runOneCommand(e, cmd.split()))
+        print(run_one_command(e, cmd.split()))
 
         # Update jupyter, jupyterlab & pytest (if installed)
         pips = ['jupyter', 'jupyterlab', 'pytest']
         for pip in pips:
-            piptest = f'pip3 show {pip}'
-            if runOneCommand(e, piptest.split()) == e.PASS:
+            pip_test = f'pip3 show {pip}'
+            if run_one_command(e, pip_test.split()) == e.PASS:
                 labels.next()
                 cmd = f'pip3 install --upgrade {pip}'
-                print(runOneCommand(e, cmd.split()))
+                print(run_one_command(e, cmd.split()))
             # Dump the label if the package is not installed
             else:
-                labels.popfirst()
+                labels.pop_first()
 
         # Sync jupyter notebooks
         labels.next()
         cmd = f'git -C {e.HOME}/.notebooksrepo pull'
-        result = runOneCommand(e, cmd.split())
+        result = run_one_command(e, cmd.split())
 
         # Sync repo with local notebooks. Use the --delete option so the
         # destination directory always exactly mirrors the source directory.
@@ -85,7 +85,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
             cmd = 'rsync -rc '
             cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
             cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
-            result = runOneCommand(e, cmd.split())
+            result = run_one_command(e, cmd.split())
 
         print(result)
 
@@ -93,7 +93,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
 
     msg = """All updates and upgrades are complete. A reboot is
     recommended to ensure that the changes take effect."""
-    print(f'\n{wrapTight(msg)}\n')
+    print(f'\n{wrap_tight(msg)}\n')
 
     return
 
@@ -103,7 +103,7 @@ def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := minPythonVersion(e)) is not None:
+    if (result := min_python_version(e)):
         raise RuntimeError(result)
 
     msg = """This script will perform updates of system files and

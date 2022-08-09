@@ -5,11 +5,11 @@ import argparse
 
 from library import Environment
 from library import Labels
-from library import minPythonVersion
-from library import runOneCommand
+from library import min_python_version
+from library import run_one_command
 
 
-def burnitup(e: Environment) -> None:
+def burn_it_up(e: Environment) -> None:
     """Perform cached file cleaning operation.
 
     Parameters
@@ -38,7 +38,7 @@ def burnitup(e: Environment) -> None:
 
     for cmd in commands:
         labels.next()
-        print(runOneCommand(e, cmd.split()))
+        print(run_one_command(e, cmd.split()))
 
     # Tee up files for deletion. You can sneak some other options in for the
     # find command if necessary.
@@ -50,7 +50,7 @@ def burnitup(e: Environment) -> None:
 
     for cmd in commands:
         labels.next()
-        print(runOneCommand(e, cmd.split()))
+        print(run_one_command(e, cmd.split()))
 
     return
 
@@ -60,7 +60,7 @@ def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := minPythonVersion(e)) is not None:
+    if (result := min_python_version(e)):
         raise RuntimeError(result)
 
     msg = """This script will scan the ~/shares directory to wipe caches
@@ -74,7 +74,7 @@ def main():  # noqa
 
     parser.parse_args()
     print()
-    burnitup(e)
+    burn_it_up(e)
     print()
 
     return

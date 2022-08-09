@@ -95,7 +95,7 @@ class Labels:
         print(f'{self.labels.pop(0):.<{self.pad}}', end='', flush=True)
         return
 
-    def popfirst(self) -> str:
+    def pop_first(self) -> str:
         """Pop and return the first label (position 0).
 
         Returns
@@ -112,7 +112,7 @@ class Labels:
             raise ExhaustedListError()
         return self.labels.pop(0)
 
-    def poplast(self) -> str:
+    def pop_last(self) -> str:
         """Pop and return the last label (position -1).
 
         Returns
@@ -129,7 +129,7 @@ class Labels:
             raise ExhaustedListError()
         return self.labels.pop(-1)
 
-    def popitem(self, index: int) -> str:
+    def pop_item(self, index: int) -> str:
         """Pop a label from a given index.
 
         Parameters
