@@ -91,8 +91,8 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     commands.append(f'{fname}')
 
     labels.next()
-
     success = True
+
     for command in commands:
         if runOneCommand(e, command.split()) != e.PASS:
             success = False
@@ -105,6 +105,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
         print(runOneCommand(e, command.split()))
     else:
         print(e.FAIL)
+
     print()
 
     # ------------------------------------------

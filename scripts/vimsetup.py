@@ -36,8 +36,8 @@ def runScript(e: Environment) -> None:
     # Step 2. Creating new directory
 
     labels.next()
-
     p = e.HOME/'.vim/colors'
+
     if e.DEBUG:
         print(p)
     else:
@@ -54,7 +54,6 @@ def runScript(e: Environment) -> None:
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
 
     copyFiles(e, targets)
-
     print(e.PASS)
 
     # Done

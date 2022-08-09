@@ -73,7 +73,6 @@ def runScript(e: Environment) -> None:
     # Step 2: Create new directories
 
     labels.next()
-
     targets = []
     targets.append(e.HOME/'.config/gedit/tools')
     targets.append(e.HOME/'.config/gedit/snippets')
@@ -97,7 +96,6 @@ def runScript(e: Environment) -> None:
     # Step 3: Copy files
 
     labels.next()
-
     targets = []
     targets.append((e.ATOM/'*', e.HOME/'.atom'))
     targets.append((e.GEDIT/'flexiwrap', e.HOME/'.config/gedit/tools'))
@@ -111,7 +109,6 @@ def runScript(e: Environment) -> None:
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
 
     copyFiles(e, targets)
-
     print(e.PASS)
 
     # ------------------------------------------
@@ -120,7 +117,6 @@ def runScript(e: Environment) -> None:
     # It may not be absolutely necessary, but it won't hurt.
 
     labels.next()
-
     targets = []
     targets.append(str(e.SCRIPTS/'tuneup.py'))
     targets.append(str(e.SCRIPTS/'cacheburn.py'))
@@ -128,7 +124,6 @@ def runScript(e: Environment) -> None:
     targets.append(str(e.HOME/'.config/gedit/tools/flexiwrap'))
 
     cmd = 'chmod 754 TARGET'
-
     print(runManyArguments(e, cmd, targets))
 
     # ------------------------------------------
@@ -137,9 +132,9 @@ def runScript(e: Environment) -> None:
     # because we're redirecting stdin.
 
     labels.next()
-
     cmd = 'dconf reset -f /org/gnome/terminal/'
     result = runOneCommand(e, cmd.split())
+
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/terminal/'
         path = e.SYSTEM/'terminalSettings.txt'
@@ -156,9 +151,9 @@ def runScript(e: Environment) -> None:
     # we're redirecting stdin.
 
     labels.next()
-
     cmd = 'dconf reset -f /org/gnome/gedit/'
     result = runOneCommand(e, cmd.split())
+
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/gedit/'
         path = e.GEDIT/'geditSettings.txt'
@@ -192,9 +187,7 @@ def runScript(e: Environment) -> None:
     # Build tools
 
     labels.next()
-
     cmd = 'sudo apt -y install TARGET'
-
     targets = []
     targets.append('build-essential')
     targets.append('libnss3-tools')
@@ -227,11 +220,9 @@ def runScript(e: Environment) -> None:
     # Step-10: zsh. Also copy over the peter zsh theme.
 
     labels.next()
-
     targets = []
     targets.append('zsh')
     targets.append('powerline')
-
     result = runManyArguments(e, cmd, targets)
 
     if result == e.PASS:
@@ -277,7 +268,6 @@ def runScript(e: Environment) -> None:
     # Step-14: Google Chrome
 
     labels.next()
-
     googledeb = 'google-chrome-stable_current_amd64.deb'
     src = f'https://dl.google.com/linux/direct/{googledeb}'
     cmd = f'wget -O /tmp/{googledeb} {src}'
@@ -294,7 +284,6 @@ def runScript(e: Environment) -> None:
     # Step-15: Set up jupyter notebooks
 
     labels.next()
-
     # Clone the notebook repo (single branch, depth 1)
     src = 'https://github.com/geozeke/notebooks.git'
     dest = e.HOME/'.notebooksrepo'
@@ -337,7 +326,6 @@ def runScript(e: Environment) -> None:
     # org.gnome.shell favorite-apps
 
     labels.next()
-
     cmd = 'gsettings set org.gnome.shell favorite-apps [\''
     parts = []
     parts.append('google-chrome.desktop')
@@ -349,8 +337,8 @@ def runScript(e: Environment) -> None:
     parts.append('gnome-control-center.desktop')
     parts.append('snap-store_ubuntu-software.desktop')
     parts.append('org.gnome.seahorse.Application.desktop')
-    cmd += '\',\''.join(parts) + '\']'
 
+    cmd += '\',\''.join(parts) + '\']'
     print(runOneCommand(e, cmd.split()))
 
     # ------------------------------------------
@@ -374,7 +362,6 @@ def runScript(e: Environment) -> None:
     # Step-21: Disable auto updates.
 
     labels.next()
-
     dest = '/etc/apt/apt.conf.d/20auto-upgrades'
     argument = 's+Update-Package-Lists "1"+Update-Package-Lists "0"+'
     cmd = f'sudo*sed*-i*{argument}*{dest}'
@@ -394,7 +381,6 @@ def runScript(e: Environment) -> None:
     # working directory is inside the share.
 
     labels.next()
-
     argument = r's+\#user_allow_other+user_allow_other+'
     dest = '/etc/fuse.conf'
     cmd = f'sudo*sed*-i*{argument}*{dest}'
@@ -406,13 +392,13 @@ def runScript(e: Environment) -> None:
     # Step 23: Arrange icons.
 
     labels.next()
-
     targets = []
     base = 'org.gnome.shell.extensions.'
     targets.append(f'{base}dash-to-dock show-trash false')
     targets.append(f'{base}dash-to-dock show-mounts false')
     targets.append(f'{base}ding start-corner bottom-left')
     targets.append(f'{base}ding show-trash true')
+
     cmd = 'gsettings set TARGET'
     print(runManyArguments(e, cmd, targets))
 
@@ -421,7 +407,6 @@ def runScript(e: Environment) -> None:
     # Step 24: Silently delete unused files. This includes the Firefox browser.
 
     labels.next()
-
     targets = []
     targets.append(f'/tmp/{googledeb}')
     cmd = 'rm -f TARGET'
@@ -429,6 +414,7 @@ def runScript(e: Environment) -> None:
 
     if result == e.PASS:
         result = runOneCommand(e, 'sudo snap remove firefox'.split())
+
     print(result)
 
     # ------------------------------------------

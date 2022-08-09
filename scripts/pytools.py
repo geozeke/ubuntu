@@ -37,7 +37,6 @@ def runScript(e: Environment) -> None:
     # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
 
     base = 'pip3 install --upgrade TARGET'
-
     commands = []
     commands.append(base.replace('TARGET', 'jupyter'))
     commands.append(base.replace('TARGET', 'jupyterlab'))

@@ -31,7 +31,6 @@ def burnitup(e: Environment) -> None:
     # escape the semicolon (\;)
     home = e.HOME/'shares'
     base = f'find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune'
-
     commands = []
     commands.append(base.replace('DIR', '__pycache__'))
     commands.append(base.replace('DIR', '.pytest_cache'))
@@ -45,7 +44,6 @@ def burnitup(e: Environment) -> None:
     # find command if necessary.
 
     base = f'find {home} -name FILE -type f -delete'
-
     commands = []
     commands.append(base.replace('FILE', 'Icon? -size 0'))
     commands.append(base.replace('FILE', 'desktop.ini'))
