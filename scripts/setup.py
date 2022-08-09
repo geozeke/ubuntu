@@ -19,7 +19,7 @@ from library import run_one_command
 from library import wrap_tight
 
 
-def runScript(e: Environment) -> None:
+def run_script(e: Environment) -> None:
     """Perform tool installation and setup.
 
     Parameters
@@ -449,7 +449,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    runScript(e)
+    run_script(e)
 
     return
 

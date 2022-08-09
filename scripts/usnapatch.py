@@ -17,7 +17,7 @@ from library import min_python_version
 from library import run_one_command
 
 
-def runScript(args: argparse.Namespace, e: Environment) -> None:
+def run_script(args: argparse.Namespace, e: Environment) -> None:
     """Patch openssl configuration and run certificate scripts.
 
     Parameters
@@ -138,7 +138,7 @@ def main():  # noqa
                         help=msg)
 
     args = parser.parse_args()
-    runScript(args, e)
+    run_script(args, e)
 
     return
 

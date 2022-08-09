@@ -11,7 +11,7 @@ from library import min_python_version
 from library import wrap_tight
 
 
-def runScript(e: Environment) -> None:
+def run_script(e: Environment) -> None:
     """Configure vim.
 
     Parameters
@@ -82,7 +82,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    runScript(e)
+    run_script(e)
 
     return
 
