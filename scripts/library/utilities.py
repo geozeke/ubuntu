@@ -52,7 +52,7 @@ def wrap_tight(msg: str, columns=70) -> str:
     msg : str
         The docstring to be wrapped.
     columns : int, optional
-        Column width for wrapping, by default 70
+        Column width for wrapping, by default 70.
 
     Returns
     -------
