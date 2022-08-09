@@ -132,8 +132,8 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
-    msg = 'Include one of the following options indicating where '
-    msg += 'to apply patches: system, browser'
+    msg = """Include one of the following options indicating where
+    to apply patches: system, browser"""
     parser.add_argument('mode',
                         choices=['system', 'browser'],
                         type=str,

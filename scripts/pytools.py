@@ -50,8 +50,8 @@ def runScript(e: Environment) -> None:
 
     # Done
 
-    msg = 'Python tools installation complete. Install additional '
-    msg += 'tools if desired. No reboot is necessary.'
+    msg = """Python tools installation complete. Install additional
+    tools if desired. No reboot is necessary."""
     print(f'\n{textwrap.fill(msg)}\n')
 
     return

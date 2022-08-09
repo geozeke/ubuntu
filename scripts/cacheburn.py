@@ -66,8 +66,8 @@ def main():  # noqa
     if (result := minPythonVersion(e)) is not None:
         raise RuntimeError(result)
 
-    msg = """This script will scan the ~/shares directory to wipe
-    caches and delete other temporary files."""
+    msg = """This script will scan the ~/shares directory to wipe caches
+    and delete other temporary files."""
 
     epi = "Latest update: 08/03/22"
 

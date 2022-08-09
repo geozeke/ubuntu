@@ -60,8 +60,8 @@ def runScript(e: Environment) -> None:
 
     # Done
 
-    msg = 'vim setup complete. You are now ready to use vi or vim and '
-    msg += 'enjoy a pleasing visual experience.'
+    msg = """vim setup complete. You are now ready to use vi or vim and
+    enjoy a pleasing visual experience."""
     print(f'\n{textwrap.fill(msg)}\n')
 
     return

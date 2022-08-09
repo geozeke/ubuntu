@@ -436,8 +436,8 @@ def runScript(e: Environment) -> None:
 
     # Done
 
-    msg = 'Ubuntu setup complete. Install additional tools or reboot '
-    msg += 'your VM now for the changes to take effect.'
+    msg = """Ubuntu setup complete. Install additional tools or reboot
+    your VM now for the changes to take effect."""
     print(f'\n{textwrap.fill(msg)}\n')
 
     return

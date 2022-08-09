@@ -92,8 +92,8 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
 
     # Done
 
-    msg = 'All updates and upgrades are complete. A reboot is '
-    msg += 'recommended to ensure that the changes take effect.'
+    msg = """All updates and upgrades are complete. A reboot is
+    recommended to ensure that the changes take effect."""
     print(f'\n{textwrap.fill(msg)}\n')
 
     return
