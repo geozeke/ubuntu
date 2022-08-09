@@ -2,13 +2,13 @@
 """Configure vim settings in Ubuntu."""
 
 import argparse
-import textwrap
 
 from library import Environment
 from library import Labels
 from library import clear
 from library import copyFiles
 from library import minPythonVersion
+from library import wrapTight
 
 
 def runScript(e: Environment) -> None:
@@ -61,7 +61,7 @@ def runScript(e: Environment) -> None:
 
     msg = """vim setup complete. You are now ready to use vi or vim and
     enjoy a pleasing visual experience."""
-    print(f'\n{textwrap.fill(msg)}\n')
+    print(f'\n{wrapTight(msg)}\n')
 
     return
 

@@ -2,13 +2,13 @@
 """Install Python development tools."""
 
 import argparse
-import textwrap
 
 from library import Environment
 from library import Labels
 from library import clear
 from library import minPythonVersion
 from library import runOneCommand
+from library import wrapTight
 
 
 def runScript(e: Environment) -> None:
@@ -51,7 +51,7 @@ def runScript(e: Environment) -> None:
 
     msg = """Python tools installation complete. Install additional
     tools if desired. No reboot is necessary."""
-    print(f'\n{textwrap.fill(msg)}\n')
+    print(f'\n{wrapTight(msg)}\n')
 
     return
 

@@ -8,7 +8,6 @@ RuntimeError
 """
 
 import argparse
-import textwrap
 
 from library import Environment
 from library import Labels
@@ -17,6 +16,7 @@ from library import copyFiles
 from library import minPythonVersion
 from library import runManyArguments
 from library import runOneCommand
+from library import wrapTight
 
 
 def runScript(e: Environment) -> None:
@@ -171,9 +171,9 @@ def runScript(e: Environment) -> None:
 
     # ------------------------------------------
 
-    msg = "Installing additional software. Please enter your password if "
-    msg += "prompted."
-    print(f'\n{textwrap.fill(msg)}\n')
+    msg = """Installing additional software. Please enter your password
+    if prompted."""
+    print(f'\n{wrapTight(msg)}\n')
 
     # Push a dummy sudo command just to force password entry before first ppa
     # pull. This will avoid having the password prompt come in the middle of a
@@ -437,7 +437,7 @@ def runScript(e: Environment) -> None:
 
     msg = """Ubuntu setup complete. Install additional tools or reboot
     your VM now for the changes to take effect."""
-    print(f'\n{textwrap.fill(msg)}\n')
+    print(f'\n{wrapTight(msg)}\n')
 
     return
 

@@ -8,12 +8,12 @@ RuntimeError
 """
 
 import argparse
-import textwrap
 
 from library import Environment
 from library import Labels
 from library import minPythonVersion
 from library import runOneCommand
+from library import wrapTight
 
 
 def runUpdates(args: argparse.Namespace, e: Environment) -> None:
@@ -93,7 +93,7 @@ def runUpdates(args: argparse.Namespace, e: Environment) -> None:
 
     msg = """All updates and upgrades are complete. A reboot is
     recommended to ensure that the changes take effect."""
-    print(f'\n{textwrap.fill(msg)}\n')
+    print(f'\n{wrapTight(msg)}\n')
 
     return
 

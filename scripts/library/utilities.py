@@ -6,6 +6,7 @@ import pathlib
 import shutil
 import subprocess as sp
 import sys
+import textwrap
 from typing import Text
 from typing import TextIO
 
@@ -38,6 +39,25 @@ def cleanStr(bstr: bytes) -> Text:
         A utf-8 string.
     """
     return bstr.decode('utf-8').rstrip()
+
+
+def wrapTight(msg: str, columns=70) -> str:
+    """Clean up a docstring and wrap it cleanly as a paragraph.
+
+    Parameters
+    ----------
+    msg : str
+        The docstring to be wrapped.
+    columns : int, optional
+        Column width for wrapping, by default 70
+
+    Returns
+    -------
+    str
+        A wrapped paragraph.
+    """
+    clean = ' '.join([t for token in msg.split('\n') if (t := token.strip())])
+    return textwrap.fill(clean, width=columns)
 
 
 def runOneCommand(e: Environment,
