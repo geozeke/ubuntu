@@ -6,12 +6,12 @@ import argparse
 from library import Environment
 from library import Labels
 from library import clear
-from library import minPythonVersion
-from library import runOneCommand
-from library import wrapTight
+from library import min_python_version
+from library import run_one_command
+from library import wrap_tight
 
 
-def runScript(e: Environment) -> None:
+def run_script(e: Environment) -> None:
     """Install Python development tools.
 
     Parameters
@@ -44,13 +44,13 @@ def runScript(e: Environment) -> None:
 
     for cmd in commands:
         labels.next()
-        print(runOneCommand(e, cmd.split()))
+        print(run_one_command(e, cmd.split()))
 
     # Done
 
     msg = """Python tools installation complete. Install additional
     tools if desired. No reboot is necessary."""
-    print(f'\n{wrapTight(msg)}\n')
+    print(f'\n{wrap_tight(msg)}\n')
 
     return
 
@@ -60,7 +60,7 @@ def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := minPythonVersion(e)) is not None:
+    if (result := min_python_version(e)):
         raise RuntimeError(result)
 
     msg = """This script will install several Python tools.
@@ -69,11 +69,11 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 08/09/22"
+    epi = "Latest update: 08/10/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    runScript(e)
+    run_script(e)
 
     return
 

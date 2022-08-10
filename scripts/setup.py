@@ -12,14 +12,14 @@ import argparse
 from library import Environment
 from library import Labels
 from library import clear
-from library import copyFiles
-from library import minPythonVersion
-from library import runManyArguments
-from library import runOneCommand
-from library import wrapTight
+from library import copy_files
+from library import min_python_version
+from library import run_many_arguments
+from library import run_one_command
+from library import wrap_tight
 
 
-def runScript(e: Environment) -> None:
+def run_script(e: Environment) -> None:
     """Perform tool installation and setup.
 
     Parameters
@@ -108,7 +108,7 @@ def runScript(e: Environment) -> None:
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
 
-    copyFiles(e, targets)
+    copy_files(e, targets)
     print(e.PASS)
 
     # ------------------------------------------
@@ -124,7 +124,7 @@ def runScript(e: Environment) -> None:
     targets.append(str(e.HOME/'.config/gedit/tools/flexiwrap'))
 
     cmd = 'chmod 754 TARGET'
-    print(runManyArguments(e, cmd, targets))
+    print(run_many_arguments(e, cmd, targets))
 
     # ------------------------------------------
 
@@ -133,7 +133,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'dconf reset -f /org/gnome/terminal/'
-    result = runOneCommand(e, cmd.split())
+    result = run_one_command(e, cmd.split())
 
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/terminal/'
@@ -141,7 +141,7 @@ def runScript(e: Environment) -> None:
         if e.DEBUG:
             print(f'Opening: {path}')
         with open(path, 'r') as f:
-            result = runOneCommand(e, cmd.split(), std_in=f)
+            result = run_one_command(e, cmd.split(), std_in=f)
 
     print(result)
 
@@ -152,7 +152,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'dconf reset -f /org/gnome/gedit/'
-    result = runOneCommand(e, cmd.split())
+    result = run_one_command(e, cmd.split())
 
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/gedit/'
@@ -160,7 +160,7 @@ def runScript(e: Environment) -> None:
         if e.DEBUG:
             print(f'Opening: {path}')
         with open(path, 'r') as f:
-            result = runOneCommand(e, cmd.split(), std_in=f)
+            result = run_one_command(e, cmd.split(), std_in=f)
 
     print(result)
 
@@ -168,13 +168,13 @@ def runScript(e: Environment) -> None:
 
     msg = """Installing additional software. Please enter your password
     if prompted."""
-    print(f'\n{wrapTight(msg)}\n')
+    print(f'\n{wrap_tight(msg)}\n')
 
     # Push a dummy sudo command just to force password entry before first ppa
     # pull. This will avoid having the password prompt come in the middle of a
     # label when providing status
 
-    runOneCommand(e, 'sudo ls'.split())
+    run_one_command(e, 'sudo ls'.split())
 
     # ------------------------------------------
 
@@ -197,23 +197,23 @@ def runScript(e: Environment) -> None:
     targets.append('vim')
     targets.append('tree')
 
-    print(runManyArguments(e, cmd, targets))
+    print(run_many_arguments(e, cmd, targets))
 
     # ------------------------------------------
 
     # Step-8: seahorse nautilus
 
     labels.next()
-    doThis = cmd.replace('TARGET', 'seahorse-nautilus')
-    print(runOneCommand(e, doThis.split()))
+    do_this = cmd.replace('TARGET', 'seahorse-nautilus')
+    print(run_one_command(e, do_this.split()))
 
     # ------------------------------------------
 
     # Step-9: Gedit support
 
     labels.next()
-    doThis = cmd.replace('TARGET', 'gedit-plugins')
-    print(runOneCommand(e, doThis.split()))
+    do_this = cmd.replace('TARGET', 'gedit-plugins')
+    print(run_one_command(e, do_this.split()))
 
     # ------------------------------------------
 
@@ -223,19 +223,19 @@ def runScript(e: Environment) -> None:
     targets = []
     targets.append('zsh')
     targets.append('powerline')
-    result = runManyArguments(e, cmd, targets)
+    result = run_many_arguments(e, cmd, targets)
 
     if result == e.PASS:
         src = 'https://github.com/robbyrussell/oh-my-zsh.git'
         dest = e.HOME/'.oh-my-zsh'
         cmd = f'git clone {src} {dest} --depth 1'
-        result = runOneCommand(e, cmd.split())
+        result = run_one_command(e, cmd.split())
 
     if result == e.PASS:
         src = e.SHELL/'peter.zsh-theme'
         dest = e.HOME/'.oh-my-zsh/custom/themes'
         targets = [(src, dest)]
-        copyFiles(e, targets)
+        copy_files(e, targets)
 
     print(result)
 
@@ -245,7 +245,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install -y python3-pip'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -253,7 +253,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install -y python3-venv'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -261,21 +261,21 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = f'python3 -m venv {e.HOME}/.venv/env'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
     # Step-14: Google Chrome
 
     labels.next()
-    googledeb = 'google-chrome-stable_current_amd64.deb'
-    src = f'https://dl.google.com/linux/direct/{googledeb}'
-    cmd = f'wget -O /tmp/{googledeb} {src}'
-    result = runOneCommand(e, cmd.split())
+    google_deb = 'google-chrome-stable_current_amd64.deb'
+    src = f'https://dl.google.com/linux/direct/{google_deb}'
+    cmd = f'wget -O /tmp/{google_deb} {src}'
+    result = run_one_command(e, cmd.split())
 
     if result == e.PASS:
-        cmd = f'sudo dpkg -i /tmp/{googledeb}'
-        result = runOneCommand(e, cmd.split())
+        cmd = f'sudo dpkg -i /tmp/{google_deb}'
+        result = run_one_command(e, cmd.split())
 
     print(result)
 
@@ -288,7 +288,7 @@ def runScript(e: Environment) -> None:
     src = 'https://github.com/geozeke/notebooks.git'
     dest = e.HOME/'.notebooksrepo'
     cmd = f'git clone {src} {dest} --single-branch --depth 1'
-    result = runOneCommand(e, cmd.split())
+    result = run_one_command(e, cmd.split())
 
     # Sync repo with local notebooks. Use the --delete option so the
     # destination directory always exactly mirrors the source directory. Also
@@ -299,7 +299,7 @@ def runScript(e: Environment) -> None:
         cmd = 'rsync -rc '
         cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
         cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
-        result = runOneCommand(e, cmd.split())
+        result = run_one_command(e, cmd.split())
 
     print(result)
 
@@ -309,7 +309,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo snap refresh'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -317,7 +317,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo snap install atom --classic'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -339,7 +339,7 @@ def runScript(e: Environment) -> None:
     parts.append('org.gnome.seahorse.Application.desktop')
 
     cmd += '\',\''.join(parts) + '\']'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -347,7 +347,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -355,7 +355,7 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     cmd = 'gsettings set org.gnome.desktop.session idle-delay 0'
-    print(runOneCommand(e, cmd.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
@@ -365,12 +365,12 @@ def runScript(e: Environment) -> None:
     dest = '/etc/apt/apt.conf.d/20auto-upgrades'
     argument = 's+Update-Package-Lists "1"+Update-Package-Lists "0"+'
     cmd = f'sudo*sed*-i*{argument}*{dest}'
-    result = runOneCommand(e, cmd.split('*'))
+    result = run_one_command(e, cmd.split('*'))
 
     if result == e.PASS:
         argument = 's+Unattended-Upgrade "1"+Unattended-Upgrade "0"+'
         cmd = f'sudo*sed*-i*{argument}*{dest}'
-        result = runOneCommand(e, cmd.split('*'))
+        result = run_one_command(e, cmd.split('*'))
 
     print(result)
 
@@ -385,7 +385,7 @@ def runScript(e: Environment) -> None:
     dest = '/etc/fuse.conf'
     cmd = f'sudo*sed*-i*{argument}*{dest}'
 
-    print(runOneCommand(e, cmd.split('*')))
+    print(run_one_command(e, cmd.split('*')))
 
     # ------------------------------------------
 
@@ -400,7 +400,7 @@ def runScript(e: Environment) -> None:
     targets.append(f'{base}ding show-trash true')
 
     cmd = 'gsettings set TARGET'
-    print(runManyArguments(e, cmd, targets))
+    print(run_many_arguments(e, cmd, targets))
 
     # ------------------------------------------
 
@@ -408,12 +408,12 @@ def runScript(e: Environment) -> None:
 
     labels.next()
     targets = []
-    targets.append(f'/tmp/{googledeb}')
+    targets.append(f'/tmp/{google_deb}')
     cmd = 'rm -f TARGET'
-    result = runManyArguments(e, cmd, targets)
+    result = run_many_arguments(e, cmd, targets)
 
     if result == e.PASS:
-        result = runOneCommand(e, 'sudo snap remove firefox'.split())
+        result = run_one_command(e, 'sudo snap remove firefox'.split())
 
     print(result)
 
@@ -423,7 +423,7 @@ def runScript(e: Environment) -> None:
 
     msg = """Ubuntu setup complete. Install additional tools or reboot
     your VM now for the changes to take effect."""
-    print(f'\n{wrapTight(msg)}\n')
+    print(f'\n{wrap_tight(msg)}\n')
 
     return
 
@@ -433,7 +433,7 @@ def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := minPythonVersion(e)) is not None:
+    if (result := min_python_version(e)):
         raise RuntimeError(result)
 
     msg = """This script will install the necessary programs and
@@ -445,11 +445,11 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 08/09/22"
+    epi = "Latest update: 08/10/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    runScript(e)
+    run_script(e)
 
     return
 

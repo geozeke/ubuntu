@@ -13,11 +13,11 @@ import tempfile
 from library import Environment
 from library import Labels
 from library import clear
-from library import minPythonVersion
-from library import runOneCommand
+from library import min_python_version
+from library import run_one_command
 
 
-def runScript(args: argparse.Namespace, e: Environment) -> None:
+def run_script(args: argparse.Namespace, e: Environment) -> None:
     """Patch openssl configuration and run certificate scripts.
 
     Parameters
@@ -50,7 +50,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     # Push a dummy sudo command just to force password entry before first
     # command. This will avoid having the password prompt come in the middle of
     # a label when providing status
-    runOneCommand(e, 'sudo ls'.split())
+    run_one_command(e, 'sudo ls'.split())
 
     # ------------------------------------------
 
@@ -68,9 +68,9 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
         labels.next()
         target = '/usr/lib/ssl/openssl.cnf'
         command = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
-        print(runOneCommand(e, command.split()))
+        print(run_one_command(e, command.split()))
     else:
-        labels.popfirst()
+        labels.pop_first()
 
     # ------------------------------------------
 
@@ -80,10 +80,10 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
 
     if args.mode == 'system':
         url = 'apt.cs.usna.edu/ssl/install-ssl-system.sh'
-        labels.poplast()  # Discard the trailing label
+        labels.pop_last()  # Discard the trailing label
     else:
         url = 'apt.cs.usna.edu/ssl/install-ssl-browsers.sh'
-        labels.popfirst()  # Discard the leading label
+        labels.pop_first()  # Discard the leading label
 
     commands = []
     commands.append(f'curl -o {fname} {url}')
@@ -94,7 +94,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
     success = True
 
     for command in commands:
-        if runOneCommand(e, command.split()) != e.PASS:
+        if run_one_command(e, command.split()) != e.PASS:
             success = False
             break
 
@@ -102,7 +102,7 @@ def runScript(args: argparse.Namespace, e: Environment) -> None:
 
     if success:
         command = f'rm -f {fname}'
-        print(runOneCommand(e, command.split()))
+        print(run_one_command(e, command.split()))
     else:
         print(e.FAIL)
 
@@ -118,7 +118,7 @@ def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := minPythonVersion(e)) is not None:
+    if (result := min_python_version(e)):
         raise RuntimeError(result)
 
     msg = """This script installs a patched openssl configuration file
@@ -126,7 +126,7 @@ def main():  # noqa
     on the USNA mission network. You will be prompted for your password
     during installation."""
 
-    epi = "Latest update: 08/09/22"
+    epi = "Latest update: 08/10/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
@@ -138,7 +138,7 @@ def main():  # noqa
                         help=msg)
 
     args = parser.parse_args()
-    runScript(args, e)
+    run_script(args, e)
 
     return
 
