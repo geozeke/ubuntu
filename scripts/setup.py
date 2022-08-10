@@ -204,16 +204,16 @@ def run_script(e: Environment) -> None:
     # Step-8: seahorse nautilus
 
     labels.next()
-    doThis = cmd.replace('TARGET', 'seahorse-nautilus')
-    print(run_one_command(e, doThis.split()))
+    do_this = cmd.replace('TARGET', 'seahorse-nautilus')
+    print(run_one_command(e, do_this.split()))
 
     # ------------------------------------------
 
     # Step-9: Gedit support
 
     labels.next()
-    doThis = cmd.replace('TARGET', 'gedit-plugins')
-    print(run_one_command(e, doThis.split()))
+    do_this = cmd.replace('TARGET', 'gedit-plugins')
+    print(run_one_command(e, do_this.split()))
 
     # ------------------------------------------
 
