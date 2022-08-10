@@ -16,7 +16,7 @@ from library import run_one_command
 from library import wrap_tight
 
 
-def runUpdates(args: argparse.Namespace, e: Environment) -> None:
+def run_updates(args: argparse.Namespace, e: Environment) -> None:
     """Perform system updates.
 
     Parameters
@@ -110,7 +110,7 @@ def main():  # noqa
     software installed through Ubuntu Personal Package Archives (ppa).
     You will be prompted for your password during updating."""
 
-    epi = "Latest update: 08/09/22"
+    epi = "Latest update: 08/10/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,
@@ -124,7 +124,7 @@ def main():  # noqa
                         action='store_true')
 
     args = parser.parse_args()
-    runUpdates(args, e)
+    run_updates(args, e)
 
     return
 
