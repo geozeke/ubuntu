@@ -40,8 +40,8 @@ def run_script(e: Environment) -> None:
         Copying files
         Adjusting file permissions
         Setting terminal profile
-        Setting Text Editor profile
         Installing developer tools
+        Setting Text Editor profile
         Installing seahorse nautilus
         Installing zsh
         Installing python pip3
@@ -113,6 +113,7 @@ def run_script(e: Environment) -> None:
     targets.append(str(e.SCRIPTS/'tuneup.py'))
     targets.append(str(e.SCRIPTS/'cacheburn.py'))
     targets.append(str(e.SCRIPTS/'usnapatch.py'))
+    targets.append(str(e.SCRIPTS/'pyenvconf.py'))
 
     cmd = 'chmod 754 TARGET'
     print(run_many_arguments(e, cmd, targets))
@@ -138,25 +139,6 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 6: Setting Text Editor profile. Again, need special handling here,
-    # because we're redirecting stdin.
-
-    labels.next()
-    cmd = 'dconf reset -f /org/gnome/TextEditor/'
-    result = run_one_command(e, cmd.split())
-
-    if result == e.PASS:
-        cmd = 'dconf load /org/gnome/TextEditor/'
-        path = e.SYSTEM/'text_editor_settings.txt'
-        if e.DEBUG:
-            print(f'Opening: {path}')
-        with open(path, 'r') as f:
-            result = run_one_command(e, cmd.split(), std_in=f)
-
-    print(result)
-
-    # ------------------------------------------
-
     msg = """Installing additional software. Please enter your password
     if prompted."""
     print(f'\n{wrap_tight(msg)}\n')
@@ -169,7 +151,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 7: Packages from the ppa.
+    # Step 6: Packages from the ppa.
 
     # NOTE: libnss3-tools, libpcsclite1, pcscd, and pcsc-tools are needed for
     # certificate fixes at USNA. These can be deleted for future non-USNA
@@ -190,6 +172,25 @@ def run_script(e: Environment) -> None:
     targets.append('tree')
 
     print(run_many_arguments(e, cmd, targets))
+
+    # ------------------------------------------
+
+    # Step 7: Setting Text Editor profile. Again, need special handling here,
+    # because we're redirecting stdin.
+
+    labels.next()
+    cmd = 'dconf reset -f /org/gnome/TextEditor/'
+    result = run_one_command(e, cmd.split())
+
+    if result == e.PASS:
+        cmd = 'dconf load /org/gnome/TextEditor/'
+        path = e.SYSTEM/'text_editor_settings.txt'
+        if e.DEBUG:
+            print(f'Opening: {path}')
+        with open(path, 'r') as f:
+            result = run_one_command(e, cmd.split(), std_in=f)
+
+    print(result)
 
     # ------------------------------------------
 

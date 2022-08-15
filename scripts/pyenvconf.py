@@ -37,6 +37,7 @@ def run_script(e: Environment) -> None:
         System initialization
         Updating package index
         Validating dependencies
+        Cloning git repository
         Adjusting shell environments""")
 
     # Step 0
@@ -94,7 +95,15 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 4: Adjusting shell environments
+    # Step 4: Cloning git repository
+
+    labels.next()
+    cmd = "git clone https://github.com/pyenv/pyenv.git ~/.pyenv"
+    print(run_one_command(e, cmd.split()))
+
+    # ------------------------------------------
+
+    # Step 5: Adjusting shell environments
 
     labels.next()
     cmd = f"cat {e.SHELL/'pyenvsupport.txt'} >> ~/.bashrc"
