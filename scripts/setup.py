@@ -175,7 +175,15 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 7: Setting Text Editor profile. Again, need special handling here,
+    # Step-7: seahorse nautilus
+
+    labels.next()
+    do_this = cmd.replace('TARGET', 'seahorse-nautilus')
+    print(run_one_command(e, do_this.split()))
+
+    # ------------------------------------------
+
+    # Step 8: Setting Text Editor profile. Again, need special handling here,
     # because we're redirecting stdin.
 
     labels.next()
@@ -191,14 +199,6 @@ def run_script(e: Environment) -> None:
             result = run_one_command(e, cmd.split(), std_in=f)
 
     print(result)
-
-    # ------------------------------------------
-
-    # Step-8: seahorse nautilus
-
-    labels.next()
-    do_this = cmd.replace('TARGET', 'seahorse-nautilus')
-    print(run_one_command(e, do_this.split()))
 
     # ------------------------------------------
 
