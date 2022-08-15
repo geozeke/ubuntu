@@ -40,10 +40,9 @@ def run_script(e: Environment) -> None:
         Copying files
         Adjusting file permissions
         Setting terminal profile
-        Setting gedit profile
+        Setting Text Editor profile
         Installing developer tools
         Installing seahorse nautilus
-        Installing gedit support
         Installing zsh
         Installing python pip3
         Installing python venv
@@ -51,7 +50,6 @@ def run_script(e: Environment) -> None:
         Installing Google Chrome
         Setting up jupyter notebooks
         Refreshing snaps (please be patient)
-        Installing atom
         Configuring favorites
         Disabling auto screen lock
         Setting idle timeout to \"never\"
@@ -74,13 +72,10 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     targets = []
-    targets.append(e.HOME/'.config/gedit/tools')
-    targets.append(e.HOME/'.config/gedit/snippets')
     targets.append(e.HOME/'.vim/colors')
     targets.append(e.HOME/'shares')
     targets.append(e.HOME/'notebooks')
     targets.append(e.HOME/'.notebooksrepo')
-    targets.append(e.HOME/'.atom')
     targets.append(e.HOME/'.venv')
 
     for target in targets:
@@ -97,9 +92,6 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     targets = []
-    targets.append((e.ATOM/'*', e.HOME/'.atom'))
-    targets.append((e.GEDIT/'flexiwrap', e.HOME/'.config/gedit/tools'))
-    targets.append((e.GEDIT/'*.xml', e.HOME/'.config/gedit/snippets'))
     targets.append((e.SHELL/'bashrc.txt', e.HOME/'.bashrc'))
     targets.append((e.SHELL/'zshrc.txt', e.HOME/'.zshrc'))
     targets.append((e.SHELL/'profile.txt', e.HOME/'.profile'))
@@ -121,7 +113,6 @@ def run_script(e: Environment) -> None:
     targets.append(str(e.SCRIPTS/'tuneup.py'))
     targets.append(str(e.SCRIPTS/'cacheburn.py'))
     targets.append(str(e.SCRIPTS/'usnapatch.py'))
-    targets.append(str(e.HOME/'.config/gedit/tools/flexiwrap'))
 
     cmd = 'chmod 754 TARGET'
     print(run_many_arguments(e, cmd, targets))
@@ -147,16 +138,16 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 6: Setting gedit profile. Again, need special handling here, because
-    # we're redirecting stdin.
+    # Step 6: Setting Text Editor profile. Again, need special handling here,
+    # because we're redirecting stdin.
 
     labels.next()
-    cmd = 'dconf reset -f /org/gnome/gedit/'
+    cmd = 'dconf reset -f /org/gnome/TextEditor/'
     result = run_one_command(e, cmd.split())
 
     if result == e.PASS:
-        cmd = 'dconf load /org/gnome/gedit/'
-        path = e.GEDIT/'geditSettings.txt'
+        cmd = 'dconf load /org/gnome/TextEditor/'
+        path = e.SYSTEM/'text_editor_settings.txt'
         if e.DEBUG:
             print(f'Opening: {path}')
         with open(path, 'r') as f:
@@ -189,6 +180,7 @@ def run_script(e: Environment) -> None:
     labels.next()
     cmd = 'sudo apt -y install TARGET'
     targets = []
+    targets.append('gnome-text-editor')
     targets.append('build-essential')
     targets.append('libnss3-tools')
     targets.append('pcscd')
@@ -209,15 +201,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-9: Gedit support
-
-    labels.next()
-    do_this = cmd.replace('TARGET', 'gedit-plugins')
-    print(run_one_command(e, do_this.split()))
-
-    # ------------------------------------------
-
-    # Step-10: zsh. Also copy over the peter zsh theme.
+    # Step-9: zsh. Also copy over the peter zsh theme.
 
     labels.next()
     targets = []
@@ -241,7 +225,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-11: pip3
+    # Step-10: pip3
 
     labels.next()
     cmd = 'sudo apt install -y python3-pip'
@@ -249,7 +233,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-12: python3 venv
+    # Step-11: python3 venv
 
     labels.next()
     cmd = 'sudo apt install -y python3-venv'
@@ -257,7 +241,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-13: Create Python virtual environment
+    # Step-12: Create Python virtual environment
 
     labels.next()
     cmd = f'python3 -m venv {e.HOME}/.venv/env'
@@ -265,7 +249,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-14: Google Chrome
+    # Step-13: Google Chrome
 
     labels.next()
     google_deb = 'google-chrome-stable_current_amd64.deb'
@@ -281,7 +265,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-15: Set up jupyter notebooks
+    # Step-14: Set up jupyter notebooks
 
     labels.next()
     # Clone the notebook repo (single branch, depth 1)
@@ -305,7 +289,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-16: Refresh snaps
+    # Step-15: Refresh snaps
 
     labels.next()
     cmd = 'sudo snap refresh'
@@ -313,15 +297,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-17: Install atom
-
-    labels.next()
-    cmd = 'sudo snap install atom --classic'
-    print(run_one_command(e, cmd.split()))
-
-    # ------------------------------------------
-
-    # Step-18: Configure favorites. NOTE: To get the information needed for the
+    # Step-16: Configure favorites. NOTE: To get the information needed for the
     # code below, setup desired favorites, then run this command: gsettings get
     # org.gnome.shell favorite-apps
 
@@ -329,8 +305,7 @@ def run_script(e: Environment) -> None:
     cmd = 'gsettings set org.gnome.shell favorite-apps [\''
     parts = []
     parts.append('google-chrome.desktop')
-    parts.append('atom_atom.desktop')
-    parts.append('org.gnome.gedit.desktop')
+    parts.append('org.gnome.TextEditor.desktop')
     parts.append('org.gnome.Terminal.desktop')
     parts.append('org.gnome.Nautilus.desktop')
     parts.append('org.gnome.Calculator.desktop')
@@ -343,7 +318,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-19: Disable auto screen lock
+    # Step-17: Disable auto screen lock
 
     labels.next()
     cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
@@ -351,7 +326,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-20: Set idle timeout to 'never'.
+    # Step-18: Set idle timeout to 'never'.
 
     labels.next()
     cmd = 'gsettings set org.gnome.desktop.session idle-delay 0'
@@ -359,7 +334,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-21: Disable auto updates.
+    # Step-19: Disable auto updates.
 
     labels.next()
     dest = '/etc/apt/apt.conf.d/20auto-upgrades'
@@ -376,7 +351,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step-22: Patch /etc/fuse.conf to un-comment 'user_allow_other'. This
+    # Step-20: Patch /etc/fuse.conf to un-comment 'user_allow_other'. This
     # allows users to start programs from the command line when their current
     # working directory is inside the share.
 
@@ -389,7 +364,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 23: Arrange icons.
+    # Step 21: Arrange icons.
 
     labels.next()
     targets = []
@@ -404,7 +379,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 24: Silently delete unused files. This includes the Firefox browser.
+    # Step 22: Silently delete unused files. This includes the Firefox browser.
 
     labels.next()
     targets = []
