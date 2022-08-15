@@ -98,7 +98,9 @@ def run_script(e: Environment) -> None:
     # Step 4: Cloning git repository
 
     labels.next()
-    cmd = "git clone https://github.com/pyenv/pyenv.git ~/.pyenv"
+    src = "https://github.com/pyenv/pyenv.git"
+    dest = f"{e.HOME}/.pyenv"
+    cmd = f"git clone {src} {dest} --depth 1"
     print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
@@ -106,11 +108,13 @@ def run_script(e: Environment) -> None:
     # Step 5: Adjusting shell environments
 
     labels.next()
-    cmd = f"cat {e.SHELL/'pyenvsupport.txt'} >> ~/.bashrc"
+    src = f"{e.SHELL}/pyenvsupport.txt"
+    cmd = f"cat {src} >> {e.HOME}/.bashrc"
     result = run_one_command(e, cmd.split())
     if result == e.PASS:
-        cmd = f"cat {e.SHELL/'pyenvsupport.txt'} >> ~/.zshrc"
-        print(run_one_command(e, cmd.split()))
+        cmd = f"cat {src} >> {e.HOME}/.zshrc"
+        result = run_one_command(e, cmd.split())
+    print(result)
 
     # ------------------------------------------
 
