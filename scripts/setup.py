@@ -105,18 +105,12 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 4: Adjust these file permissions, just to make sure they're correct.
-    # It may not be absolutely necessary, but it won't hurt.
+    # Step 4: Adjust file permissions on scripts, just to make sure they're
+    # correct. It may not be absolutely necessary, but it won't hurt.
 
-    labels.next()
-    targets = []
-    targets.append(str(e.SCRIPTS/'tuneup.py'))
-    targets.append(str(e.SCRIPTS/'cacheburn.py'))
-    targets.append(str(e.SCRIPTS/'usnapatch.py'))
-    targets.append(str(e.SCRIPTS/'pyenvconf.py'))
-
-    cmd = 'chmod 754 TARGET'
-    print(run_many_arguments(e, cmd, targets))
+    base = f'{e.HOME}/ubuntu/scripts/'
+    cmd = f'find {base} -name *.py -exec chmod 754 {{}} ;'
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
