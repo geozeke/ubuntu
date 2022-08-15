@@ -41,9 +41,9 @@ def run_script(e: Environment) -> None:
         Adjusting file permissions
         Setting terminal profile
         Installing developer tools
-        Setting Text Editor profile
         Installing seahorse nautilus
         Installing zsh
+        Setting Text Editor profile
         Installing python pip3
         Installing python venv
         Creating virtual environment (env)
@@ -183,26 +183,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 8: Setting Text Editor profile. Again, need special handling here,
-    # because we're redirecting stdin.
-
-    labels.next()
-    cmd = 'dconf reset -f /org/gnome/TextEditor/'
-    result = run_one_command(e, cmd.split())
-
-    if result == e.PASS:
-        cmd = 'dconf load /org/gnome/TextEditor/'
-        path = e.SYSTEM/'text_editor_settings.txt'
-        if e.DEBUG:
-            print(f'Opening: {path}')
-        with open(path, 'r') as f:
-            result = run_one_command(e, cmd.split(), std_in=f)
-
-    print(result)
-
-    # ------------------------------------------
-
-    # Step-9: zsh. Also copy over the peter zsh theme.
+    # Step-8: zsh. Also copy over the peter zsh theme.
 
     labels.next()
     targets = []
@@ -221,6 +202,25 @@ def run_script(e: Environment) -> None:
         dest = e.HOME/'.oh-my-zsh/custom/themes'
         targets = [(src, dest)]
         copy_files(e, targets)
+
+    print(result)
+
+    # ------------------------------------------
+
+    # Step 9: Setting Text Editor profile. Again, need special handling here,
+    # because we're redirecting stdin.
+
+    labels.next()
+    cmd = 'dconf reset -f /org/gnome/TextEditor/'
+    result = run_one_command(e, cmd.split())
+
+    if result == e.PASS:
+        cmd = 'dconf load /org/gnome/TextEditor/'
+        path = e.SYSTEM/'text_editor_settings.txt'
+        if e.DEBUG:
+            print(f'Opening: {path}')
+        with open(path, 'r') as f:
+            result = run_one_command(e, cmd.split(), std_in=f)
 
     print(result)
 
