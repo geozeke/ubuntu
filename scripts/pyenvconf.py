@@ -109,12 +109,18 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     src = f"{e.SHELL}/pyenvsupport.txt"
-    cmd = f"cat {src} >> {e.HOME}/.bashrc"
-    result = run_one_command(e, cmd.split())
-    if result == e.PASS:
-        cmd = f"cat {src} >> {e.HOME}/.zshrc"
-        result = run_one_command(e, cmd.split())
-    print(result)
+    bash = f"{e.HOME}/.bashrc"
+    zsh = f"{e.HOME}/.zshrc"
+    try:
+        with open(src, 'r') as f1:
+            with open(bash, 'a') as f2:
+                f2.write(f1.read())
+            f1.seek(0)
+            with open(zsh, 'a') as f2:
+                f2.write(f1.read())
+        print(e.PASS)
+    except Exception:
+        print(e.FAIL)
 
     # ------------------------------------------
 
