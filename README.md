@@ -14,6 +14,7 @@ This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I st
 
 * [setup.py](#setup)
 * [usnapatch.py](#usnapatch)
+* [pyenvconf.py](#pyenvconf)
 * [pytools.py](#pytools)
 * [tuneup.py](#tuneup)
 * [cacheburn.py](#cacheburn)
@@ -75,7 +76,7 @@ Follow the [VM Setup Guides](#top).
 
 [top](#top)
 
-### <a id="usnapatch"></a> `pyenvconf.py`
+### <a id="pyenvconf"></a> `pyenvconf.py`
 
 This script sets up and installs the incredibly helpful utility
 [pyenv](https://github.com/pyenv/pyenv). This utility allows you to install and

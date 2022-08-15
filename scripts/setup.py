@@ -105,9 +105,10 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 4: Adjust file permissions on scripts, just to make sure they're
+    # Step 4: Adjust file permissions on scripts just to make sure they're
     # correct. It may not be absolutely necessary, but it won't hurt.
 
+    labels.next()
     base = f'{e.HOME}/ubuntu/scripts/'
     cmd = f'find {base} -name *.py -exec chmod 754 {{}} ;'
     print(run_one_command(e, cmd.split()))

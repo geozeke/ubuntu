@@ -1,5 +1,5 @@
 [/]
-discover-settings=true
+custom-font='Monospace 14'
 indent-style='space'
 right-margin-position=uint32 79
 show-line-numbers=true
