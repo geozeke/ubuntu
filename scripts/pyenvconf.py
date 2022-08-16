@@ -36,7 +36,7 @@ def run_script(e: Environment) -> None:
     labels = Labels("""
         System initialization
         Updating package index
-        Validating dependencies
+        Checking dependencies
         Cloning git repository
         Adjusting shell environments""")
 
@@ -65,31 +65,32 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt update'
-    print(run_one_command(e, 'sudo ls'.split()))
+    print(run_one_command(e, cmd.split()))
 
     # ------------------------------------------
 
-    # Step 3: Validating dependencies
+    # Step 3: Checking dependencies
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
     targets = []
     targets.append('make')
     targets.append('build-essential')
-    targets.append('libssl-dev zlib1g-dev')
+    targets.append('libssl-dev')
+    targets.append('zlib1g-dev')
     targets.append('libbz2-dev')
     targets.append('libreadline-dev')
     targets.append('libsqlite3-dev')
     targets.append('wget')
     targets.append('curl')
     targets.append('llvm')
-    targets.append('libncurses5-dev')
     targets.append('libncursesw5-dev')
     targets.append('xz-utils')
     targets.append('tk-dev')
+    targets.append('libxml2-dev')
+    targets.append('libxmlsec1-dev')
     targets.append('libffi-dev')
     targets.append('liblzma-dev')
-    targets.append('python3-openssl')
     targets.append('git')
     print(run_many_arguments(e, cmd, targets))
 
