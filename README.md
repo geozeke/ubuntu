@@ -14,6 +14,7 @@ This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I st
 
 * [setup.py](#setup)
 * [usnapatch.py](#usnapatch)
+* [pyenvconf.py](#pyenvconf)
 * [pytools.py](#pytools)
 * [tuneup.py](#tuneup)
 * [cacheburn.py](#cacheburn)
@@ -25,16 +26,14 @@ This script sets up a new Ubuntu VM with the following software and settings:
 
 * Create new directories to hold various settings/resource files.
 * Copy new settings files for:
-  * atom
-  * gedit
   * bash
   * zsh
   * profile
   * vi
 * Set the correct file permissions for scripts.
 * Initialize the terminal profile with a nicer color scheme.
-* Initialize the gedit profile with more friendly and consistent default settings.
 * Install the following packages from the ppa:
+  * gnome-text-editor
   * build-essential
   * libnss3-tools
   * pcscd
@@ -43,14 +42,12 @@ This script sets up a new Ubuntu VM with the following software and settings:
   * vim
   * tree
   * seahorse-nautilus
-  * gedit-plugins
   * zsh
   * powerline
   * python3-pip
   * python3-venv
 * Install the following software / tools from developer sites:
   * oh-my-zsh (GitHub)
-  * atom (snap store)
   * Google Chrome (vendor site)
 * Setup and configure a series of jupyter notebooks for introductory topics in Python. More information is [available here](https://github.com/geozeke/notebooks).
 * Configure the gnome favorites in the application launcher.
@@ -76,6 +73,18 @@ This script installs a patched openssl configuration file and runs the necessary
 #### usage
 
 Follow the [VM Setup Guides](#top).
+
+[top](#top)
+
+### <a id="pyenvconf"></a> `pyenvconf.py`
+
+This script sets up and installs the incredibly helpful utility
+[pyenv](https://github.com/pyenv/pyenv). This utility allows you to install and
+manage multiple versions of python, without impacting or breaking the system-default installation.
+
+#### usage
+
+`~/ubuntu/scripts/pyenvconf.py`
 
 [top](#top)
 

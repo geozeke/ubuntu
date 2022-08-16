@@ -36,8 +36,6 @@ class Environment:
         # facilitate debugging. The repo should still be cloned in ~ per the
         # setup instructions..
         self.UBUNTU = Path(__file__).resolve().parents[2]
-        self.ATOM = self.UBUNTU/'atom'
-        self.GEDIT = self.UBUNTU/'gedit'
         self.OHMYZSH = self.HOME/'.oh-my-zsh'
         self.SCRIPTS = self.UBUNTU/'scripts'
         self.SHELL = self.UBUNTU/'shell'
