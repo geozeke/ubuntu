@@ -143,8 +143,8 @@ def main():  # noqa
         raise RuntimeError(result)
 
     msg = """This script will setup and install the dependencies to use
-    pyenv. Pyenv program is a powerfull tool that allows you to cleanly
-    run multiple, independent python versions without interference or
+    pyenv. Pyenv is a powerfull tool that allows you to cleanly run
+    multiple, independent python versions without interference or
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
