@@ -7,3 +7,4 @@ show-map=false
 show-right-margin=true
 style-scheme='Adwaita-dark'
 tab-width=uint32 4
+use-system-font=false
