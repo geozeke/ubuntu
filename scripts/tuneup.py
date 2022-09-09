@@ -30,6 +30,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
     """
     labels = Labels("""
         Pulling updates to git repo
+        Scanning for updates to pip
         Scanning for updates to jupyter
         Scanning for updates to jupyter lab
         Scanning for updates to pytest
@@ -38,10 +39,10 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
     # Ubuntu updates (verbose)
 
     commands = []
-    commands.append('sudo apt -y update')
-    commands.append('sudo apt -y upgrade')
-    commands.append('sudo apt -y autoclean')
-    commands.append('sudo apt -y autoremove')
+    commands.append('sudo apt update')
+    commands.append('sudo apt upgrade -y')
+    commands.append('sudo apt autoclean -y')
+    commands.append('sudo apt autoremove -y')
     commands.append('sudo snap refresh')
 
     for cmd in commands:
@@ -59,16 +60,16 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         cmd = f'git -C {e.HOME}/ubuntu pull'
         print(run_one_command(e, cmd.split()))
 
-        # Update jupyter, jupyterlab & pytest (if installed)
-        pips = ['jupyter', 'jupyterlab', 'pytest']
+        # Update selected Python packages. Start with pip itself to ensure
+        # we've got the lastest version of the Python package installer.
+        pips = ['pip', 'jupyter', 'jupyterlab', 'pytest']
         for pip in pips:
             pip_test = f'pip3 show {pip}'
             if run_one_command(e, pip_test.split()) == e.PASS:
                 labels.next()
                 cmd = f'pip3 install --upgrade {pip}'
                 print(run_one_command(e, cmd.split()))
-            # Dump the label if the package is not installed
-            else:
+            else:  # Dump the label if the package is not installed
                 labels.pop_first()
 
         # Sync jupyter notebooks
