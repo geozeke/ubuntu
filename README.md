@@ -14,7 +14,7 @@ This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I st
 
 * [setup.py](#setup)
 * [usnapatch.py](#usnapatch)
-* [pyenvconf.py](#pyenvconf)
+* [pyenvsetup.py](#pyenvsetup)
 * [pytools.py](#pytools)
 * [tuneup.py](#tuneup)
 * [cacheburn.py](#cacheburn)
@@ -76,15 +76,15 @@ Follow the [VM Setup Guides](#top).
 
 [top](#top)
 
-### <a id="pyenvconf"></a> `pyenvconf.py`
+### <a id="pyenvsetup"></a> `pyenvsetup.py`
 
 This script sets up and installs the incredibly helpful utility
 [pyenv](https://github.com/pyenv/pyenv). This utility allows you to install and
-manage multiple versions of python, without impacting or breaking the system-default installation.
+manage multiple versions of python, without impacting or breaking the system default installation.
 
 #### usage
 
-`~/ubuntu/scripts/pyenvconf.py`
+`~/ubuntu/scripts/pyenvsetup.py`
 
 [top](#top)
 
