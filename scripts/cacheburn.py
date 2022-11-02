@@ -3,10 +3,10 @@
 
 import argparse
 
-from library import Environment
-from library import Labels
-from library import min_python_version
-from library import run_one_command
+from library.classes import Environment
+from library.classes import Labels
+from library.utilities import min_python_version
+from library.utilities import run_one_command
 
 
 def burn_it_up(e: Environment) -> None:
@@ -38,7 +38,7 @@ def burn_it_up(e: Environment) -> None:
 
     for cmd in commands:
         labels.next()
-        print(run_one_command(e, cmd.split()))
+        print(run_one_command(e, cmd))
 
     # Tee up files for deletion. You can sneak some other options in for the
     # find command if necessary.
@@ -50,7 +50,7 @@ def burn_it_up(e: Environment) -> None:
 
     for cmd in commands:
         labels.next()
-        print(run_one_command(e, cmd.split()))
+        print(run_one_command(e, cmd))
 
     return
 

@@ -10,11 +10,11 @@ RuntimeError
 import argparse
 import tempfile
 
-from library import Environment
-from library import Labels
-from library import clear
-from library import min_python_version
-from library import run_one_command
+from library.classes import Environment
+from library.classes import Labels
+from library.utilities import clear
+from library.utilities import min_python_version
+from library.utilities import run_one_command
 
 
 def run_script(args: argparse.Namespace, e: Environment) -> None:
@@ -50,7 +50,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     # Push a dummy sudo command just to force password entry before first
     # command. This will avoid having the password prompt come in the middle of
     # a label when providing status
-    run_one_command(e, 'sudo ls'.split())
+    run_one_command(e, 'sudo ls')
 
     # ------------------------------------------
 
@@ -67,8 +67,8 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     if args.mode == 'system':
         labels.next()
         target = '/usr/lib/ssl/openssl.cnf'
-        command = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
-        print(run_one_command(e, command.split()))
+        cmd = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
+        print(run_one_command(e, cmd))
     else:
         labels.pop_first()
 
@@ -80,7 +80,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     if args.mode == 'system':
         url = 'apt.cs.usna.edu/ssl/install-ssl-system.sh'
-        labels.pop_last()  # Discard the trailing label
+        labels.pop_last()  # Discard thsplit()e trailing label
     else:
         url = 'apt.cs.usna.edu/ssl/install-ssl-browsers.sh'
         labels.pop_first()  # Discard the leading label
@@ -94,7 +94,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     success = True
 
     for command in commands:
-        if run_one_command(e, command.split()) != e.PASS:
+        if run_one_command(e, command) != e.PASS:
             success = False
             break
 
@@ -102,7 +102,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     if success:
         command = f'rm -f {fname}'
-        print(run_one_command(e, command.split()))
+        print(run_one_command(e, command))
     else:
         print(e.FAIL)
 

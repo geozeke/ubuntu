@@ -3,12 +3,12 @@
 
 import argparse
 
-from library import Environment
-from library import Labels
-from library import clear
-from library import min_python_version
-from library import run_one_command
-from library import wrap_tight
+from library.classes import Environment
+from library.classes import Labels
+from library.utilities import clear
+from library.utilities import min_python_version
+from library.utilities import run_one_command
+from library.utilities import wrap_tight
 
 
 def run_script(e: Environment) -> None:
@@ -44,7 +44,7 @@ def run_script(e: Environment) -> None:
 
     for cmd in commands:
         labels.next()
-        print(run_one_command(e, cmd.split()))
+        print(run_one_command(e, cmd))
 
     # Done
 

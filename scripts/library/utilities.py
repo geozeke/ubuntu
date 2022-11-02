@@ -7,6 +7,7 @@ import shutil
 import subprocess as sp
 import sys
 import textwrap
+from shlex import split
 from typing import Text
 from typing import TextIO
 
@@ -64,7 +65,7 @@ def wrap_tight(msg: str, columns=70) -> str:
 
 
 def run_one_command(e: Environment,
-                    cmd: list[str],
+                    cmd: str,
                     capture: bool = True,
                     std_in: TextIO | None = None,
                     std_out: TextIO | None = None) -> Text:
@@ -75,9 +76,9 @@ def run_one_command(e: Environment,
     e : Environment
         All the environment variables saved as attributes in an
         Environment object.
-    cmd : list[str]
+    cmd : str
         A shell command (with potentially options) saved as a Python
-        list of strings.
+        string.
     capture : bool, optional
         Determine if stdout should be suppressed (True) or displayed
         (False), by default True.
@@ -100,7 +101,7 @@ def run_one_command(e: Environment,
         print(f'\nRunning: {cmd}')
         return e.PASS
     else:
-        e.RESULT = sp.run(cmd,
+        e.RESULT = sp.run(split(cmd),
                           capture_output=capture,
                           stdin=std_in,
                           stdout=std_out)
@@ -131,7 +132,7 @@ def run_many_arguments(e: Environment, cmd: str, targets: list[str]) -> Text:
         (PASS) or a red X (FAIL).
     """
     for target in targets:
-        result = run_one_command(e, cmd.replace('TARGET', target).split())
+        result = run_one_command(e, cmd.replace('TARGET', target))
         if result == e.FAIL:
             return result
     return result

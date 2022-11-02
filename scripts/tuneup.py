@@ -9,11 +9,11 @@ RuntimeError
 
 import argparse
 
-from library import Environment
-from library import Labels
-from library import min_python_version
-from library import run_one_command
-from library import wrap_tight
+from library.classes import Environment
+from library.classes import Labels
+from library.utilities import min_python_version
+from library.utilities import run_one_command
+from library.utilities import wrap_tight
 
 
 def run_updates(args: argparse.Namespace, e: Environment) -> None:
@@ -46,7 +46,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
     commands.append('sudo snap refresh')
 
     for cmd in commands:
-        run_one_command(e, cmd.split(), capture=False)
+        run_one_command(e, cmd, capture=False)
 
     # Perform additional updates if -a is selected
 
@@ -58,24 +58,24 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         # custom patches later.
         labels.next()
         cmd = f'git -C {e.HOME}/ubuntu pull'
-        print(run_one_command(e, cmd.split()))
+        print(run_one_command(e, cmd))
 
         # Update selected Python packages. Start with pip itself to ensure
         # we've got the lastest version of the Python package installer.
         pips = ['pip', 'jupyter', 'jupyterlab', 'pytest']
         for pip in pips:
             pip_test = f'pip3 show {pip}'
-            if run_one_command(e, pip_test.split()) == e.PASS:
+            if run_one_command(e, pip_test) == e.PASS:
                 labels.next()
                 cmd = f'pip3 install --upgrade {pip}'
-                print(run_one_command(e, cmd.split()))
+                print(run_one_command(e, cmd))
             else:  # Dump the label if the package is not installed
                 labels.pop_first()
 
         # Sync jupyter notebooks
         labels.next()
         cmd = f'git -C {e.HOME}/.notebooksrepo pull'
-        result = run_one_command(e, cmd.split())
+        result = run_one_command(e, cmd)
 
         # Sync repo with local notebooks. Use the --delete option so the
         # destination directory always exactly mirrors the source directory.
@@ -86,7 +86,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
             cmd = 'rsync -rc '
             cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
             cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
-            result = run_one_command(e, cmd.split())
+            result = run_one_command(e, cmd)
 
         print(result)
 
