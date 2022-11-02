@@ -98,7 +98,7 @@ def run_one_command(e: Environment,
         (PASS) or a red X (FAIL).
     """
     if e.DEBUG:
-        print(f'\nRunning: {cmd}')
+        print(f'\nRunning: {split(cmd)}')
         return e.PASS
     else:
         e.RESULT = sp.run(split(cmd),

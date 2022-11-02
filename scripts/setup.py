@@ -298,7 +298,7 @@ def run_script(e: Environment) -> None:
     # org.gnome.shell favorite-apps
 
     labels.next()
-    cmd = 'gsettings set org.gnome.shell favorite-apps [\''
+    cmd = 'gsettings set org.gnome.shell favorite-apps \"[\''
     parts = []
     parts.append('google-chrome.desktop')
     parts.append('org.gnome.TextEditor.desktop')
@@ -309,7 +309,7 @@ def run_script(e: Environment) -> None:
     parts.append('snap-store_ubuntu-software.desktop')
     parts.append('org.gnome.seahorse.Application.desktop')
 
-    cmd += '\',\''.join(parts) + '\']'
+    cmd += '\',\''.join(parts) + '\']\"'
     print(run_one_command(e, cmd))
 
     # ------------------------------------------
