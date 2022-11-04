@@ -80,7 +80,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     if args.mode == 'system':
         url = 'apt.cs.usna.edu/ssl/install-ssl-system.sh'
-        labels.pop_last()  # Discard thsplit()e trailing label
+        labels.pop_last()  # Discard the trailing label
     else:
         url = 'apt.cs.usna.edu/ssl/install-ssl-browsers.sh'
         labels.pop_first()  # Discard the leading label
