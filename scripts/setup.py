@@ -278,6 +278,7 @@ def run_script(e: Environment) -> None:
     if result == e.PASS:
         cmd = 'rsync -rc '
         cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
+        cmd += '--exclude p* '
         cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
         result = run_one_command(e, cmd)
 
