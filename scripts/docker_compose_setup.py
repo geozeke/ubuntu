@@ -35,7 +35,7 @@ def run_script(e: Environment) -> None:
     labels = Labels("""
         System initialization
         Cloning compose repository
-        Making docker compose binary
+        Making docker compose binary (please be patient)
         Moving files into final position""")
 
     # ------------------------------------------

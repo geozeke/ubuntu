@@ -119,7 +119,7 @@ def run_script(e: Environment) -> None:
     deb += 'signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] '
     deb += 'https://download.docker.com/linux/ubuntu '
     run_one_command(e, 'lsb_release -cs')
-    deb += f'{clean_str(e.RESULT.stdout)} stable\"'
+    deb += f'{clean_str(e.RESULT.stdout)} stable'
     tempdest = f'{tempfile.NamedTemporaryFile().name}.list'
     with open(tempdest, 'w') as f:
         f.write(deb)
@@ -173,8 +173,8 @@ def run_script(e: Environment) -> None:
     cmd = f'sudo usermod -aG docker {getpass.getuser()}'
     print(run_one_command(e, cmd))
 
-    msg = """docker installation and setup is complete. You must reboot
-    your VM now for the changes to take effect."""
+    msg = """Docker Engine installation and setup is complete. You must
+    reboot your VM now for the changes to take effect."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return
@@ -188,7 +188,9 @@ def main():  # noqa
     if (result := min_python_version(e)):
         raise RuntimeError(result)
 
-    msg = """This script will install docker."""
+    msg = """This script will install Docker Engine, which is the
+    underlying client-server technology that builds and runs containers
+    using Docker\'s components and service."""
 
     epi = "Latest update: 08/16/22"
 
