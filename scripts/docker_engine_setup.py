@@ -125,7 +125,7 @@ def run_script(e: Environment) -> None:
     deb += f'{clean_str(e.RESULT.stdout)} stable'
     tempdest = f'{tempfile.NamedTemporaryFile().name}.list'
     with open(tempdest, 'w') as f:
-        f.write(deb)
+        f.write(f'{deb}\n')
     dest = '/etc/apt/sources.list.d/docker.list'
     cmd = f'sudo mv {tempdest} {dest} -f'
     print(run_one_command(e, cmd))
