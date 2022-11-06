@@ -8,7 +8,6 @@ RuntimeError
 """
 
 import argparse
-import subprocess as sp
 import getpass
 import tempfile
 
@@ -17,11 +16,10 @@ from library.classes import Labels
 from library.utilities import clear, run_many_arguments, clean_str, wrap_tight
 from library.utilities import min_python_version
 from library.utilities import run_one_command
-from shlex import split
 
 
 def run_script(e: Environment) -> None:
-    """Install docker.
+    """Install docker engine.
 
     Parameters
     ----------
@@ -90,23 +88,25 @@ def run_script(e: Environment) -> None:
     targets.append('software-properties-common')
     print(run_many_arguments(e, cmd, targets))
 
-    # Step 4: Install Docker public key. Requires custom handling with the
-    # subprocess module since we're using pipes.
+    # Step 4: Install Docker public key.
 
     labels.next()
-    cmd = 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg'
-    p1 = sp.Popen(split(cmd), stdout=sp.PIPE)
-    tempdest = f'{tempfile.NamedTemporaryFile().name}.gpg'
+    temp1 = f'{tempfile.NamedTemporaryFile().name}.asc'
+    temp2 = f'{tempfile.NamedTemporaryFile().name}.gpg'
+    keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
     dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
-    # dest = e.HOME/'Desktop/junk.gpg'
-    with open(tempdest, 'wb') as f:
-        cmd = 'gpg --dearmor'
-        sp.run(split(cmd), stdin=p1.stdout, stdout=f)
-    cmd = f'sudo mv {tempdest} {dest} -f'
-    run_one_command(e, cmd)
-    cmd = f'rm {tempdest} -f'
-    run_one_command(e, cmd)
-    print(e.PASS)
+    cmd = f'curl -fsSL {keyloc} > {temp1}'
+    result = run_one_command(e, cmd)
+    if result == e.PASS:
+        cmd = f'gpg -o {temp2} --dearmor {temp1}'
+        result = run_one_command(e, cmd)
+        if result == e.PASS:
+            cmd = f'sudo mv {temp2} {dest} -f'
+            result = run_one_command(e, cmd)
+            if result == e.PASS:
+                cmd = f'rm {temp1} -f'
+                result = run_one_command(e, cmd)
+    print(result)
 
     # ------------------------------------------
 
@@ -123,33 +123,9 @@ def run_script(e: Environment) -> None:
     tempdest = f'{tempfile.NamedTemporaryFile().name}.list'
     with open(tempdest, 'w') as f:
         f.write(deb)
-    # dest = e.HOME/'Desktop/junk.list'
     dest = '/etc/apt/sources.list.d/docker.list'
     cmd = f'sudo mv {tempdest} {dest} -f'
-    run_one_command(e, cmd)
-    cmd = f'rm {tempdest} -f'
-    run_one_command(e, cmd)
-    print(e.PASS)
-
-    # labels.next()
-    # run_one_command(e, 'dpkg --print-architecture')
-    # cmd = f'echo \"deb [arch={clean_str(e.RESULT.stdout)} '
-    # cmd += 'signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] '
-    # cmd += 'https://download.docker.com/linux/ubuntu '
-    # run_one_command(e, 'lsb_release -cs')
-    # cmd += f'{clean_str(e.RESULT.stdout)} stable\"'
-    # p1 = sp.Popen(split(cmd), stdout=sp.PIPE)
-    # tempdest = f'{tempfile.NamedTemporaryFile().name}.list'
-    # # dest = e.HOME/'Desktop/junk.list'
-    # dest = '/etc/apt/sources.list.d/docker.list'
-    # with open(tempdest, 'wb') as f:
-    #     cmd = 'sudo tee - > /dev/null'
-    #     sp.run(split(cmd), stdin=p1.stdout, stdout=f)
-    # cmd = f'sudo mv {tempdest} {dest} -f'
-    # run_one_command(e, cmd)
-    # cmd = f'rm {tempdest} -f'
-    # run_one_command(e, cmd)
-    # print(e.PASS)
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
