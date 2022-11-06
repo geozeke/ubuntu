@@ -18,11 +18,13 @@ become useful for setting up Ubuntu VMs for any purpose.
 
 * [setup.py](#setup)
 * [usnapatch.py](#usnapatch)
-* [pyenvsetup.py](#pyenvsetup)
+* [pyenv_setup.py](#pyenv_setup)
 * [pytools.py](#pytools)
 * [tuneup.py](#tuneup)
 * [cacheburn.py](#cacheburn)
-* [vimsetup.py](#vimsetup)
+* [docker_engine_setup.py](#docker_engine_setup)
+* [docker_compose_setup.py](#docker_compose_setup)
+* [vim_setup.py](#vim_setup)
 
 ### <a id="setup"></a> `setup.py`
 
@@ -85,7 +87,7 @@ Follow the [VM Setup Guides](#top).
 
 [top](#top)
 
-### <a id="pyenvsetup"></a> `pyenvsetup.py`
+### <a id="pyenv_setup"></a> `pyenv_setup.py`
 
 This script sets up and installs the incredibly helpful utility
 [pyenv](https://github.com/pyenv/pyenv). This utility allows you to install and
@@ -94,7 +96,7 @@ installation.
 
 #### usage
 
-`~/ubuntu/scripts/pyenvsetup.py`
+`~/ubuntu/scripts/pyenv_setup.py`
 
 [top](#top)
 
@@ -155,7 +157,31 @@ script and get help, just enter: `cacheburn -h`.
 
 [top](#top)
 
-### <a id="vimsetup"></a> `vimsetup.py`
+### <a id="docker_engine_setup"></a> `docker_engine_setup.py`
+
+This standalone script will install Docker Engine, which is the underlying
+client-server technology that builds and runs containers using Docker's
+components and services.
+
+#### usage
+
+`~/ubuntu/scripts/docker_engine_setup.py`
+
+[top](#top)
+
+### <a id="docker_compose_setup"></a> `docker_compose_setup.py`
+
+This standalone script will install [Docker
+Compose](https://docs.docker.com/get-started/08_using_compose/). Make sure to
+install `docker` first.
+
+#### usage
+
+`~/ubuntu/scripts/docker_compose_setup.py`
+
+[top](#top)
+
+### <a id="vim_setup"></a> `vim_setup.py`
 
 This is a standalone script that allows you to install the necessary files and
 settings to create a pleasant visual experience in vi. It's useful if you've
@@ -177,6 +203,6 @@ Copy the following files from the repo at `/ubuntu/`:
 
 #### usage
 
-`~/ubuntu/scripts/vimsetup.py`
+`~/ubuntu/scripts/vim_setup.py`
 
 [top](#top)
