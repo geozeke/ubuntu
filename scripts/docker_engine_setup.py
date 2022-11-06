@@ -95,7 +95,7 @@ def run_script(e: Environment) -> None:
     temp2 = f'{tempfile.NamedTemporaryFile().name}.gpg'
     keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
     dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
-    cmd = f'curl -fsSL {keyloc} > {temp1}'
+    cmd = f'curl -o {temp1} -fsSL {keyloc}'
     result = run_one_command(e, cmd)
     if result == e.PASS:
         cmd = f'gpg -o {temp2} --dearmor {temp1}'
@@ -166,9 +166,9 @@ def main():  # noqa
 
     msg = """This script will install Docker Engine, which is the
     underlying client-server technology that builds and runs containers
-    using Docker\'s components and service."""
+    using Docker\'s components and services."""
 
-    epi = "Latest update: 08/16/22"
+    epi = "Latest update: 11/06/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

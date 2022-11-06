@@ -87,7 +87,8 @@ def run_script(e: Environment) -> None:
         result = run_one_command(e, cmd)
     print(result)
 
-    msg = """docker compose installation and setup is complete."""
+    msg = """\"docker compose\" setup is complete and it is now ready
+    for use. No reboot is necessary."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return
@@ -103,7 +104,7 @@ def main():  # noqa
 
     msg = """This script will install docker compose."""
 
-    epi = "Latest update: 08/16/22"
+    epi = "Latest update: 11/06/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

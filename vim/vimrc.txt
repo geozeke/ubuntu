@@ -1,4 +1,4 @@
-"Last update: 08/16/22
+"Last update: 11/06/22
 
 "Basic setup items. Set columns to 90 to make room for line numbers.
 

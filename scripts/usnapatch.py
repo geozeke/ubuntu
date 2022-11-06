@@ -126,7 +126,7 @@ def main():  # noqa
     on the USNA mission network. You will be prompted for your password
     during installation."""
 
-    epi = "Latest update: 08/16/22"
+    epi = "Latest update: 11/06/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
