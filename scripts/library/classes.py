@@ -24,8 +24,12 @@ class Environment:
         # environment variable to hold the result from running commands using
         # sub-process. These results may be needed in future use cases.
 
-        self.PASS = '\033[0;32;49m' + u'\u2714' + '\x1b[0m'
-        self.FAIL = '\033[0;31;49m' + u'\u2718' + '\x1b[0m'
+        GREEN = '\033[0;32;49m'
+        RED = '\033[0;31;49m'
+        COLOR_END = '\x1b[0m'
+
+        self.PASS = f'{GREEN}\u2714{COLOR_END}'
+        self.FAIL = f'{RED}\u2718{COLOR_END}'
         self.DEBUG = False
         self.RESULT = None
 

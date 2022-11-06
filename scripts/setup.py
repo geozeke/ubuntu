@@ -9,14 +9,14 @@ RuntimeError
 
 import argparse
 
-from library import Environment
-from library import Labels
-from library import clear
-from library import copy_files
-from library import min_python_version
-from library import run_many_arguments
-from library import run_one_command
-from library import wrap_tight
+from library.classes import Environment
+from library.classes import Labels
+from library.utilities import clear
+from library.utilities import copy_files
+from library.utilities import min_python_version
+from library.utilities import run_many_arguments
+from library.utilities import run_one_command
+from library.utilities import wrap_tight
 
 
 def run_script(e: Environment) -> None:
@@ -111,7 +111,7 @@ def run_script(e: Environment) -> None:
     labels.next()
     base = f'{e.HOME}/ubuntu/scripts/'
     cmd = f'find {base} -name *.py -exec chmod 754 {{}} ;'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -120,7 +120,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'dconf reset -f /org/gnome/terminal/'
-    result = run_one_command(e, cmd.split())
+    result = run_one_command(e, cmd)
 
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/terminal/'
@@ -128,7 +128,7 @@ def run_script(e: Environment) -> None:
         if e.DEBUG:
             print(f'Opening: {path}')
         with open(path, 'r') as f:
-            result = run_one_command(e, cmd.split(), std_in=f)
+            result = run_one_command(e, cmd, std_in=f)
 
     print(result)
 
@@ -142,7 +142,7 @@ def run_script(e: Environment) -> None:
     # pull. This will avoid having the password prompt come in the middle of a
     # label when providing status
 
-    run_one_command(e, 'sudo ls'.split())
+    run_one_command(e, 'sudo ls')
 
     # ------------------------------------------
 
@@ -174,7 +174,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     do_this = cmd.replace('TARGET', 'seahorse-nautilus')
-    print(run_one_command(e, do_this.split()))
+    print(run_one_command(e, do_this))
 
     # ------------------------------------------
 
@@ -190,7 +190,7 @@ def run_script(e: Environment) -> None:
         src = 'https://github.com/robbyrussell/oh-my-zsh.git'
         dest = e.HOME/'.oh-my-zsh'
         cmd = f'git clone {src} {dest} --depth 1'
-        result = run_one_command(e, cmd.split())
+        result = run_one_command(e, cmd)
 
     if result == e.PASS:
         src = e.SHELL/'peter.zsh-theme'
@@ -207,7 +207,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'dconf reset -f /org/gnome/TextEditor/'
-    result = run_one_command(e, cmd.split())
+    result = run_one_command(e, cmd)
 
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/TextEditor/'
@@ -215,7 +215,7 @@ def run_script(e: Environment) -> None:
         if e.DEBUG:
             print(f'Opening: {path}')
         with open(path, 'r') as f:
-            result = run_one_command(e, cmd.split(), std_in=f)
+            result = run_one_command(e, cmd, std_in=f)
 
     print(result)
 
@@ -225,7 +225,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install -y python3-pip'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -233,7 +233,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install -y python3-venv'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -241,7 +241,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = f'python3 -m venv {e.HOME}/.venv/env'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -251,11 +251,11 @@ def run_script(e: Environment) -> None:
     google_deb = 'google-chrome-stable_current_amd64.deb'
     src = f'https://dl.google.com/linux/direct/{google_deb}'
     cmd = f'wget -O /tmp/{google_deb} {src}'
-    result = run_one_command(e, cmd.split())
+    result = run_one_command(e, cmd)
 
     if result == e.PASS:
         cmd = f'sudo dpkg -i /tmp/{google_deb}'
-        result = run_one_command(e, cmd.split())
+        result = run_one_command(e, cmd)
 
     print(result)
 
@@ -268,7 +268,7 @@ def run_script(e: Environment) -> None:
     src = 'https://github.com/geozeke/notebooks.git'
     dest = e.HOME/'.notebooksrepo'
     cmd = f'git clone {src} {dest} --single-branch --depth 1'
-    result = run_one_command(e, cmd.split())
+    result = run_one_command(e, cmd)
 
     # Sync repo with local notebooks. Use the --delete option so the
     # destination directory always exactly mirrors the source directory. Also
@@ -276,10 +276,9 @@ def run_script(e: Environment) -> None:
     # slash ('/') on the source directory allows you to have a destination
     # directory with a different name.
     if result == e.PASS:
-        cmd = 'rsync -rc '
-        cmd += '--exclude .git* --exclude LICENSE* --exclude README* '
+        cmd = f'rsync -rc --exclude-from={e.SYSTEM}/rsync_exclude.txt '
         cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
-        result = run_one_command(e, cmd.split())
+        result = run_one_command(e, cmd)
 
     print(result)
 
@@ -289,7 +288,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo snap refresh'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -298,7 +297,7 @@ def run_script(e: Environment) -> None:
     # org.gnome.shell favorite-apps
 
     labels.next()
-    cmd = 'gsettings set org.gnome.shell favorite-apps [\''
+    cmd = 'gsettings set org.gnome.shell favorite-apps \"[\''
     parts = []
     parts.append('google-chrome.desktop')
     parts.append('org.gnome.TextEditor.desktop')
@@ -309,8 +308,8 @@ def run_script(e: Environment) -> None:
     parts.append('snap-store_ubuntu-software.desktop')
     parts.append('org.gnome.seahorse.Application.desktop')
 
-    cmd += '\',\''.join(parts) + '\']'
-    print(run_one_command(e, cmd.split()))
+    cmd += '\',\''.join(parts) + '\']\"'
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -318,7 +317,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'gsettings set org.gnome.desktop.screensaver lock-enabled false'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -326,7 +325,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'gsettings set org.gnome.desktop.session idle-delay 0'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -334,14 +333,13 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     dest = '/etc/apt/apt.conf.d/20auto-upgrades'
-    argument = 's+Update-Package-Lists "1"+Update-Package-Lists "0"+'
-    cmd = f'sudo*sed*-i*{argument}*{dest}'
-    result = run_one_command(e, cmd.split('*'))
-
+    argument = r's+Update-Package-Lists\ \"1\"+Update-Package-Lists\ \"0\"+'
+    cmd = f'sudo sed -i {argument} {dest}'
+    result = run_one_command(e, cmd)
     if result == e.PASS:
-        argument = 's+Unattended-Upgrade "1"+Unattended-Upgrade "0"+'
-        cmd = f'sudo*sed*-i*{argument}*{dest}'
-        result = run_one_command(e, cmd.split('*'))
+        argument = r's+Unattended-Upgrade\ \"1\"+Unattended-Upgrade\ \"0\"+'
+        cmd = f'sudo sed -i {argument} {dest}'
+        result = run_one_command(e, cmd)
 
     print(result)
 
@@ -354,9 +352,9 @@ def run_script(e: Environment) -> None:
     labels.next()
     argument = r's+\#user_allow_other+user_allow_other+'
     dest = '/etc/fuse.conf'
-    cmd = f'sudo*sed*-i*{argument}*{dest}'
+    cmd = f'sudo sed -i {argument} {dest}'
 
-    print(run_one_command(e, cmd.split('*')))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -384,7 +382,7 @@ def run_script(e: Environment) -> None:
     result = run_many_arguments(e, cmd, targets)
 
     if result == e.PASS:
-        result = run_one_command(e, 'sudo snap remove firefox'.split())
+        result = run_one_command(e, 'sudo snap remove firefox')
 
     print(result)
 
@@ -416,7 +414,7 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 08/16/22"
+    epi = "Latest update: 11/06/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

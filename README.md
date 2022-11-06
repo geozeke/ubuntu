@@ -6,11 +6,15 @@
 
 ## VM Setup Guides (Start Here)
 
-To install a new Ubuntu Virtual Machine using the tools in this repository, follow the setup guide available here: [Ubuntu Setup](https://sites.google.com/view/ubuntuvm)
+To install a new Ubuntu Virtual Machine using the tools in this repository,
+follow the setup guide available here: [Ubuntu
+Setup](https://sites.google.com/view/ubuntuvm)
 
 ## Included Tools
 
-This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I started this repo for Cyber Operations classes at USNA, but it's broadened and become useful for setting up Ubuntu VMs for any purpose.
+This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I
+started this repo for Cyber Operations classes at USNA, but it's broadened and
+become useful for setting up Ubuntu VMs for any purpose.
 
 * [setup.py](#setup)
 * [usnapatch.py](#usnapatch)
@@ -49,14 +53,18 @@ This script sets up a new Ubuntu VM with the following software and settings:
 * Install the following software / tools from developer sites:
   * oh-my-zsh (GitHub)
   * Google Chrome (vendor site)
-* Setup and configure a series of jupyter notebooks for introductory topics in Python. More information is [available here](https://github.com/geozeke/notebooks).
+* Setup and configure a series of jupyter notebooks for introductory topics in
+  Python. More information is [available
+  here](https://github.com/geozeke/notebooks).
 * Configure the gnome favorites in the application launcher.
 * Setup a default Python virtual environment located here: `~/.venv/env`.
 * Tune system settings:
   * Disable auto screen lock.
   * Set idle timeout to 'never'.
   * Disable Ubuntu auto-updates.
-  * Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits starting programs from the command line when you're inside a directory in the share point.
+  * Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits
+    starting programs from the command line when you're inside a directory in
+    the share point.
   * Neatly arrange icons on the favorites launcher.
   * Clean up and delete temporary and unused files.
 
@@ -68,7 +76,8 @@ Follow the [VM Setup Guides](#top).
 
 ### <a id="usnapatch"></a> `usnapatch.py`
 
-This script installs a patched openssl configuration file and runs the necessary scripts to support networking on the USNA mission network.
+This script installs a patched openssl configuration file and runs the
+necessary scripts to support networking on the USNA mission network.
 
 #### usage
 
@@ -80,7 +89,8 @@ Follow the [VM Setup Guides](#top).
 
 This script sets up and installs the incredibly helpful utility
 [pyenv](https://github.com/pyenv/pyenv). This utility allows you to install and
-manage multiple versions of python, without impacting or breaking the system default installation.
+manage multiple versions of python, without breaking the system default
+installation.
 
 #### usage
 
@@ -90,7 +100,8 @@ manage multiple versions of python, without impacting or breaking the system def
 
 ### <a id="pytools"></a> `pytools.py`
 
-This script installs the following Python tools. *Recommend activating a python virtual environment before running this script*:
+This script installs the following Python tools. *Recommend activating a python
+virtual environment before running this script*:
 
 * jupyter
 * jupyterlab
@@ -104,23 +115,27 @@ This script installs the following Python tools. *Recommend activating a python 
 
 ### <a id="tuneup"></a> `tuneup.py`
 
-This script is used to keep the newly-created Ubuntu VM patched. It performs the following updates:
+This script is used to keep the newly-created Ubuntu VM patched. It performs
+the following updates:
 
 * `sudo apt update && sudo apt upgrade`
-* `sudo apt -y auto remove`
+* `sudo apt -y autoremove`
+* `sudo apt -y autoclean`
 * `sudo snap refresh`
 * Pull updates to this repo to support patching if necessary.
 * Synchronize jupyter notebooks to catch updates.
 
 #### usage
 
-An alias for this script is created when the VM is setup. To run the tuneup script and get help, just enter: `tuneup -h`.
+An alias for this script is created when the VM is setup. To run the tuneup
+script and get help, just enter: `tuneup -h`.
 
 [top](#top)
 
 ### <a id="cacheburn"></a> `cacheburn.py`
 
-This script is used to clean caches and temp files from the share point. The following are deleted from `~/shares`:
+This script is used to clean caches and temp files from the share point. The
+following are deleted from `~/shares`:
 
 Directories:
 
@@ -130,18 +145,22 @@ Directories:
 
 Files:
 
-* Icon?
-* desktop.ini
+* `Icon?`
+* `desktop.ini`
 
 #### usage
 
-An alias for this script is created when the VM is setup. To run the cacheburn script and get help, just enter: `cacheburn -h`.
+An alias for this script is created when the VM is setup. To run the cacheburn
+script and get help, just enter: `cacheburn -h`.
 
 [top](#top)
 
 ### <a id="vimsetup"></a> `vimsetup.py`
 
-This is a standalone script that allows you to install the necessary files and settings to create a pleasant visual experience in vi. It's useful if you've got a user account (with no sudo access) on a Linux server and you just want a better look-and-feel for vi.
+This is a standalone script that allows you to install the necessary files and
+settings to create a pleasant visual experience in vi. It's useful if you've
+got a user account (with no sudo access) on a Linux server and you just want a
+better look-and-feel for vi.
 
 Create the following directory:
 

@@ -9,13 +9,13 @@ RuntimeError
 
 import argparse
 
-from library import Environment
-from library import Labels
-from library import clear
-from library import min_python_version
-from library import run_many_arguments
-from library import run_one_command
-from library import wrap_tight
+from library.classes import Environment
+from library.classes import Labels
+from library.utilities import clear
+from library.utilities import min_python_version
+from library.utilities import run_many_arguments
+from library.utilities import run_one_command
+from library.utilities import wrap_tight
 
 
 def run_script(e: Environment) -> None:
@@ -49,7 +49,7 @@ def run_script(e: Environment) -> None:
     # pull. This will avoid having the password prompt come in the middle of a
     # label when providing status
 
-    run_one_command(e, 'sudo ls'.split())
+    run_one_command(e, 'sudo ls')
 
     # ------------------------------------------
 
@@ -65,7 +65,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt update'
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -102,7 +102,7 @@ def run_script(e: Environment) -> None:
     src = "https://github.com/pyenv/pyenv.git"
     dest = f"{e.HOME}/.pyenv"
     cmd = f"git clone {src} {dest} --depth 1"
-    print(run_one_command(e, cmd.split()))
+    print(run_one_command(e, cmd))
 
     # ------------------------------------------
 
@@ -148,7 +148,7 @@ def main():  # noqa
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
-    epi = "Latest update: 08/16/22"
+    epi = "Latest update: 11/06/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
