@@ -12,9 +12,10 @@ import os
 
 from library.classes import Environment
 from library.classes import Labels
-from library.utilities import clear, wrap_tight
+from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_one_command
+from library.utilities import wrap_tight
 
 
 def run_script(e: Environment) -> None:
