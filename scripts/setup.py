@@ -390,8 +390,10 @@ def run_script(e: Environment) -> None:
 
     # Done
 
-    msg = """Ubuntu setup complete. Install additional tools or reboot
-    your VM now for the changes to take effect."""
+    msg = """Setup script is complete. If all steps above are marked
+    with green checkmarks, Ubuntu is ready to go. You must reboot your
+    VM now for the changes to take effect. If any steps above show a red
+    \"X\", there was an error during installation."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return
