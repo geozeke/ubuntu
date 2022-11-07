@@ -59,7 +59,7 @@ This script sets up a new Ubuntu VM with the following software and settings:
   Python. More information is [available
   here](https://github.com/geozeke/notebooks).
 * Configure the gnome favorites in the application launcher.
-* Setup a default Python virtual environment located here: `~/.venv/env`.
+* Setup a starter Python virtual environment located here: `~/.venv/env`.
 * Tune system settings:
   * Disable auto screen lock.
   * Set idle timeout to 'never'.
@@ -159,9 +159,10 @@ script and get help, just enter: `cacheburn -h`.
 
 ### <a id="docker_engine_setup"></a> `docker_engine_setup.py`
 
-This standalone script will install Docker Engine, which is the underlying
-client-server technology that builds and runs containers using Docker's
-components and services.
+This standalone script will install [Docker
+Engine](https://docs.docker.com/engine/), which is the underlying client-server
+technology that builds and runs containers using Docker's components and
+services.
 
 #### usage
 
@@ -187,19 +188,6 @@ This is a standalone script that allows you to install the necessary files and
 settings to create a pleasant visual experience in vi. It's useful if you've
 got a user account (with no sudo access) on a Linux server and you just want a
 better look-and-feel for vi.
-
-Create the following directory:
-
-```text
-~/.vim/colors
-```
-
-Copy the following files from the repo at `/ubuntu/`:
-
-```text
-/vim/vimrc.txt -> ~/.vimrc
-/vim/vimcolors/* -> ~/.vim/colors/
-```
 
 #### usage
 
