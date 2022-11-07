@@ -13,7 +13,7 @@ clean: ## Remove cached files and build products
 # --------------------------------------------
 
 .PHONY: reset
-reset: clean ## clean, then remove venv and .mypy cache
+reset: clean ## clean, then remove .venv and .mypy cache
 	@echo Resetting project state
 	rm -rf .mypy_cache .venv
 
