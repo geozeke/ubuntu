@@ -152,8 +152,10 @@ def run_script(e: Environment) -> None:
     cmd = f'sudo usermod -aG docker {getpass.getuser()}'
     print(run_one_command(e, cmd))
 
-    msg = """Docker Engine installation and setup is complete. You must
-    reboot your VM now for the changes to take effect."""
+    msg = """Setup script is complete. If all steps above are marked
+    with green checkmarks, Docker Engine is ready to go. You must reboot
+    your VM now for the changes to take effect. If any steps above show
+    a red \"X\", there was an error during installation."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return

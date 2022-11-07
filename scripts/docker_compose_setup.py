@@ -88,8 +88,10 @@ def run_script(e: Environment) -> None:
         result = run_one_command(e, cmd)
     print(result)
 
-    msg = """\"docker compose\" setup is complete and it is now ready
-    for use. No reboot is necessary."""
+    msg = """Setup script is complete. If all steps above are marked
+    with green checkmarks, Docker Compose is ready to go. There is no
+    need for a reboot. If any steps above show a red \"X\", there was an
+    error during installation."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return
