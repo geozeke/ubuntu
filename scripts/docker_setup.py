@@ -42,7 +42,8 @@ def run_script(e: Environment) -> None:
         Installing dependencies
         Installing Docker public key
         Mapping the Docker repository
-        Installing Docker
+        Installing Docker Engine
+        Installing Docker Compose
         Adding user to Docker group""")
 
     # ------------------------------------------
@@ -132,7 +133,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 6: Install Docker.
+    # Step 6: Install Docker Engine
 
     labels.next()
     cmd = 'sudo apt update'
@@ -146,7 +147,13 @@ def run_script(e: Environment) -> None:
         result = run_many_arguments(e, cmd, targets)
     print(result)
 
-    # Step 7: Add user to docker group.
+    # Step 7: Install Docker Compose
+
+    labels.next()
+    cmd = 'sudo apt install docker-compose-plugin'
+    print(run_one_command(e, cmd))
+
+    # Step 8: Add user to docker group.
 
     labels.next()
     cmd = f'sudo usermod -aG docker {getpass.getuser()}'
@@ -171,7 +178,11 @@ def main():  # noqa
 
     msg = """This script will install Docker Engine, which is the
     underlying client-server technology that builds and runs containers
-    using Docker\'s components and services."""
+    using Docker\'s components and services. It will also install Docker
+    Compose which is a tool to help define and share multi-container
+    applications. With Compose, you can create a YAML file to define the
+    services and with a single command, can spin everything up or tear
+    it all down."""
 
     epi = "Latest update: 11/06/22"
 
