@@ -202,8 +202,8 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     msg = """Patch script is complete. If all steps above are marked
     with green checkmarks, the certificate patching was successful. If
-    any steps above show a red \"X\", there was an error certificate
-    modification."""
+    any steps above show a red \"X\", there was an error during
+    certificate modification."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return
