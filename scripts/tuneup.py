@@ -79,9 +79,11 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
         # Sync repo with local notebooks. Use the --delete option so the
         # destination directory always exactly mirrors the source directory.
-        # Also skip syncing any git-related files. Per the man page, leaving a
-        # trailing slash ('/') on the source directory allows you to have a
-        # destination directory with a different name.
+        # Also use the --delete-excluded option in case a stray file from the
+        # source, which should be included, makes its way to the destination.
+        # Per the man page, leaving a trailing slash ('/') on the source
+        # directory allows you to have a destination directory with a different
+        # name.
         if result == e.PASS:
             cmd = f'rsync -rc --exclude-from={e.SYSTEM}/rsync_exclude.txt '
             cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete '
