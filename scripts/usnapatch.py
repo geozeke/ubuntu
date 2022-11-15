@@ -145,3 +145,70 @@ def main():  # noqa
 
 if __name__ == '__main__':
     main()
+
+
+# """Find databases in path."""
+# import subprocess as sp
+# import tempfile
+# from pathlib import Path
+# from shlex import split
+
+
+# CERTFILE = 'http://apt.cs.usna.edu/ssl/system-certs-5.6-pa.tgz'
+
+
+# def find_db_files(starting: Path) -> list[Path]:
+#     """Find certificate db files.
+
+#     In this case, a certificate db file is any file that starts with
+#     'cert*' and has a '.db' extension.
+
+#     Parameters
+#     ----------
+#     starting : Path
+#         The directory to start a recursive search for db files.
+
+#     Returns
+#     -------
+#     list[Path]
+#         A list of fully-expressed pathlib objects for all db instances
+#         found.
+#     """
+#     L: list[Path] = []
+#     for p in starting.rglob('*'):
+#         if p.name.startswith('cert') and p.suffix == '.db':
+#             L.append(p)
+#     return L
+
+
+# # This will be a list of pathlib objects pointing to certifcate database files.
+# cert_databases: list[Path] = []
+
+# # Load certificates from USNA server.
+# certdir = Path(tempfile.NamedTemporaryFile().name)
+# certdir.mkdir(parents=True)
+# commands = []
+# commands.append(f'curl -o {certdir}/certs.tgz {CERTFILE}')
+# commands.append(f'tar -xpf {certdir}/certs.tgz -C {certdir}')
+# for command in commands:
+#     sp.run(split(command))
+
+
+# # From the user's home directory, look for certificate database files inside
+# # any hidden directory (starting with '.')
+# for p in Path.home().iterdir():
+#     if p.is_dir and p.name.startswith('.'):
+#         cert_databases += find_db_files(p)
+
+# # Once any / all certificate databases are found, update them with the certutil
+# # utility using the certificates taken from the USNA server.
+# for db in cert_databases:
+#     cmd_root = f'certutil -d sql:{db.parent} -A -t \\"TC\\"'
+#     for cert in certdir.iterdir():
+#         if cert.suffix == '.crt':
+#             cmd = f'{cmd_root} -n {cert.stem} -i {cert}'
+#             print(split(cmd))
+
+# # Cleanup downloaded certificates.
+# cmd = f'rm -rf {certdir}'
+# sp.run(split(cmd))
