@@ -19,7 +19,7 @@ from library.utilities import run_many_arguments
 from library.utilities import run_one_command
 from library.utilities import wrap_tight
 
-CERTFILE = 'http://apt.cs.usna.edu/ssl/system-certs-5.6-pa.tgz'
+CERTFILE = 'apt.cs.usna.edu/ssl/system-certs-5.6-pa.tgz'
 
 
 def find_db_files(starting: Path) -> list[Path]:
