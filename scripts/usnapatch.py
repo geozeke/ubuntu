@@ -128,7 +128,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
             labels.next()
             dir1 = '/usr/share/ca-certificates/dod'
             dir2 = '/usr/local/share/ca-certificates/dod'
-            targets = []
+            targets: list[str] = []
             targets.append(dir1)
             targets.append(dir2)
             cmd = 'sudo rm -rf TARGET'
@@ -177,7 +177,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
             labels.next()
             result = e.PASS
             for db in cert_databases:
-                cmd_root = f'certutil -d sql:{db.parent} -A -t \\"TC\\"'
+                cmd_root = f'certutil -d sql:{db.parent} -A -t \"TC\"'
                 for cert in certlist:
                     cmd = f'{cmd_root} -n {cert.stem} -i {cert}'
                     result = run_one_command(e, cmd)
@@ -222,7 +222,7 @@ def main():  # noqa
     networking on the USNA mission network. You will be prompted for
     your password during installation."""
 
-    epi = "Latest update: 11/06/22"
+    epi = "Latest update: 11/15/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
