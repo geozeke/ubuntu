@@ -9,12 +9,41 @@ RuntimeError
 
 import argparse
 import tempfile
+from pathlib import Path
 
 from library.classes import Environment
 from library.classes import Labels
 from library.utilities import clear
 from library.utilities import min_python_version
+from library.utilities import run_many_arguments
 from library.utilities import run_one_command
+from library.utilities import wrap_tight
+
+CERTFILE = 'http://apt.cs.usna.edu/ssl/system-certs-5.6-pa.tgz'
+
+
+def find_db_files(starting: Path) -> list[Path]:
+    """Find certificate db files.
+
+    In this case, a certificate db file is any file that starts with
+    'cert*' and has a '.db' extension.
+
+    Parameters
+    ----------
+    starting : Path
+        The directory to start a recursive search for db files.
+
+    Returns
+    -------
+    list[Path]
+        A list of fully-expressed pathlib objects for all db instances
+        found.
+    """
+    L: list[Path] = []
+    for p in starting.rglob('*'):
+        if p.name.startswith('cert') and p.suffix == '.db':
+            L.append(p)
+    return L
 
 
 def run_script(args: argparse.Namespace, e: Environment) -> None:
@@ -37,10 +66,15 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     # Setup status labels
 
     labels = Labels("""
-        System initialization
+        Pulling updated USNA enterprise certificates
         Patching openssl configuration
-        Updating system certificates
-        Updating browser certificates""")
+        Removing old certificates
+        Creating fresh directories
+        Copying new certificates
+        Running update utilities
+        Finding certificate databases in user\'s home
+        Updating certificate databases
+        Cleaning up""")
 
     # ------------------------------------------
 
@@ -54,61 +88,123 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now it's just a placeholder for
-    # future capability.
+    # Step 1: System initialization. Get the updated certificates from the USNA
+    # server.
 
     labels.next()
-    print(e.PASS)
-
-    # ------------------------------------------
-
-    # Step 2: Patch openssl
-
-    if args.mode == 'system':
-        labels.next()
-        target = '/usr/lib/ssl/openssl.cnf'
-        cmd = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
-        print(run_one_command(e, cmd))
-    else:
-        labels.pop_first()
-
-    # ------------------------------------------
-
-    # Step 3: Update certificates
-
-    fname = f'{tempfile.NamedTemporaryFile().name}.sh'
-
-    if args.mode == 'system':
-        url = 'apt.cs.usna.edu/ssl/install-ssl-system.sh'
-        labels.pop_last()  # Discard the trailing label
-    else:
-        url = 'apt.cs.usna.edu/ssl/install-ssl-browsers.sh'
-        labels.pop_first()  # Discard the leading label
-
-    commands = []
-    commands.append(f'curl -o {fname} {url}')
-    commands.append(f'chmod 754 {fname}')
-    commands.append(f'{fname}')
-
-    labels.next()
-    success = True
-
+    certdir = Path(tempfile.NamedTemporaryFile().name)
+    certlist: list[Path] = []
+    certdir.mkdir(parents=True)
+    commands: list[str] = []
+    commands.append(f'curl -o {certdir}/certs.tgz {CERTFILE}')
+    commands.append(f'tar -xpf {certdir}/certs.tgz -C {certdir}')
     for command in commands:
-        if run_one_command(e, command) != e.PASS:
-            success = False
+        result = run_one_command(e, command)
+        if result == e.FAIL:
             break
 
-    # Step 4: Cleanup tmp file and report status
+    # Create a list of all the full pathnames for the certificates
+    if result == e.PASS:
+        for p in Path(certdir).iterdir():
+            if p.is_file and p.suffix == '.crt':
+                certlist.append(p)
 
-    if success:
-        command = f'rm -f {fname}'
-        print(run_one_command(e, command))
-    else:
-        print(e.FAIL)
-
-    print()
+    print(result)
 
     # ------------------------------------------
+
+    # Step 2: Take action based on selected options.
+
+    match args.mode:
+
+        case 'system':
+            # Patch openssl configuration
+            labels.next()
+            target = '/usr/lib/ssl/openssl.cnf'
+            cmd = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
+            print(run_one_command(e, cmd))
+
+            # Clean out any old certificates:
+            labels.next()
+            dir1 = '/usr/share/ca-certificates/dod'
+            dir2 = '/usr/local/share/ca-certificates/dod'
+            targets = []
+            targets.append(dir1)
+            targets.append(dir2)
+            cmd = 'sudo rm -rf TARGET'
+            print(run_many_arguments(e, cmd, targets))
+
+            # Create fresh directory
+            labels.next()
+            cmd = f'sudo mkdir -p {dir2}'
+            print(run_one_command(e, cmd))
+
+            # Copy certificates to new directory
+            labels.next()
+            for cert in certlist:
+                cmd = f'sudo cp {cert} {dir2}'
+                result = run_one_command(e, cmd)
+                if result == e.FAIL:
+                    break
+            print(result)
+
+            # Run the update utility
+            labels.next()
+            cmd = 'sudo update-ca-certificates -f'
+            print(run_one_command(e, cmd))
+
+            # Dump unused labels:
+            for _ in range(2):
+                labels.pop_first()
+
+        case 'browser':
+            # Dump unused labels
+            for _ in range(5):
+                labels.pop_first()
+
+            # From the user's home directory, look for certificate database
+            # files inside any hidden directory (starting with '.')
+            labels.next()
+            cert_databases: list[Path] = []
+            for p in Path.home().iterdir():
+                if p.is_dir and p.name.startswith('.'):
+                    cert_databases += find_db_files(p)
+            print(e.PASS)
+
+            # Once any / all certificate databases are found, update them with
+            # the certutil utility using the certificates taken from the USNA
+            # server.
+            labels.next()
+            result = e.PASS
+            for db in cert_databases:
+                cmd_root = f'certutil -d sql:{db.parent} -A -t \\"TC\\"'
+                for cert in certlist:
+                    cmd = f'{cmd_root} -n {cert.stem} -i {cert}'
+                    result = run_one_command(e, cmd)
+                    if result == e.FAIL:
+                        break
+                if result == e.FAIL:
+                    break
+            print(result)
+
+        case _:
+            pass
+
+    # ------------------------------------------
+
+    # Step 3: Cleanup temporary directories
+
+    labels.next()
+    cmd = f'rm -rf {certdir}'
+    print(run_one_command(e, cmd))
+
+    # ------------------------------------------
+
+    msg = """Patch script is complete. If all steps above are marked
+    with green checkmarks, the certificate patching was successful. If
+    any steps above show a red \"X\", there was an error certificate
+    modification."""
+    print(f'\n{wrap_tight(msg)}\n')
 
     return
 
@@ -122,9 +218,9 @@ def main():  # noqa
         raise RuntimeError(result)
 
     msg = """This script installs a patched openssl configuration file
-    and runs the necessary certificate scripts to support networking
-    on the USNA mission network. You will be prompted for your password
-    during installation."""
+    and runs the necessary certificate patching utilities to support
+    networking on the USNA mission network. You will be prompted for
+    your password during installation."""
 
     epi = "Latest update: 11/06/22"
 
@@ -145,70 +241,3 @@ def main():  # noqa
 
 if __name__ == '__main__':
     main()
-
-
-# """Find databases in path."""
-# import subprocess as sp
-# import tempfile
-# from pathlib import Path
-# from shlex import split
-
-
-# CERTFILE = 'http://apt.cs.usna.edu/ssl/system-certs-5.6-pa.tgz'
-
-
-# def find_db_files(starting: Path) -> list[Path]:
-#     """Find certificate db files.
-
-#     In this case, a certificate db file is any file that starts with
-#     'cert*' and has a '.db' extension.
-
-#     Parameters
-#     ----------
-#     starting : Path
-#         The directory to start a recursive search for db files.
-
-#     Returns
-#     -------
-#     list[Path]
-#         A list of fully-expressed pathlib objects for all db instances
-#         found.
-#     """
-#     L: list[Path] = []
-#     for p in starting.rglob('*'):
-#         if p.name.startswith('cert') and p.suffix == '.db':
-#             L.append(p)
-#     return L
-
-
-# # This will be a list of pathlib objects pointing to certifcate database files.
-# cert_databases: list[Path] = []
-
-# # Load certificates from USNA server.
-# certdir = Path(tempfile.NamedTemporaryFile().name)
-# certdir.mkdir(parents=True)
-# commands = []
-# commands.append(f'curl -o {certdir}/certs.tgz {CERTFILE}')
-# commands.append(f'tar -xpf {certdir}/certs.tgz -C {certdir}')
-# for command in commands:
-#     sp.run(split(command))
-
-
-# # From the user's home directory, look for certificate database files inside
-# # any hidden directory (starting with '.')
-# for p in Path.home().iterdir():
-#     if p.is_dir and p.name.startswith('.'):
-#         cert_databases += find_db_files(p)
-
-# # Once any / all certificate databases are found, update them with the certutil
-# # utility using the certificates taken from the USNA server.
-# for db in cert_databases:
-#     cmd_root = f'certutil -d sql:{db.parent} -A -t \\"TC\\"'
-#     for cert in certdir.iterdir():
-#         if cert.suffix == '.crt':
-#             cmd = f'{cmd_root} -n {cert.stem} -i {cert}'
-#             print(split(cmd))
-
-# # Cleanup downloaded certificates.
-# cmd = f'rm -rf {certdir}'
-# sp.run(split(cmd))
