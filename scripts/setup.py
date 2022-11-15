@@ -277,7 +277,8 @@ def run_script(e: Environment) -> None:
     # directory with a different name.
     if result == e.PASS:
         cmd = f'rsync -rc --exclude-from={e.SYSTEM}/rsync_exclude.txt '
-        cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
+        cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete '
+        cmd += '--delete-excluded'
         result = run_one_command(e, cmd)
 
     print(result)
