@@ -277,8 +277,10 @@ def run_script(e: Environment) -> None:
     # page, leaving a trailing slash ('/') on the source directory allows you
     # to have a destination directory with a different name.
     if result == e.PASS:
-        cmd = f'rsync -rc --exclude-from={e.SYSTEM}/rsync_exclude.txt '
-        cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete '
+        src = f'{e.HOME}/.notebooksrepo/'
+        dest = f'{e.HOME}/notebooks'
+        exclude = f'{e.SYSTEM}/rsync_exclude.txt'
+        cmd = f'rsync -rc --exclude-from={exclude} {src} {dest} --delete '
         cmd += '--delete-excluded'
         result = run_one_command(e, cmd)
 
