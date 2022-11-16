@@ -164,7 +164,38 @@ def copy_files(e: Environment,
     return
 
 
-def min_python_version(e: Environment) -> str | None:
+def sync_notebooks(e: Environment) -> Text:
+    """Synchronize jupyter notebooks.
+
+    Sync the hidden repository repo with the local notebooks directory.
+    Use the --delete option so the destination directory always exactly
+    mirrors the source directory. Also use the --delete-excluded option
+    in case a stray file from the source, which should be excluded,
+    makes its way to the destination. Per the man page, leaving a
+    trailing slash ('/') on the source directory allows you to have a
+    destination directory with a different name.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables saved as attributes in an
+        Environment object.
+
+    Returns
+    -------
+    Text
+        Returns a unicode string representing either a green checkmark
+        (PASS) or a red X (FAIL).
+    """
+    src = f'{e.HOME}/.notebooksrepo/'
+    dest = f'{e.HOME}/notebooks'
+    exclude = f'{e.SYSTEM}/rsync_exclude.txt'
+    options = f'-rc --exclude-from={exclude} --delete --delete-excluded'
+    cmd = f'rsync {src} {dest} {options}'
+    return run_one_command(e, cmd)
+
+
+def min_python_version(e: Environment) -> Text | None:
     """Determine if Python is at required min version.
 
     Parameters

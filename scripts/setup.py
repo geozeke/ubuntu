@@ -16,6 +16,7 @@ from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
+from library.utilities import sync_notebooks
 from library.utilities import wrap_tight
 
 
@@ -269,20 +270,8 @@ def run_script(e: Environment) -> None:
     dest = e.HOME/'.notebooksrepo'
     cmd = f'git clone {src} {dest} --single-branch --depth 1'
     result = run_one_command(e, cmd)
-
-    # Sync repo with local notebooks. Use the --delete option so the
-    # destination directory always exactly mirrors the source directory. Also
-    # use the --delete-excluded option in case a stray file from the source,
-    # which should be excluded, makes its way to the destination. Per the man
-    # page, leaving a trailing slash ('/') on the source directory allows you
-    # to have a destination directory with a different name.
     if result == e.PASS:
-        src = f'{e.HOME}/.notebooksrepo/'
-        dest = f'{e.HOME}/notebooks'
-        exclude = f'{e.SYSTEM}/rsync_exclude.txt'
-        cmd = f'rsync -rc --exclude-from={exclude} {src} {dest} --delete '
-        cmd += '--delete-excluded'
-        result = run_one_command(e, cmd)
+        result = sync_notebooks(e)
 
     print(result)
 

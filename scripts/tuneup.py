@@ -13,6 +13,7 @@ from library.classes import Environment
 from library.classes import Labels
 from library.utilities import min_python_version
 from library.utilities import run_one_command
+from library.utilities import sync_notebooks
 from library.utilities import wrap_tight
 
 
@@ -76,21 +77,8 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         labels.next()
         cmd = f'git -C {e.HOME}/.notebooksrepo pull'
         result = run_one_command(e, cmd)
-
-        # Sync repo with local notebooks. Use the --delete option so the
-        # destination directory always exactly mirrors the source directory.
-        # Also use the --delete-excluded option in case a stray file from the
-        # source, which should be excluded, makes its way to the destination.
-        # Per the man page, leaving a trailing slash ('/') on the source
-        # directory allows you to have a destination directory with a different
-        # name.
         if result == e.PASS:
-            src = f'{e.HOME}/.notebooksrepo/'
-            dest = f'{e.HOME}/notebooks'
-            exclude = f'{e.SYSTEM}/rsync_exclude.txt'
-            cmd = f'rsync -rc --exclude-from={exclude} {src} {dest} --delete '
-            cmd += '--delete-excluded'
-            result = run_one_command(e, cmd)
+            result = sync_notebooks(e)
 
         print(result)
 
