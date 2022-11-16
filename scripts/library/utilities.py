@@ -167,13 +167,14 @@ def copy_files(e: Environment,
 def sync_notebooks(e: Environment) -> Text:
     """Synchronize jupyter notebooks.
 
-    Sync the hidden repository repo with the local notebooks directory.
-    Use the --delete option so the destination directory always exactly
+    Sync the hidden repository with the local notebooks directory. Use
+    the --delete option so the destination directory always exactly
     mirrors the source directory. Also use the --delete-excluded option
     in case a stray file from the source, which should be excluded,
     makes its way to the destination. Per the man page, leaving a
-    trailing slash ('/') on the source directory allows you to have a
-    destination directory with a different name.
+    trailing slash ('/') on the source directory allows you to sync the
+    contents of the source directory to a destination directory with a
+    different name.
 
     Parameters
     ----------
