@@ -110,7 +110,10 @@ def run_one_command(e: Environment,
     return e.PASS
 
 
-def run_many_arguments(e: Environment, cmd: str, targets: list[str]) -> Text:
+def run_many_arguments(e: Environment,
+                       cmd: str,
+                       targets: list[str],
+                       marker: str = 'TARGET') -> Text:
     """Run the same command with multiple arguments.
 
     Parameters
@@ -124,6 +127,10 @@ def run_many_arguments(e: Environment, cmd: str, targets: list[str]) -> Text:
     targets : list[str]
         A Python list of strings representing the different arguments
         to be used on multiple runs of the command.
+    marker : str, optional
+        A string representing the replacement marker in the command
+        string. Every time the command is run, a new target will be put
+        in place of the marker. By default 'TARGET'.
 
     Returns
     -------
@@ -132,7 +139,7 @@ def run_many_arguments(e: Environment, cmd: str, targets: list[str]) -> Text:
         (PASS) or a red X (FAIL).
     """
     for target in targets:
-        result = run_one_command(e, cmd.replace('TARGET', target))
+        result = run_one_command(e, cmd.replace(marker, target))
         if result == e.FAIL:
             return result
     return result
@@ -164,7 +171,39 @@ def copy_files(e: Environment,
     return
 
 
-def min_python_version(e: Environment) -> str | None:
+def sync_notebooks(e: Environment) -> Text:
+    """Synchronize jupyter notebooks.
+
+    Sync the hidden repository with the local notebooks directory. Use
+    the --delete option so the destination directory always exactly
+    mirrors the source directory. Also use the --delete-excluded option
+    in case a stray file from the source, which should be excluded,
+    makes its way to the destination. Per the man page, leaving a
+    trailing slash ('/') on the source directory allows you to sync the
+    contents of the source directory to a destination directory with a
+    different name.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables saved as attributes in an
+        Environment object.
+
+    Returns
+    -------
+    Text
+        Returns a unicode string representing either a green checkmark
+        (PASS) or a red X (FAIL).
+    """
+    src = f'{e.HOME}/.notebooksrepo/'
+    dest = f'{e.HOME}/notebooks'
+    exclude = f'{e.SYSTEM}/rsync_exclude.txt'
+    options = f'-rc --exclude-from={exclude} --delete --delete-excluded'
+    cmd = f'rsync {src} {dest} {options}'
+    return run_one_command(e, cmd)
+
+
+def min_python_version(e: Environment) -> Text | None:
     """Determine if Python is at required min version.
 
     Parameters

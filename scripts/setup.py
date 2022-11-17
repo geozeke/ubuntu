@@ -16,6 +16,7 @@ from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
+from library.utilities import sync_notebooks
 from library.utilities import wrap_tight
 
 
@@ -269,16 +270,8 @@ def run_script(e: Environment) -> None:
     dest = e.HOME/'.notebooksrepo'
     cmd = f'git clone {src} {dest} --single-branch --depth 1'
     result = run_one_command(e, cmd)
-
-    # Sync repo with local notebooks. Use the --delete option so the
-    # destination directory always exactly mirrors the source directory. Also
-    # skip syncing any git-related files. Per the man page, leaving a trailing
-    # slash ('/') on the source directory allows you to have a destination
-    # directory with a different name.
     if result == e.PASS:
-        cmd = f'rsync -rc --exclude-from={e.SYSTEM}/rsync_exclude.txt '
-        cmd += f'{e.HOME}/.notebooksrepo/ {e.HOME}/notebooks --delete'
-        result = run_one_command(e, cmd)
+        result = sync_notebooks(e)
 
     print(result)
 
@@ -416,7 +409,7 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 11/06/22"
+    epi = "Latest update: 11/15/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
