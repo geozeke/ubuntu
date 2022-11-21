@@ -22,8 +22,7 @@ become useful for setting up Ubuntu VMs for any purpose.
 * [pytools.py](#pytools)
 * [tuneup.py](#tuneup)
 * [cacheburn.py](#cacheburn)
-* [docker_engine_setup.py](#docker_engine_setup)
-* [docker_compose_setup.py](#docker_compose_setup)
+* [docker_setup.py](#docker_setup)
 * [vim_setup.py](#vim_setup)
 
 ### <a id="setup"></a> `setup.py`
@@ -157,28 +156,17 @@ script and get help, just enter: `cacheburn -h`.
 
 [top](#top)
 
-### <a id="docker_engine_setup"></a> `docker_engine_setup.py`
+### <a id="docker_setup"></a> `docker_setup.py`
 
 This standalone script will install [Docker
 Engine](https://docs.docker.com/engine/), which is the underlying client-server
 technology that builds and runs containers using Docker's components and
-services.
+services. It also installs [Docker
+Compose](https://docs.docker.com/get-started/08_using_compose/).
 
 #### usage
 
-`~/ubuntu/scripts/docker_engine_setup.py`
-
-[top](#top)
-
-### <a id="docker_compose_setup"></a> `docker_compose_setup.py`
-
-This standalone script will install [Docker
-Compose](https://docs.docker.com/get-started/08_using_compose/). Make sure to
-install `docker` first.
-
-#### usage
-
-`~/ubuntu/scripts/docker_compose_setup.py`
+`~/ubuntu/scripts/docker_setup.py`
 
 [top](#top)
 
