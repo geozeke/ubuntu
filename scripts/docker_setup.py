@@ -150,7 +150,7 @@ def run_script(e: Environment) -> None:
     # Step 7: Install Docker Compose
 
     labels.next()
-    cmd = 'sudo apt install docker-compose-plugin'
+    cmd = 'sudo apt install docker-compose-plugin -y'
     print(run_one_command(e, cmd))
 
     # Step 8: Add user to docker group.
