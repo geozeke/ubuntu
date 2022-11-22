@@ -105,7 +105,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     # Create a list of all the full pathnames for the certificates
     if result == e.PASS:
-        for p in Path(certdir).iterdir():
+        for p in certdir.iterdir():
             if p.is_file and p.suffix == '.crt':
                 certlist.append(p)
 
@@ -154,13 +154,11 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
             print(run_one_command(e, cmd))
 
             # Dump unused labels:
-            for _ in range(2):
-                labels.pop_first()
+            labels.dump_labels(2)
 
         case 'browser':
             # Dump unused labels
-            for _ in range(5):
-                labels.pop_first()
+            labels.dump_labels(5)
 
             # From the user's home directory, look for certificate database
             # files inside any hidden directory (starting with '.')

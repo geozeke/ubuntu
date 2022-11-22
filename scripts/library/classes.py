@@ -159,6 +159,25 @@ class Labels:
             print('Terminating program.')
             sys.exit(1)
 
+    def dump_labels(self, num_labels: int) -> None:
+        """Dump the given number of labels.
+
+        Some operations require skipping (dumping) a certain number of
+        labels that are not needed. This method will run down the label
+        list, starting at [0], dumping the specified number of labels.
+
+        Parameters
+        ----------
+        num_labels : int
+            The number of labels to dump.
+        """
+        if ((type(num_labels) != int) or
+                (num_labels <= 0) or (len(self.labels) < num_labels)):
+            return
+        else:
+            self.labels = self.labels[num_labels:]
+        return
+
 
 if __name__ == '__main__':
     pass
