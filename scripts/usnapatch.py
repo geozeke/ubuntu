@@ -154,11 +154,11 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
             print(run_one_command(e, cmd))
 
             # Dump unused labels:
-            labels.dump_labels(2)
+            labels.dump(2)
 
         case 'browser':
             # Dump unused labels
-            labels.dump_labels(5)
+            labels.dump(5)
 
             # From the user's home directory, look for certificate database
             # files inside any hidden directory (starting with '.')

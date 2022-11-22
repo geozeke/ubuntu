@@ -159,7 +159,7 @@ class Labels:
             print('Terminating program.')
             sys.exit(1)
 
-    def dump_labels(self, num_labels: int) -> None:
+    def dump(self, num_labels: int) -> None:
         """Dump the given number of labels.
 
         Some operations require skipping (dumping) a certain number of
