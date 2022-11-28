@@ -39,7 +39,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
     # Ubuntu updates (verbose)
 
-    commands = []
+    commands: list[str] = []
     commands.append('sudo apt update')
     commands.append('sudo apt upgrade -y')
     commands.append('sudo apt autoclean -y')
@@ -63,7 +63,11 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
         # Update selected Python packages. Start with pip itself to ensure
         # we've got the lastest version of the Python package installer.
-        pips = ['pip', 'jupyter', 'jupyterlab', 'pytest']
+        pips: list[str] = []
+        pips.append('pip')
+        pips.append('jupyter')
+        pips.append('jupyterlab')
+        pips.append('pytest')
         for pip in pips:
             pip_test = f'pip3 show {pip}'
             if run_one_command(e, pip_test) == e.PASS:

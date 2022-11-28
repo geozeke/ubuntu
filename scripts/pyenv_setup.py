@@ -73,7 +73,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
-    targets = []
+    targets: list[str] = []
     targets.append('make')
     targets.append('build-essential')
     targets.append('libssl-dev')

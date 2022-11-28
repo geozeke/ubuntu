@@ -8,6 +8,8 @@ RuntimeError
 """
 
 import argparse
+from pathlib import Path
+from typing import Any
 
 from library.classes import Environment
 from library.classes import Labels
@@ -56,15 +58,19 @@ def run_script(e: Environment) -> None:
         Setting idle timeout to \"never\"
         Disabling auto updates
         Patching fuse.conf
-        Arranging icons
+        Tidying icons
         Cleaning up""")
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now it's just a placeholder for
-    # future capability.
+    # Step 1: Initialize lists for running many arguments. When running
+    # commands with generic string targets, the "targets" array will be used.
+    # Commands with special target-types are shown below.
 
     labels.next()
+    dir_targets: list[Path] = []
+    file_targets: (list[tuple[Any, Any]]) = []
+    targets: list[str] = []
     print(e.PASS)
 
     # ------------------------------------------
@@ -72,14 +78,13 @@ def run_script(e: Environment) -> None:
     # Step 2: Create new directories
 
     labels.next()
-    targets = []
-    targets.append(e.HOME/'.vim/colors')
-    targets.append(e.HOME/'shares')
-    targets.append(e.HOME/'notebooks')
-    targets.append(e.HOME/'.notebooksrepo')
-    targets.append(e.HOME/'.venv')
+    dir_targets.append(e.HOME/'.vim/colors')
+    dir_targets.append(e.HOME/'shares')
+    dir_targets.append(e.HOME/'notebooks')
+    dir_targets.append(e.HOME/'.notebooksrepo')
+    dir_targets.append(e.HOME/'.venv')
 
-    for target in targets:
+    for target in dir_targets:
         if e.DEBUG:
             print(f'\nMaking: {str(target)}')
         else:
@@ -92,16 +97,15 @@ def run_script(e: Environment) -> None:
     # Step 3: Copy files
 
     labels.next()
-    targets = []
-    targets.append((e.SHELL/'bashrc.txt', e.HOME/'.bashrc'))
-    targets.append((e.SHELL/'zshrc.txt', e.HOME/'.zshrc'))
-    targets.append((e.SHELL/'profile.txt', e.HOME/'.profile'))
-    targets.append((e.SHELL/'profile.txt', e.HOME/'.zprofile'))
-    targets.append((e.SHELL/'dircolors.txt', e.HOME/'.dircolors'))
-    targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
-    targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
+    file_targets.append((e.SHELL/'bashrc.txt', e.HOME/'.bashrc'))
+    file_targets.append((e.SHELL/'zshrc.txt', e.HOME/'.zshrc'))
+    file_targets.append((e.SHELL/'profile.txt', e.HOME/'.profile'))
+    file_targets.append((e.SHELL/'profile.txt', e.HOME/'.zprofile'))
+    file_targets.append((e.SHELL/'dircolors.txt', e.HOME/'.dircolors'))
+    file_targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
+    file_targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
 
-    copy_files(e, targets)
+    copy_files(e, file_targets)
     print(e.PASS)
 
     # ------------------------------------------
@@ -196,8 +200,8 @@ def run_script(e: Environment) -> None:
     if result == e.PASS:
         src = e.SHELL/'peter.zsh-theme'
         dest = e.HOME/'.oh-my-zsh/custom/themes'
-        targets = [(src, dest)]
-        copy_files(e, targets)
+        file_targets = [(src, dest)]
+        copy_files(e, file_targets)
 
     print(result)
 
@@ -291,17 +295,17 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'gsettings set org.gnome.shell favorite-apps \"[\''
-    parts = []
-    parts.append('google-chrome.desktop')
-    parts.append('org.gnome.TextEditor.desktop')
-    parts.append('org.gnome.Terminal.desktop')
-    parts.append('org.gnome.Nautilus.desktop')
-    parts.append('org.gnome.Calculator.desktop')
-    parts.append('gnome-control-center.desktop')
-    parts.append('snap-store_ubuntu-software.desktop')
-    parts.append('org.gnome.seahorse.Application.desktop')
+    targets = []
+    targets.append('google-chrome.desktop')
+    targets.append('org.gnome.TextEditor.desktop')
+    targets.append('org.gnome.Terminal.desktop')
+    targets.append('org.gnome.Nautilus.desktop')
+    targets.append('org.gnome.Calculator.desktop')
+    targets.append('gnome-control-center.desktop')
+    targets.append('snap-store_ubuntu-software.desktop')
+    targets.append('org.gnome.seahorse.Application.desktop')
 
-    cmd += '\',\''.join(parts) + '\']\"'
+    cmd += '\',\''.join(targets) + '\']\"'
     print(run_one_command(e, cmd))
 
     # ------------------------------------------
@@ -354,8 +358,8 @@ def run_script(e: Environment) -> None:
     # Step 21: Arrange icons.
 
     labels.next()
-    targets = []
     base = 'org.gnome.shell.extensions.'
+    targets = []
     targets.append(f'{base}dash-to-dock show-trash false')
     targets.append(f'{base}dash-to-dock show-mounts false')
     targets.append(f'{base}ding start-corner bottom-left')

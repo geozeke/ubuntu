@@ -70,7 +70,7 @@ def run_script(e: Environment) -> None:
     # Step 2: Update package index
 
     labels.next()
-    commands = []
+    commands: list[str] = []
     commands.append('sudo apt update')
     commands.append('sudo apt upgrade -y')
     for command in commands:
@@ -83,7 +83,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
-    targets = []
+    targets: list[str] = []
     targets.append('apt-transport-https')
     targets.append('ca-certificates')
     targets.append('curl')

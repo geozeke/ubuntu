@@ -31,7 +31,7 @@ def burn_it_up(e: Environment) -> None:
     # escape the semicolon (\;)
     home = e.HOME/'shares'
     base = f'find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune'
-    commands = []
+    commands: list[str] = []
     commands.append(base.replace('DIR', '__pycache__'))
     commands.append(base.replace('DIR', '.pytest_cache'))
     commands.append(base.replace('DIR', '.ipynb_checkpoints'))

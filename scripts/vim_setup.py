@@ -2,6 +2,7 @@
 """Configure vim settings in Ubuntu."""
 
 import argparse
+from typing import Any
 
 from library.classes import Environment
 from library.classes import Labels
@@ -49,7 +50,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
 
-    targets = []
+    targets: list[tuple[Any, Any]] = []
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
 
