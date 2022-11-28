@@ -83,13 +83,11 @@ def run_script(e: Environment) -> None:
     dir_targets.append(e.HOME/'notebooks')
     dir_targets.append(e.HOME/'.notebooksrepo')
     dir_targets.append(e.HOME/'.venv')
-
     for target in dir_targets:
         if e.DEBUG:
             print(f'\nMaking: {str(target)}')
         else:
             target.mkdir(parents=True, exist_ok=True)
-
     print(e.PASS)
 
     # ------------------------------------------
@@ -104,7 +102,6 @@ def run_script(e: Environment) -> None:
     file_targets.append((e.SHELL/'dircolors.txt', e.HOME/'.dircolors'))
     file_targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     file_targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
-
     copy_files(e, file_targets)
     print(e.PASS)
 
@@ -126,7 +123,6 @@ def run_script(e: Environment) -> None:
     labels.next()
     cmd = 'dconf reset -f /org/gnome/terminal/'
     result = run_one_command(e, cmd)
-
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/terminal/'
         path = e.SYSTEM/'terminalSettings.txt'
@@ -134,7 +130,6 @@ def run_script(e: Environment) -> None:
             print(f'Opening: {path}')
         with open(path, 'r') as f:
             result = run_one_command(e, cmd, std_in=f)
-
     print(result)
 
     # ------------------------------------------
@@ -170,7 +165,6 @@ def run_script(e: Environment) -> None:
     targets.append('ccache')
     targets.append('vim')
     targets.append('tree')
-
     print(run_many_arguments(e, cmd, targets))
 
     # ------------------------------------------
@@ -190,19 +184,16 @@ def run_script(e: Environment) -> None:
     targets.append('zsh')
     targets.append('powerline')
     result = run_many_arguments(e, cmd, targets)
-
     if result == e.PASS:
         src = 'https://github.com/robbyrussell/oh-my-zsh.git'
         dest = e.HOME/'.oh-my-zsh'
         cmd = f'git clone {src} {dest} --depth 1'
         result = run_one_command(e, cmd)
-
     if result == e.PASS:
         src = e.SHELL/'peter.zsh-theme'
         dest = e.HOME/'.oh-my-zsh/custom/themes'
         file_targets = [(src, dest)]
         copy_files(e, file_targets)
-
     print(result)
 
     # ------------------------------------------
@@ -213,7 +204,6 @@ def run_script(e: Environment) -> None:
     labels.next()
     cmd = 'dconf reset -f /org/gnome/TextEditor/'
     result = run_one_command(e, cmd)
-
     if result == e.PASS:
         cmd = 'dconf load /org/gnome/TextEditor/'
         path = e.SYSTEM/'text_editor_settings.txt'
@@ -221,7 +211,6 @@ def run_script(e: Environment) -> None:
             print(f'Opening: {path}')
         with open(path, 'r') as f:
             result = run_one_command(e, cmd, std_in=f)
-
     print(result)
 
     # ------------------------------------------
@@ -257,11 +246,9 @@ def run_script(e: Environment) -> None:
     src = f'https://dl.google.com/linux/direct/{google_deb}'
     cmd = f'wget -O /tmp/{google_deb} {src}'
     result = run_one_command(e, cmd)
-
     if result == e.PASS:
         cmd = f'sudo dpkg -i /tmp/{google_deb}'
         result = run_one_command(e, cmd)
-
     print(result)
 
     # ------------------------------------------
@@ -276,7 +263,6 @@ def run_script(e: Environment) -> None:
     result = run_one_command(e, cmd)
     if result == e.PASS:
         result = sync_notebooks(e)
-
     print(result)
 
     # ------------------------------------------
@@ -304,7 +290,6 @@ def run_script(e: Environment) -> None:
     targets.append('gnome-control-center.desktop')
     targets.append('snap-store_ubuntu-software.desktop')
     targets.append('org.gnome.seahorse.Application.desktop')
-
     cmd += '\',\''.join(targets) + '\']\"'
     print(run_one_command(e, cmd))
 
@@ -337,7 +322,6 @@ def run_script(e: Environment) -> None:
         argument = r's+Unattended-Upgrade\ \"1\"+Unattended-Upgrade\ \"0\"+'
         cmd = f'sudo sed -i {argument} {dest}'
         result = run_one_command(e, cmd)
-
     print(result)
 
     # ------------------------------------------
@@ -350,7 +334,6 @@ def run_script(e: Environment) -> None:
     argument = r's+\#user_allow_other+user_allow_other+'
     dest = '/etc/fuse.conf'
     cmd = f'sudo sed -i {argument} {dest}'
-
     print(run_one_command(e, cmd))
 
     # ------------------------------------------
@@ -364,7 +347,6 @@ def run_script(e: Environment) -> None:
     targets.append(f'{base}dash-to-dock show-mounts false')
     targets.append(f'{base}ding start-corner bottom-left')
     targets.append(f'{base}ding show-trash true')
-
     cmd = 'gsettings set TARGET'
     print(run_many_arguments(e, cmd, targets))
 
@@ -377,10 +359,8 @@ def run_script(e: Environment) -> None:
     targets.append(f'/tmp/{google_deb}')
     cmd = 'rm -f TARGET'
     result = run_many_arguments(e, cmd, targets)
-
     if result == e.PASS:
         result = run_one_command(e, 'sudo snap remove firefox')
-
     print(result)
 
     # ------------------------------------------

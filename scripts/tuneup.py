@@ -45,7 +45,6 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
     commands.append('sudo apt autoclean -y')
     commands.append('sudo apt autoremove -y')
     commands.append('sudo snap refresh')
-
     for cmd in commands:
         run_one_command(e, cmd, capture=False)
 
@@ -83,7 +82,6 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         result = run_one_command(e, cmd)
         if result == e.PASS:
             result = sync_notebooks(e)
-
         print(result)
 
     # Done

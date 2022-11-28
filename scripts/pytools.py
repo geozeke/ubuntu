@@ -41,7 +41,6 @@ def run_script(e: Environment) -> None:
     commands.append(base.replace('TARGET', 'jupyter'))
     commands.append(base.replace('TARGET', 'jupyterlab'))
     commands.append(base.replace('TARGET', 'pytest'))
-
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))

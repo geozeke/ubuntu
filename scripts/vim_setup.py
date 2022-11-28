@@ -38,22 +38,18 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     p = e.HOME/'.vim/colors'
-
     if e.DEBUG:
         print(p)
     else:
         p.mkdir(parents=True, exist_ok=True)
-
     print(e.PASS)
 
     # Step 3. Copying files
 
     labels.next()
-
     targets: list[tuple[Any, Any]] = []
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
-
     copy_files(e, targets)
     print(e.PASS)
 

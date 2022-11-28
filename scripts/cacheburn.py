@@ -35,7 +35,6 @@ def burn_it_up(e: Environment) -> None:
     commands.append(base.replace('DIR', '__pycache__'))
     commands.append(base.replace('DIR', '.pytest_cache'))
     commands.append(base.replace('DIR', '.ipynb_checkpoints'))
-
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
@@ -47,7 +46,6 @@ def burn_it_up(e: Environment) -> None:
     commands = []
     commands.append(base.replace('FILE', 'Icon? -size 0'))
     commands.append(base.replace('FILE', 'desktop.ini'))
-
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
