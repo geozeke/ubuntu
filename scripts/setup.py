@@ -69,7 +69,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     dir_targets: list[Path] = []
-    file_targets: (list[tuple[Any, Any]]) = []
+    file_targets: list[tuple[Any, Any]] = []
     targets: list[str] = []
     print(e.PASS)
 
