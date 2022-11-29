@@ -59,10 +59,10 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now it's just a placeholder for
-    # future capability.
+    # Step 1: System initialization.
 
     labels.next()
+    targets: list[str] = []
     print(e.PASS)
 
     # ------------------------------------------
@@ -83,7 +83,6 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
-    targets: list[str] = []
     targets.append('apt-transport-https')
     targets.append('ca-certificates')
     targets.append('curl')
