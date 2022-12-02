@@ -393,7 +393,7 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
