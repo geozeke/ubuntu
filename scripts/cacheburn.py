@@ -31,11 +31,10 @@ def burn_it_up(e: Environment) -> None:
     # escape the semicolon (\;)
     home = e.HOME/'shares'
     base = f'find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune'
-    commands = []
+    commands: list[str] = []
     commands.append(base.replace('DIR', '__pycache__'))
     commands.append(base.replace('DIR', '.pytest_cache'))
     commands.append(base.replace('DIR', '.ipynb_checkpoints'))
-
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
@@ -47,7 +46,6 @@ def burn_it_up(e: Environment) -> None:
     commands = []
     commands.append(base.replace('FILE', 'Icon? -size 0'))
     commands.append(base.replace('FILE', 'desktop.ini'))
-
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
@@ -66,7 +64,7 @@ def main():  # noqa
     msg = """This script will scan the ~/shares directory to wipe caches
     and delete other temporary files."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,

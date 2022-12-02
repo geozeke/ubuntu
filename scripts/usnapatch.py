@@ -105,7 +105,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
 
     # Create a list of all the full pathnames for the certificates
     if result == e.PASS:
-        for p in Path(certdir).iterdir():
+        for p in certdir.iterdir():
             if p.is_file and p.suffix == '.crt':
                 certlist.append(p)
 
@@ -154,13 +154,11 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
             print(run_one_command(e, cmd))
 
             # Dump unused labels:
-            for _ in range(2):
-                labels.pop_first()
+            labels.dump(2)
 
         case 'browser':
             # Dump unused labels
-            for _ in range(5):
-                labels.pop_first()
+            labels.dump(5)
 
             # From the user's home directory, look for certificate database
             # files inside any hidden directory (starting with '.')
@@ -222,7 +220,7 @@ def main():  # noqa
     networking on the USNA mission network. You will be prompted for
     your password during installation."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 

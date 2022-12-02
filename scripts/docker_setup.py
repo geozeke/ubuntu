@@ -59,10 +59,10 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now it's just a placeholder for
-    # future capability.
+    # Step 1: System initialization.
 
     labels.next()
+    targets: list[str] = []
     print(e.PASS)
 
     # ------------------------------------------
@@ -70,7 +70,7 @@ def run_script(e: Environment) -> None:
     # Step 2: Update package index
 
     labels.next()
-    commands = []
+    commands: list[str] = []
     commands.append('sudo apt update')
     commands.append('sudo apt upgrade -y')
     for command in commands:
@@ -83,7 +83,6 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
-    targets = []
     targets.append('apt-transport-https')
     targets.append('ca-certificates')
     targets.append('curl')
@@ -184,7 +183,7 @@ def main():  # noqa
     services and with a single command, can spin everything up or tear
     it all down."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

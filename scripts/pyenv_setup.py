@@ -73,7 +73,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
-    targets = []
+    targets: list[str] = []
     targets.append('make')
     targets.append('build-essential')
     targets.append('libssl-dev')
@@ -150,7 +150,7 @@ def main():  # noqa
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

@@ -37,11 +37,10 @@ def run_script(e: Environment) -> None:
     # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
 
     base = 'pip3 install --upgrade TARGET'
-    commands = []
+    commands: list[str] = []
     commands.append(base.replace('TARGET', 'jupyter'))
     commands.append(base.replace('TARGET', 'jupyterlab'))
     commands.append(base.replace('TARGET', 'pytest'))
-
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
@@ -69,7 +68,7 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

@@ -39,13 +39,12 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
     # Ubuntu updates (verbose)
 
-    commands = []
+    commands: list[str] = []
     commands.append('sudo apt update')
     commands.append('sudo apt upgrade -y')
     commands.append('sudo apt autoclean -y')
     commands.append('sudo apt autoremove -y')
     commands.append('sudo snap refresh')
-
     for cmd in commands:
         run_one_command(e, cmd, capture=False)
 
@@ -63,7 +62,11 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
         # Update selected Python packages. Start with pip itself to ensure
         # we've got the lastest version of the Python package installer.
-        pips = ['pip', 'jupyter', 'jupyterlab', 'pytest']
+        pips: list[str] = []
+        pips.append('pip')
+        pips.append('jupyter')
+        pips.append('jupyterlab')
+        pips.append('pytest')
         for pip in pips:
             pip_test = f'pip3 show {pip}'
             if run_one_command(e, pip_test) == e.PASS:
@@ -79,7 +82,6 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         result = run_one_command(e, cmd)
         if result == e.PASS:
             result = sync_notebooks(e)
-
         print(result)
 
     # Done
@@ -103,7 +105,7 @@ def main():  # noqa
     software installed through Ubuntu Personal Package Archives (ppa).
     You will be prompted for your password during updating."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,

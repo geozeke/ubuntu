@@ -2,6 +2,7 @@
 """Configure vim settings in Ubuntu."""
 
 import argparse
+from typing import Any
 
 from library.classes import Environment
 from library.classes import Labels
@@ -37,22 +38,18 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     p = e.HOME/'.vim/colors'
-
     if e.DEBUG:
         print(p)
     else:
         p.mkdir(parents=True, exist_ok=True)
-
     print(e.PASS)
 
     # Step 3. Copying files
 
     labels.next()
-
-    targets = []
+    targets: list[tuple[Any, Any]] = []
     targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
     targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
-
     copy_files(e, targets)
     print(e.PASS)
 
@@ -78,7 +75,7 @@ def main():  # noqa
     you\'ve already run the ubuntu setup script there's no need to run
     this script."""
 
-    epi = "Latest update: 11/15/22"
+    epi = "Latest update: 12/02/22"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
