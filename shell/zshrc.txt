@@ -91,7 +91,7 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git)
+plugins=(git command-not-found)
 
 # Use our custom colors profile that gets installed during setup.  This will
 # turn off the gaudy green color for directories that are other writable, but
