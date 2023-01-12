@@ -82,7 +82,6 @@ def run_script(e: Environment) -> None:
     dir_targets.append(e.HOME/'shares')
     dir_targets.append(e.HOME/'notebooks')
     dir_targets.append(e.HOME/'.notebooksrepo')
-    dir_targets.append(e.HOME/'.venv')
     for target in dir_targets:
         if e.DEBUG:
             print(f'\nMaking: {str(target)}')
@@ -234,7 +233,7 @@ def run_script(e: Environment) -> None:
     # Step-12: Create Python virtual environment
 
     labels.next()
-    cmd = f'python3 -m venv {e.HOME}/.venv/env'
+    cmd = f'python3 -m venv {e.HOME}/.venv'
     print(run_one_command(e, cmd))
 
     # ------------------------------------------
