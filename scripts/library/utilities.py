@@ -3,13 +3,14 @@
 
 import os
 import pathlib
+import shlex
 import shutil
 import subprocess as sp
 import sys
 import textwrap
-from shlex import split
 from typing import Text
 from typing import TextIO
+from typing import Union
 
 from .classes import Environment
 
@@ -67,8 +68,8 @@ def wrap_tight(msg: str, columns=70) -> str:
 def run_one_command(e: Environment,
                     cmd: str,
                     capture: bool = True,
-                    std_in: TextIO | None = None,
-                    std_out: TextIO | None = None) -> Text:
+                    std_in: Union[TextIO, None] = None,
+                    std_out: Union[TextIO, None] = None) -> Text:
     """Run a single command in the shell.
 
     Parameters
@@ -98,10 +99,10 @@ def run_one_command(e: Environment,
         (PASS) or a red X (FAIL).
     """
     if e.DEBUG:
-        print(f'\nRunning: {split(cmd)}')
+        print(f'\nRunning: {shlex.split(cmd)}')
         return e.PASS
     else:
-        e.RESULT = sp.run(split(cmd),
+        e.RESULT = sp.run(shlex.split(cmd),
                           capture_output=capture,
                           stdin=std_in,
                           stdout=std_out)
