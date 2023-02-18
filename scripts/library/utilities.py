@@ -10,7 +10,6 @@ import sys
 import textwrap
 from typing import Text
 from typing import TextIO
-from typing import Union
 
 from .classes import Environment
 
@@ -68,8 +67,8 @@ def wrap_tight(msg: str, columns=70) -> str:
 def run_one_command(e: Environment,
                     cmd: str,
                     capture: bool = True,
-                    std_in: Union[TextIO, None] = None,
-                    std_out: Union[TextIO, None] = None) -> Text:
+                    std_in: TextIO | None = None,
+                    std_out: TextIO | None = None) -> Text:
     """Run a single command in the shell.
 
     Parameters
