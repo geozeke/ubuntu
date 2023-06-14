@@ -10,13 +10,9 @@ RuntimeError
 import argparse
 import tempfile
 
-from library.classes import Environment
-from library.classes import Labels
-from library.utilities import clear
-from library.utilities import min_python_version
-from library.utilities import run_many_arguments
-from library.utilities import run_one_command
-from library.utilities import wrap_tight
+from library.classes import Environment, Labels
+from library.utilities import (clear, min_python_version, run_many_arguments,
+                               run_one_command, wrap_tight)
 
 
 def run_script(e: Environment) -> None:
@@ -101,12 +97,12 @@ def run_script(e: Environment) -> None:
     git_location = 'https://github.com/pyenv/pyenv-installer/raw/master/bin'
     git_script = f'{git_location}/pyenv-installer'
     local_script = f'{tempfile.NamedTemporaryFile().name}.sh'
-    cmd = f'curl -o {local_script} {git_script}'
+    cmd = f'curl -o {local_script} -L {git_script}'
     result = run_one_command(e, cmd)
     if result == e.PASS:
         cmd = f'chmod 754 {local_script}'
         run_one_command(e, cmd)
-        cmd = f'.{local_script}'
+        cmd = f'{local_script}'
         result = run_one_command(e, cmd)
         cmd = f'rm -f {local_script}'
         run_one_command(e, cmd)
