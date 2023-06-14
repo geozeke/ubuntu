@@ -156,7 +156,7 @@ def run_script(e: Environment) -> None:
     # Step 6. Cleanup temp files.
     labels.next()
     cmd = 'rm -f TARGET'
-    run_many_arguments(e, cmd, temp_files)
+    print(run_many_arguments(e, cmd, temp_files))
 
     # ------------------------------------------
 
