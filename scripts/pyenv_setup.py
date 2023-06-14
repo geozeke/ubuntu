@@ -126,7 +126,8 @@ def run_script(e: Environment) -> None:
     # Use the linux comm command to check if the adjustments have already been
     # made, then proceed if not.
     cmd = f'comm -13 <(sort -u {zsh}) <(sort -u {src})'
-    run_one_command(e, cmd)
+    run_one_command(e, cmd, capture=False)
+    print(e.RESULT.stdout)
     if len(e.RESULT.stdout) == 0:
         try:
             with open(src, 'r') as f1:
