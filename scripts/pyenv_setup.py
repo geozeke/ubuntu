@@ -10,9 +10,13 @@ RuntimeError
 import argparse
 import tempfile
 
-from library.classes import Environment, Labels
-from library.utilities import (clear, min_python_version, run_many_arguments,
-                               run_one_command, wrap_tight)
+from library.classes import Environment
+from library.classes import Labels
+from library.utilities import clear
+from library.utilities import min_python_version
+from library.utilities import run_many_arguments
+from library.utilities import run_one_command
+from library.utilities import wrap_tight
 
 
 def run_script(e: Environment) -> None:
@@ -113,19 +117,29 @@ def run_script(e: Environment) -> None:
     # Step 5: Adjusting shell environments
 
     labels.next()
+
+    # Setup variables with file locations
     src = f"{e.SHELL}/pyenvsupport.txt"
     bash = f"{e.HOME}/.bashrc"
     zsh = f"{e.HOME}/.zshrc"
-    try:
-        with open(src, 'r') as f1:
-            with open(bash, 'a') as f2:
-                f2.write(f1.read())
-            f1.seek(0)
-            with open(zsh, 'a') as f2:
-                f2.write(f1.read())
+
+    # Use the linux comm command to check if the adjustments have already been
+    # made, then proceed if not.
+    cmd = f'comm -13 <(sort -u {zsh}) <(sort -u {src})'
+    run_one_command(e, cmd)
+    if len(e.RESULT.stdout) == 0:
+        try:
+            with open(src, 'r') as f1:
+                with open(bash, 'a') as f2:
+                    f2.write(f1.read())
+                f1.seek(0)
+                with open(zsh, 'a') as f2:
+                    f2.write(f1.read())
+            print(e.PASS)
+        except Exception:
+            print(e.FAIL)
+    else:
         print(e.PASS)
-    except Exception:
-        print(e.FAIL)
 
     # ------------------------------------------
 
