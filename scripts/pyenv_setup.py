@@ -129,10 +129,10 @@ def run_script(e: Environment) -> None:
     mods = f'{tempfile.NamedTemporaryFile().name}'
     with open(rc, 'w') as f:
         cmd = f'sort -u {zsh}'
-        run_one_command(e, cmd, std_out=f)
+        run_one_command(e, cmd, std_out=f, capture=False)
     with open(mods, 'w') as f:
         cmd = f'sort -u {src}'
-        run_one_command(e, cmd, std_out=f)
+        run_one_command(e, cmd, std_out=f, capture=False)
     cmd = f'comm -13 {rc} {mods}'
     run_one_command(e, cmd)
     if len(e.RESULT.stdout) == 0:
