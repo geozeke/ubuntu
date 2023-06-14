@@ -40,7 +40,8 @@ def run_script(e: Environment) -> None:
         Updating package index
         Checking python build dependencies
         Installing pyenv and tools
-        Adjusting shell environments""")
+        Adjusting shell environments
+        Cleaning up""")
 
     # Step 0
 
@@ -55,10 +56,11 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now it's just a placeholder for
-    # future capability.
+    # Step 1: System initialization. Initialize a variable to keep track of
+    # temp files.
 
     labels.next()
+    temp_files: list[str] = []
     print(e.PASS)
 
     # ------------------------------------------
@@ -102,6 +104,7 @@ def run_script(e: Environment) -> None:
     git_location = 'https://github.com/pyenv/pyenv-installer/raw/master/bin'
     git_script = f'{git_location}/pyenv-installer'
     local_script = f'{tempfile.NamedTemporaryFile().name}.sh'
+    temp_files.append(local_script)
     cmd = f'curl -o {local_script} -L {git_script}'
     result = run_one_command(e, cmd)
     if result == e.PASS:
@@ -109,8 +112,6 @@ def run_script(e: Environment) -> None:
         run_one_command(e, cmd)
         cmd = f'{local_script}'
         result = run_one_command(e, cmd)
-        cmd = f'rm -f {local_script}'
-        run_one_command(e, cmd)
     print(result)
 
     # ------------------------------------------
@@ -124,10 +125,12 @@ def run_script(e: Environment) -> None:
     bash = f"{e.HOME}/.bashrc"
     zsh = f"{e.HOME}/.zshrc"
 
-    # Use the linux comm command to check if the adjustments have already been
-    # made, then proceed if not.
+    # Use the linux 'comm' command to check if the adjustments have already
+    # been made, then proceed if not.
     rc = f'{tempfile.NamedTemporaryFile().name}'
+    temp_files.append(rc)
     mods = f'{tempfile.NamedTemporaryFile().name}'
+    temp_files.append(mods)
     with open(rc, 'w') as f:
         cmd = f'sort -u {zsh}'
         run_one_command(e, cmd, std_out=f, capture=False)
@@ -150,11 +153,10 @@ def run_script(e: Environment) -> None:
     else:
         print(e.PASS)
 
-    # Cleanup
-    cmd = f'rm -f {rc}'
-    run_one_command(e, cmd)
-    cmd = f'rm -f {mods}'
-    run_one_command(e, cmd)
+    # Step 6. Cleanup temp files.
+    labels.next()
+    cmd = 'rm -f TARGET'
+    run_many_arguments(e, cmd, temp_files)
 
     # ------------------------------------------
 
