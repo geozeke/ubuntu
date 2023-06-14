@@ -135,6 +135,7 @@ def run_script(e: Environment) -> None:
         run_one_command(e, cmd, std_out=f, capture=False)
     cmd = f'comm -13 {rc} {mods}'
     run_one_command(e, cmd)
+    print(e.RESULT.stdout)
     if len(e.RESULT.stdout) == 0:
         try:
             with open(src, 'r') as f1:
