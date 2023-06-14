@@ -125,9 +125,16 @@ def run_script(e: Environment) -> None:
 
     # Use the linux comm command to check if the adjustments have already been
     # made, then proceed if not.
-    cmd = f'comm -13 <(sort -u {zsh}) <(sort -u {src})'
-    run_one_command(e, cmd, capture=False)
-    print(e.RESULT.stdout)
+    rc = f'{tempfile.NamedTemporaryFile().name}'
+    mods = f'{tempfile.NamedTemporaryFile().name}'
+    with open(rc, 'w') as f:
+        cmd = f'sort -u {zsh}'
+        run_one_command(e, cmd, std_out=f)
+    with open(mods, 'w') as f:
+        cmd = f'sort -u {src}'
+        run_one_command(e, cmd, std_out=f)
+    cmd = f'comm -13 {rc} {mods}'
+    run_one_command(e, cmd)
     if len(e.RESULT.stdout) == 0:
         try:
             with open(src, 'r') as f1:
@@ -141,6 +148,12 @@ def run_script(e: Environment) -> None:
             print(e.FAIL)
     else:
         print(e.PASS)
+
+    # Cleanup
+    cmd = f'rm -f {rc}'
+    run_one_command(e, cmd)
+    cmd = f'rm -f {mods}'
+    run_one_command(e, cmd)
 
     # ------------------------------------------
 
