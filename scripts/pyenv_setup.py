@@ -8,6 +8,7 @@ RuntimeError
 """
 
 import argparse
+import tempfile
 
 from library.classes import Environment
 from library.classes import Labels
@@ -36,8 +37,8 @@ def run_script(e: Environment) -> None:
     labels = Labels("""
         System initialization
         Updating package index
-        Checking dependencies
-        Cloning git repository
+        Checking python build dependencies
+        Installing pyenv and tools
         Adjusting shell environments""")
 
     # Step 0
@@ -83,7 +84,6 @@ def run_script(e: Environment) -> None:
     targets.append('libsqlite3-dev')
     targets.append('wget')
     targets.append('curl')
-    targets.append('llvm')
     targets.append('libncursesw5-dev')
     targets.append('xz-utils')
     targets.append('tk-dev')
@@ -91,18 +91,26 @@ def run_script(e: Environment) -> None:
     targets.append('libxmlsec1-dev')
     targets.append('libffi-dev')
     targets.append('liblzma-dev')
-    targets.append('git')
     print(run_many_arguments(e, cmd, targets))
 
     # ------------------------------------------
 
-    # Step 4: Cloning git repository
+    # Step 4: Install pyenv
 
     labels.next()
-    src = "https://github.com/pyenv/pyenv.git"
-    dest = f"{e.HOME}/.pyenv"
-    cmd = f"git clone {src} {dest} --depth 1"
-    print(run_one_command(e, cmd))
+    git_location = 'https://github.com/pyenv/pyenv-installer/raw/master/bin'
+    git_script = f'{git_location}/pyenv-installer'
+    local_script = f'{tempfile.NamedTemporaryFile().name}.sh'
+    cmd = f'curl -o {local_script} {git_script}'
+    result = run_one_command(e, cmd)
+    if result == e.PASS:
+        cmd = f'chmod 754 {local_script}'
+        run_one_command(e, cmd)
+        cmd = f'.{local_script}'
+        result = run_one_command(e, cmd)
+        cmd = f'rm -f {local_script}'
+        run_one_command(e, cmd)
+    print(result)
 
     # ------------------------------------------
 
@@ -150,7 +158,7 @@ def main():  # noqa
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
-    epi = "Latest update: 12/02/22"
+    epi = "Latest update: 06/14/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
