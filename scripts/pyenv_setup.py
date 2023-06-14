@@ -12,6 +12,7 @@ import tempfile
 
 from library.classes import Environment
 from library.classes import Labels
+from library.utilities import clean_str
 from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
@@ -135,8 +136,8 @@ def run_script(e: Environment) -> None:
         run_one_command(e, cmd, std_out=f, capture=False)
     cmd = f'comm -13 {rc} {mods}'
     run_one_command(e, cmd)
-    print(e.RESULT.stdout)
-    if len(e.RESULT.stdout) == 0:
+    print(clean_str(e.RESULT.stdout))
+    if len(clean_str(e.RESULT.stdout)) == 0:
         try:
             with open(src, 'r') as f1:
                 with open(bash, 'a') as f2:
