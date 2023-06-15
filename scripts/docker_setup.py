@@ -94,8 +94,10 @@ def run_script(e: Environment) -> None:
     # Step 4: Install Docker public key.
 
     labels.next()
-    temp1 = f'{tempfile.NamedTemporaryFile().name}.asc'
-    temp2 = f'{tempfile.NamedTemporaryFile().name}.gpg'
+    with tempfile.NamedTemporaryFile() as f:
+        temp1 = f'{f.name}.asc'
+    with tempfile.NamedTemporaryFile() as f:
+        temp2 = f'{f.name}.gpg'
     keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
     dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
     cmd = f'curl -o {temp1} -fsSL {keyloc}'
@@ -123,11 +125,11 @@ def run_script(e: Environment) -> None:
     deb += 'https://download.docker.com/linux/ubuntu '
     run_one_command(e, 'lsb_release -cs')
     deb += f'{clean_str(e.RESULT.stdout)} stable'
-    tempdest = f'{tempfile.NamedTemporaryFile().name}.list'
-    with open(tempdest, 'w') as f:
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
         f.write(f'{deb}\n')
+        f_name = f.name
     dest = '/etc/apt/sources.list.d/docker.list'
-    cmd = f'sudo mv {tempdest} {dest} -f'
+    cmd = f'sudo mv {f_name} {dest} -f'
     print(run_one_command(e, cmd))
 
     # ------------------------------------------

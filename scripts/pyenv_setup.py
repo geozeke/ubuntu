@@ -99,7 +99,7 @@ def run_script(e: Environment) -> None:
     labels.next()
     remote_script = 'https://pyenv.run'
     with tempfile.TemporaryFile(mode='w') as f:
-        cmd = f'curl -L {remote_script}'
+        cmd = f'curl -sL {remote_script}'
         result = run_one_command(e, cmd, capture=False, std_out=f)
         if result == e.PASS:
             f.seek(0)
@@ -122,7 +122,9 @@ def run_script(e: Environment) -> None:
     with open(zsh, 'r') as f1:
         with open(support, 'r') as f2:
             rc_str = f1.read()
-            sup_str = f2.read()
+            sup_list = [t for token in f2.readlines() if (t := token.strip())]
+            sup_list = [line for line in sup_list if not line.startswith('#')]
+            sup_str = '/n'.join(sup_list)
     if sup_str not in rc_str:
         with open(support, 'r') as f1:
             with open(bash, 'a') as f2:
