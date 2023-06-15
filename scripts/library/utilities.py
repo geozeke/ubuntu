@@ -8,8 +8,8 @@ import shutil
 import subprocess as sp
 import sys
 import textwrap
+from typing import IO
 from typing import Text
-from typing import TextIO
 
 from .classes import Environment
 
@@ -67,8 +67,8 @@ def wrap_tight(msg: str, columns=70) -> str:
 def run_one_command(e: Environment,
                     cmd: str,
                     capture: bool = True,
-                    std_in: TextIO | None = None,
-                    std_out: TextIO | None = None) -> Text:
+                    std_in: IO[str] | None = None,
+                    std_out: IO[str] | None = None) -> Text:
     """Run a single command in the shell.
 
     Parameters
@@ -82,11 +82,11 @@ def run_one_command(e: Environment,
     capture : bool, optional
         Determine if stdout should be suppressed (True) or displayed
         (False), by default True.
-    std_in : TextIO | None
+    std_in : IO[str] | None
         If stdin needs to be redirected on the command line you can
         pass an open file descriptor here for that purpose, by default
         None.
-    std_out : TextIO | None
+    std_out : IO[str] | None
         If stdin needs to be redirected on the command line you can
         pass an open file descriptor here for that purpose, by default
         None.

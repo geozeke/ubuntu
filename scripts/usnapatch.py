@@ -92,7 +92,8 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     # server.
 
     labels.next()
-    certdir = Path(tempfile.NamedTemporaryFile().name)
+    with tempfile.TemporaryDirectory() as tmpdir:
+        certdir = Path(tmpdir)
     certlist: list[Path] = []
     certdir.mkdir(parents=True)
     commands: list[str] = []

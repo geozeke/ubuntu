@@ -12,6 +12,7 @@ import tempfile
 
 from library.classes import Environment
 from library.classes import Labels
+from library.utilities import clean_str
 from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
@@ -39,7 +40,8 @@ def run_script(e: Environment) -> None:
         Updating package index
         Checking python build dependencies
         Installing pyenv and tools
-        Adjusting shell environments""")
+        Adjusting shell environments
+        Cleaning up""")
 
     # Step 0
 
@@ -54,14 +56,16 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 1: System initialization.
+    # Step 1: System initialization. Initialize a variable to keep track of
+    # temp files.
 
     labels.next()
+    temp_files: list[str] = []
     print(e.PASS)
 
     # ------------------------------------------
 
-    # Step 2: Update package index
+    # Step 2: Updating package index
 
     labels.next()
     cmd = 'sudo apt update'
@@ -69,7 +73,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 3: Check dependencies
+    # Step 3: Checking dependencies
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
@@ -98,17 +102,20 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     remote_script = 'https://pyenv.run'
-    with tempfile.TemporaryFile(mode='w') as f:
-        cmd = f'curl -L {remote_script}'
-        result = run_one_command(e, cmd, capture=False, std_out=f)
-        if result == e.PASS:
-            f.seek(0)
-            result = run_one_command(e, 'bash', std_in=f)
+    local_script = f'{tempfile.NamedTemporaryFile().name}.sh'
+    temp_files.append(local_script)
+    cmd = f'curl -o {local_script} -L {remote_script}'
+    result = run_one_command(e, cmd)
+    if result == e.PASS:
+        cmd = f'chmod 754 {local_script}'
+        run_one_command(e, cmd)
+        cmd = f'{local_script}'
+        result = run_one_command(e, cmd)
     print(result)
 
     # ------------------------------------------
 
-    # Step 5: Adjust shell environments
+    # Step 5: Adjusting shell environments
 
     labels.next()
 
@@ -117,20 +124,38 @@ def run_script(e: Environment) -> None:
     bash = f"{e.HOME}/.bashrc"
     zsh = f"{e.HOME}/.zshrc"
 
-    # Check to see if the adjustments have already been made, then proceed if
-    # not.
-    with open(zsh, 'r') as f1:
-        with open(support, 'r') as f2:
-            rc_str = f1.read()
-            sup_str = f2.read()
-    if sup_str not in rc_str:
-        with open(support, 'r') as f1:
-            with open(bash, 'a') as f2:
-                f2.write(f1.read())
-            f1.seek(0)
-            with open(zsh, 'a') as f2:
-                f2.write(f1.read())
-    print(e.PASS)
+    # Use the linux 'comm' command to check if the adjustments have already
+    # been made, then proceed if not.
+    rc_file = f'{tempfile.NamedTemporaryFile().name}'
+    temp_files.append(rc_file)
+    mods_file = f'{tempfile.NamedTemporaryFile().name}'
+    temp_files.append(mods_file)
+    with open(rc_file, 'w') as f:
+        cmd = f'sort -u {zsh}'
+        run_one_command(e, cmd, std_out=f, capture=False)
+    with open(mods_file, 'w') as f:
+        cmd = f'sort -u {support}'
+        run_one_command(e, cmd, std_out=f, capture=False)
+    cmd = f'comm -13 {rc_file} {mods_file}'
+    run_one_command(e, cmd)
+    if len(clean_str(e.RESULT.stdout).strip()) != 0:
+        try:
+            with open(support, 'r') as f1:
+                with open(bash, 'a') as f2:
+                    f2.write(f1.read())
+                f1.seek(0)
+                with open(zsh, 'a') as f2:
+                    f2.write(f1.read())
+            print(e.PASS)
+        except Exception:
+            print(e.FAIL)
+    else:
+        print(e.PASS)
+
+    # Step 6. Cleanup temp files.
+    labels.next()
+    cmd = 'rm -f TARGET'
+    print(run_many_arguments(e, cmd, temp_files))
 
     # ------------------------------------------
 
@@ -159,7 +184,7 @@ def main():  # noqa
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
-    epi = "Latest update: 06/15/23"
+    epi = "Latest update: 06/14/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
