@@ -13,6 +13,7 @@ import tempfile
 from library.classes import Environment
 from library.classes import Labels
 from library.utilities import clear
+from library.utilities import lean_text
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
@@ -122,9 +123,7 @@ def run_script(e: Environment) -> None:
     with open(zsh, 'r') as f1:
         with open(support, 'r') as f2:
             rc_str = f1.read()
-            sup_list = [t for token in f2.readlines() if (t := token.strip())]
-            sup_list = [line for line in sup_list if not line.startswith('#')]
-            sup_str = '/n'.join(sup_list)
+            sup_str = lean_text(f2.read())
     if sup_str not in rc_str:
         with open(support, 'r') as f1:
             with open(bash, 'a') as f2:

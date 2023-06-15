@@ -3,6 +3,7 @@
 
 import os
 import pathlib
+import re
 import shlex
 import shutil
 import subprocess as sp
@@ -62,6 +63,37 @@ def wrap_tight(msg: str, columns=70) -> str:
     """
     clean = ' '.join([t for token in msg.split('\n') if (t := token.strip())])
     return textwrap.fill(clean, width=columns)
+
+
+def lean_text(str_in: str) -> str:
+    """Strip blank lines and comments from a text file.
+
+    Take the contents of a text file, contained in a string variable,
+    and strip lines that are either blank (no printable characters), or
+    lines that represent comments (start with '#')
+
+    Note: If the file contains a environment line (e.g. #!/bin/bash),
+    that line will be stripped as well.
+
+    Parameters
+    ----------
+    str_in : str
+        A text file saved in a string variable.
+
+    Returns
+    -------
+    str
+        The input string, with blank lines and comment lines removed.
+    """
+    clean_lines: list[str] = []
+    input_lines: list[str] = str_in.split('\n')
+    for line in input_lines:
+        if re.search(r'^\s*$', line):  # Skip whitespace/blank lines
+            continue
+        if re.match(r'^\s*#', line):  # Skip lines starting with '#'
+            continue
+        clean_lines.append(line)
+    return '\n'.join(clean_lines)
 
 
 def run_one_command(e: Environment,
