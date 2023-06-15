@@ -8,7 +8,7 @@ RuntimeError
 """
 
 import argparse
-import tempfile
+import tempfile as tf
 from pathlib import Path
 
 from library.classes import Environment
@@ -92,7 +92,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     # server.
 
     labels.next()
-    with tempfile.TemporaryDirectory() as tmpdir:
+    with tf.TemporaryDirectory() as tmpdir:
         certdir = Path(tmpdir)
     certlist: list[Path] = []
     certdir.mkdir(parents=True)

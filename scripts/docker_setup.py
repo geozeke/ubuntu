@@ -9,7 +9,7 @@ RuntimeError
 
 import argparse
 import getpass
-import tempfile
+import tempfile as tf
 
 from library.classes import Environment
 from library.classes import Labels
@@ -94,9 +94,9 @@ def run_script(e: Environment) -> None:
     # Step 4: Install Docker public key.
 
     labels.next()
-    with tempfile.NamedTemporaryFile() as f:
+    with tf.NamedTemporaryFile() as f:
         temp1 = f'{f.name}.asc'
-    with tempfile.NamedTemporaryFile() as f:
+    with tf.NamedTemporaryFile() as f:
         temp2 = f'{f.name}.gpg'
     keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
     dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
@@ -125,7 +125,7 @@ def run_script(e: Environment) -> None:
     deb += 'https://download.docker.com/linux/ubuntu '
     run_one_command(e, 'lsb_release -cs')
     deb += f'{clean_str(e.RESULT.stdout)} stable'
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
+    with tf.NamedTemporaryFile(mode='w', delete=False) as f:
         f.write(f'{deb}\n')
         f_name = f.name
     dest = '/etc/apt/sources.list.d/docker.list'

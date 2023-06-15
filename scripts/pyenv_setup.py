@@ -8,7 +8,7 @@ RuntimeError
 """
 
 import argparse
-import tempfile
+import tempfile as tf
 
 from library.classes import Environment
 from library.classes import Labels
@@ -99,7 +99,7 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     remote_script = 'https://pyenv.run'
-    with tempfile.TemporaryFile(mode='w') as f:
+    with tf.TemporaryFile(mode='w') as f:
         cmd = f'curl -sL {remote_script}'
         result = run_one_command(e, cmd, capture=False, std_out=f)
         if result == e.PASS:
