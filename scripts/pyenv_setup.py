@@ -101,11 +101,10 @@ def run_script(e: Environment) -> None:
     # Step 4: Install pyenv
 
     labels.next()
-    git_location = 'https://github.com/pyenv/pyenv-installer/raw/master/bin'
-    git_script = f'{git_location}/pyenv-installer'
+    remote_script = 'https://pyenv.run'
     local_script = f'{tempfile.NamedTemporaryFile().name}.sh'
     temp_files.append(local_script)
-    cmd = f'curl -o {local_script} -L {git_script}'
+    cmd = f'curl -o {local_script} -L {remote_script}'
     result = run_one_command(e, cmd)
     if result == e.PASS:
         cmd = f'chmod 754 {local_script}'
@@ -121,27 +120,27 @@ def run_script(e: Environment) -> None:
     labels.next()
 
     # Setup variables with file locations
-    src = f"{e.SHELL}/pyenvsupport.txt"
+    support = f"{e.SHELL}/pyenvsupport.txt"
     bash = f"{e.HOME}/.bashrc"
     zsh = f"{e.HOME}/.zshrc"
 
     # Use the linux 'comm' command to check if the adjustments have already
     # been made, then proceed if not.
-    rc = f'{tempfile.NamedTemporaryFile().name}'
-    temp_files.append(rc)
-    mods = f'{tempfile.NamedTemporaryFile().name}'
-    temp_files.append(mods)
-    with open(rc, 'w') as f:
+    rc_file = f'{tempfile.NamedTemporaryFile().name}'
+    temp_files.append(rc_file)
+    mods_file = f'{tempfile.NamedTemporaryFile().name}'
+    temp_files.append(mods_file)
+    with open(rc_file, 'w') as f:
         cmd = f'sort -u {zsh}'
         run_one_command(e, cmd, std_out=f, capture=False)
-    with open(mods, 'w') as f:
-        cmd = f'sort -u {src}'
+    with open(mods_file, 'w') as f:
+        cmd = f'sort -u {support}'
         run_one_command(e, cmd, std_out=f, capture=False)
-    cmd = f'comm -13 {rc} {mods}'
+    cmd = f'comm -13 {rc_file} {mods_file}'
     run_one_command(e, cmd)
     if len(clean_str(e.RESULT.stdout).strip()) != 0:
         try:
-            with open(src, 'r') as f1:
+            with open(support, 'r') as f1:
                 with open(bash, 'a') as f2:
                     f2.write(f1.read())
                 f1.seek(0)
