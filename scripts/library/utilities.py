@@ -9,7 +9,7 @@ import shutil
 import subprocess as sp
 import sys
 import textwrap
-from typing import IO
+from typing import Any
 from typing import Text
 
 from .classes import Environment
@@ -99,8 +99,8 @@ def lean_text(str_in: str) -> str:
 def run_one_command(e: Environment,
                     cmd: str,
                     capture: bool = True,
-                    std_in: IO[str] | None = None,
-                    std_out: IO[str] | None = None) -> Text:
+                    std_in: Any | None = None,
+                    std_out: Any | None = None) -> Text:
     """Run a single command in the shell.
 
     Parameters
@@ -114,14 +114,14 @@ def run_one_command(e: Environment,
     capture : bool, optional
         Determine if stdout should be suppressed (True) or displayed
         (False), by default True.
-    std_in : IO[str] | None
+    std_in : Any | None
         If stdin needs to be redirected on the command line you can
-        pass an open file descriptor here for that purpose, by default
-        None.
-    std_out : IO[str] | None
-        If stdin needs to be redirected on the command line you can
-        pass an open file descriptor here for that purpose, by default
-        None.
+        pass an open file descriptor here for that purpose. It can be
+        any kind of file object (Text/Binary), by default None.
+    std_out : Any | None
+        If stdout needs to be redirected on the command line you can
+        pass an open file descriptor here for that purpose. It can be
+        any kind of file object (Text/Binary), by default None.
 
     Returns
     -------

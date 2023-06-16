@@ -94,23 +94,29 @@ def run_script(e: Environment) -> None:
     # Step 4: Install Docker public key.
 
     labels.next()
-    with tf.NamedTemporaryFile() as f:
-        temp1 = f'{f.name}.asc'
-    with tf.NamedTemporaryFile() as f:
-        temp2 = f'{f.name}.gpg'
     keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
     dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
-    cmd = f'curl -o {temp1} -fsSL {keyloc}'
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
-        cmd = f'gpg -o {temp2} --dearmor {temp1}'
-        result = run_one_command(e, cmd)
-        if result == e.PASS:
-            cmd = f'sudo mv {temp2} {dest} -f'
-            result = run_one_command(e, cmd)
+    with tf.NamedTemporaryFile(mode='w', delete=False) as f1:
+        with tf.NamedTemporaryFile(delete=False) as f2:
+            f1_name = f1.name  # noqa
+            f2_name = f2.name  # noqa
+            cmd = f'curl -fsSL {keyloc}'
+            result = run_one_command(e, cmd, capture=False, std_out=f1)
             if result == e.PASS:
-                cmd = f'rm {temp1} -f'
-                result = run_one_command(e, cmd)
+                f1.seek(0)
+                cmd = 'gpg -o - --dearmor'
+                result = run_one_command(e,
+                                         cmd,
+                                         capture=False,
+                                         std_in=f1,
+                                         std_out=f2)
+
+    if result == e.PASS:
+        cmd = f'sudo -f mv {f2.name} {dest} -f'
+        result = run_one_command(e, cmd)
+        cmd = f'rm -f {f1.name}'
+        run_one_command(e, cmd)
+
     print(result)
 
     # ------------------------------------------
