@@ -8,7 +8,6 @@ RuntimeError
 """
 
 import argparse
-import tempfile as tf
 
 from library.classes import Environment
 from library.classes import Labels
@@ -17,6 +16,7 @@ from library.utilities import lean_text
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
+from library.utilities import run_script
 from library.utilities import wrap_tight
 
 
@@ -98,14 +98,7 @@ def task_runner(e: Environment) -> None:
     # Step 4: Install pyenv
 
     labels.next()
-    remote_script = 'https://pyenv.run'
-    with tf.TemporaryFile(mode='w') as f:
-        cmd = f'curl -sL {remote_script}'
-        result = run_one_command(e, cmd, capture=False, std_out=f)
-        if result == e.PASS:
-            f.seek(0)
-            result = run_one_command(e, 'bash', std_in=f)
-    print(result)
+    print(run_script(e, 'https://pyenv.run'))
 
     # ------------------------------------------
 
