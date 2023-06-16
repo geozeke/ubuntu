@@ -62,12 +62,13 @@ def run_script(e: Environment) -> None:
     # Step 2: Install docker components
 
     labels.next()
+    print()
     remote_script = 'https://get.docker.com'
     with tf.TemporaryFile(mode='w') as f:
         cmd = f'curl -sL {remote_script}'
         run_one_command(e, cmd, capture=False, std_out=f)
         f.seek(0)
-        run_one_command(e, 'sudo sh', std_in=f)
+        run_one_command(e, 'sudo sh', std_in=f, capture=False)
     print()
 
     # Step 3: Add user to docker group.

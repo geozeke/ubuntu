@@ -104,7 +104,7 @@ def run_script(e: Environment) -> None:
         result = run_one_command(e, cmd, capture=False, std_out=f)
         if result == e.PASS:
             f.seek(0)
-            result = run_one_command(e, 'sudo bash', std_in=f)
+            result = run_one_command(e, 'bash', std_in=f)
     print(result)
 
     # ------------------------------------------
