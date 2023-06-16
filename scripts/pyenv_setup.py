@@ -20,7 +20,7 @@ from library.utilities import run_one_command
 from library.utilities import wrap_tight
 
 
-def run_script(e: Environment) -> None:
+def task_runner(e: Environment) -> None:
     """Perform pyenv setup steps.
 
     Parameters
@@ -164,7 +164,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    run_script(e)
+    task_runner(e)
 
     return
 

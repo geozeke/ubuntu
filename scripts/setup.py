@@ -22,7 +22,7 @@ from library.utilities import sync_notebooks
 from library.utilities import wrap_tight
 
 
-def run_script(e: Environment) -> None:
+def task_runner(e: Environment) -> None:
     """Perform tool installation and setup.
 
     Parameters
@@ -395,7 +395,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    run_script(e)
+    task_runner(e)
 
     return
 

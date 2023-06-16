@@ -47,7 +47,7 @@ def run_script(e: Environment, script: str) -> Text:
     return result
 
 
-def run_patches(args: argparse.Namespace, e: Environment) -> None:
+def task_runner(args: argparse.Namespace, e: Environment) -> None:
     """Patch openssl configuration and run certificate scripts.
 
     Parameters
@@ -144,7 +144,7 @@ def main():  # noqa
                         help=msg)
 
     args = parser.parse_args()
-    run_patches(args, e)
+    task_runner(args, e)
 
     return
 
