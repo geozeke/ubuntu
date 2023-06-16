@@ -197,12 +197,13 @@ def run_script(e: Environment,
     as_sudo : bool, optional
         Run the script as sudo, by default False.
     capture : bool, optional
-        Capture stdout or not, by default False.
+        Capture stdout or not, by default True.
 
     Returns
     -------
     Text
-        A green check or red X indicating success or failure.
+        Returns a unicode string representing either a green checkmark
+        (PASS) or a red X (FAIL).
     """
     with tf.TemporaryFile(mode='w') as f:
         cmd = f'curl -sL {script}'
@@ -213,7 +214,7 @@ def run_script(e: Environment,
                 cmd = f'sudo {shell}'
             else:
                 cmd = shell
-            result = run_one_command(e, 'bash', capture=capture, std_in=f)
+            result = run_one_command(e, cmd, capture=capture, std_in=f)
     return result
 
 
