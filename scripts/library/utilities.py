@@ -8,6 +8,7 @@ import shlex
 import shutil
 import subprocess as sp
 import sys
+import tempfile as tf
 import textwrap
 from typing import Any
 from typing import Text
@@ -174,6 +175,46 @@ def run_many_arguments(e: Environment,
         result = run_one_command(e, cmd.replace(marker, target))
         if result == e.FAIL:
             return result
+    return result
+
+
+def run_script(e: Environment,
+               script: str,
+               shell: str = 'bash',
+               as_sudo: bool = False,
+               capture: bool = True) -> Text:
+    """Run a remote shell script.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables saved as attributes in an
+        Environment object.
+    script : str
+        URL of the remote script.
+    shell : str, optional
+        Shell to run (e.g. bash, sh, etc.), by default 'bash'.
+    as_sudo : bool, optional
+        Run the script as sudo, by default False.
+    capture : bool, optional
+        Capture stdout or not, by default True.
+
+    Returns
+    -------
+    Text
+        Returns a unicode string representing either a green checkmark
+        (PASS) or a red X (FAIL).
+    """
+    with tf.TemporaryFile(mode='w') as f:
+        cmd = f'curl -sL {script}'
+        result = run_one_command(e, cmd, capture=False, std_out=f)
+        if result == e.PASS:
+            f.seek(0)
+            if as_sudo:
+                cmd = f'sudo {shell}'
+            else:
+                cmd = shell
+            result = run_one_command(e, cmd, capture=capture, std_in=f)
     return result
 
 
