@@ -98,8 +98,8 @@ def run_script(e: Environment) -> None:
     dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
     with tf.NamedTemporaryFile(mode='w', delete=False) as f1:
         with tf.NamedTemporaryFile(delete=False) as f2:
-            f1_name = f1.name  # noqa
-            f2_name = f2.name  # noqa
+            f1_name = f1.name
+            f2_name = f2.name
             cmd = f'curl -fsSL {keyloc}'
             result = run_one_command(e, cmd, capture=False, std_out=f1)
             if result == e.PASS:
@@ -112,17 +112,16 @@ def run_script(e: Environment) -> None:
                                          std_out=f2)
 
     if result == e.PASS:
-        cmd = f'sudo -f mv {f2.name} {dest} -f'
+        cmd = f'sudo -f mv {f2_name} {dest} -f'
         result = run_one_command(e, cmd)
-        cmd = f'rm -f {f1.name}'
+        cmd = f'rm -f {f1_name}'
         run_one_command(e, cmd)
 
     print(result)
 
     # ------------------------------------------
 
-    # Step 5: Map to the Docker repository. Again, special handling with
-    # subprocess because we're using pipes.
+    # Step 5: Map to the Docker repository.
 
     labels.next()
     run_one_command(e, 'dpkg --print-architecture')
@@ -191,7 +190,7 @@ def main():  # noqa
     services and with a single command, can spin everything up or tear
     it all down."""
 
-    epi = "Latest update: 12/02/22"
+    epi = "Latest update: 06/15/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
