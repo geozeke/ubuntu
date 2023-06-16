@@ -13,10 +13,8 @@ import tempfile as tf
 
 from library.classes import Environment
 from library.classes import Labels
-from library.utilities import clean_str
 from library.utilities import clear
 from library.utilities import min_python_version
-from library.utilities import run_many_arguments
 from library.utilities import run_one_command
 from library.utilities import wrap_tight
 
@@ -38,12 +36,7 @@ def run_script(e: Environment) -> None:
 
     labels = Labels("""
         System initialization
-        Updating package index
-        Installing dependencies
-        Installing Docker public key
-        Mapping the Docker repository
-        Installing Docker Engine
-        Installing Docker Compose
+        Installing docker components
         Adding user to Docker group""")
 
     # ------------------------------------------
@@ -62,116 +55,30 @@ def run_script(e: Environment) -> None:
     # Step 1: System initialization.
 
     labels.next()
-    targets: list[str] = []
     print(e.PASS)
 
     # ------------------------------------------
 
-    # Step 2: Update package index
+    # Step 2: Install docker components
 
     labels.next()
-    commands: list[str] = []
-    commands.append('sudo apt update')
-    commands.append('sudo apt upgrade -y')
-    for command in commands:
-        run_one_command(e, command)
-    print(e.PASS)
+    print()
+    remote_script = 'https://get.docker.com'
+    with tf.TemporaryFile(mode='w') as f:
+        cmd = f'curl -sL {remote_script}'
+        run_one_command(e, cmd, capture=False, std_out=f)
+        f.seek(0)
+        run_one_command(e, 'sudo sh', std_in=f, capture=False)
+    print()
 
-    # ------------------------------------------
-
-    # Step 3: Install dependencies
-
-    labels.next()
-    cmd = 'sudo apt install TARGET -y'
-    targets.append('apt-transport-https')
-    targets.append('ca-certificates')
-    targets.append('curl')
-    targets.append('gnupg-agent')
-    targets.append('make')
-    targets.append('software-properties-common')
-    print(run_many_arguments(e, cmd, targets))
-
-    # Step 4: Install Docker public key.
-
-    labels.next()
-    keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
-    dest = '/etc/apt/keyrings/docker.gpg'
-    cmd = 'sudo install -m 0755 -d /etc/apt/keyrings'
-    run_one_command(e, cmd)
-
-    with tf.NamedTemporaryFile(mode='w', delete=False) as f1:
-        with tf.NamedTemporaryFile(delete=False) as f2:
-            f1_name = f1.name
-            f2_name = f2.name
-            cmd = f'curl -fsSL {keyloc}'
-            result = run_one_command(e, cmd, capture=False, std_out=f1)
-            if result == e.PASS:
-                f1.seek(0)
-                cmd = 'gpg -o - --dearmor'
-                result = run_one_command(e,
-                                         cmd,
-                                         capture=False,
-                                         std_in=f1,
-                                         std_out=f2)
-
-    if result == e.PASS:
-        cmd = f'sudo mv -f {f2_name} {dest}'
-        result = run_one_command(e, cmd)
-        cmd = f'rm -f {f1_name}'
-        run_one_command(e, cmd)
-
-    print(result)
-
-    # ------------------------------------------
-
-    # Step 5: Map to the Docker repository.
-
-    labels.next()
-    run_one_command(e, 'dpkg --print-architecture')
-    deb = f'deb [arch={clean_str(e.RESULT.stdout)} '
-    deb += 'signed-by=/etc/apt/keyrings/docker.gpg] '
-    deb += 'https://download.docker.com/linux/ubuntu '
-    run_one_command(e, 'lsb_release -cs')
-    deb += f'{clean_str(e.RESULT.stdout)} stable'
-    with tf.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(f'{deb}\n')
-        f_name = f.name
-    dest = '/etc/apt/sources.list.d/docker.list'
-    cmd = f'sudo mv {f_name} {dest} -f'
-    print(run_one_command(e, cmd))
-
-    # ------------------------------------------
-
-    # Step 6: Install Docker Engine
-
-    labels.next()
-    cmd = 'sudo apt update'
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
-        cmd = 'sudo apt install TARGET -y'
-        targets = []
-        targets.append('docker-ce')
-        targets.append('docker-ce-cli')
-        targets.append('containerd.io')
-        result = run_many_arguments(e, cmd, targets)
-    print(result)
-
-    # Step 7: Install Docker Compose
-
-    labels.next()
-    cmd = 'sudo apt install docker-compose-plugin -y'
-    print(run_one_command(e, cmd))
-
-    # Step 8: Add user to docker group.
+    # Step 3: Add user to docker group.
 
     labels.next()
     cmd = f'sudo usermod -aG docker {getpass.getuser()}'
     print(run_one_command(e, cmd))
 
-    msg = """Setup script is complete. If all steps above are marked
-    with green checkmarks, Docker Engine is ready to go. You must reboot
-    your VM now for the changes to take effect. If any steps above show
-    a red \"X\", there was an error during installation."""
+    msg = """Setup script is complete. You must reboot your VM now for
+    the changes to take effect."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return
