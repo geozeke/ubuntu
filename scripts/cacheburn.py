@@ -64,7 +64,7 @@ def main():  # noqa
     msg = """This script will scan the ~/shares directory to wipe caches
     and delete other temporary files."""
 
-    epi = "Latest update: 06/15/23"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg,
                                      epilog=epi,

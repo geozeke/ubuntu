@@ -157,9 +157,6 @@ def task_runner(e: Environment) -> None:
     targets = []
     targets.append('gnome-text-editor')
     targets.append('build-essential')
-    targets.append('libnss3-tools')
-    targets.append('pcscd')
-    targets.append('pcsc-tools')
     targets.append('ccache')
     targets.append('vim')
     targets.append('tree')
@@ -170,8 +167,8 @@ def task_runner(e: Environment) -> None:
     # Step-7: seahorse nautilus
 
     labels.next()
-    do_this = cmd.replace('TARGET', 'seahorse-nautilus')
-    print(run_one_command(e, do_this))
+    seahorse = cmd.replace('TARGET', 'seahorse-nautilus')
+    print(run_one_command(e, seahorse))
 
     # ------------------------------------------
 
@@ -391,7 +388,7 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 06/15/23"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

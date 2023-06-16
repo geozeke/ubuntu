@@ -40,9 +40,6 @@ This script sets up a new Ubuntu VM with the following software and settings:
 * Install the following packages from the ppa:
   * gnome-text-editor
   * build-essential
-  * libnss3-tools
-  * pcscd
-  * pcsc-tools
   * ccache
   * vim
   * tree
@@ -64,7 +61,7 @@ This script sets up a new Ubuntu VM with the following software and settings:
   * Set idle timeout to 'never'.
   * Disable Ubuntu auto-updates.
   * Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits
-    starting programs from the command line when you're inside a directory in
+    running programs from the command line when you're inside a directory in
     the share point.
   * Neatly arrange icons on the favorites launcher.
   * Clean up and delete temporary and unused files.

@@ -98,7 +98,7 @@ def main():  # noqa
     services and with a single command, can spin everything up or tear
     it all down."""
 
-    epi = "Latest update: 06/15/23"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

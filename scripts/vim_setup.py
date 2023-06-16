@@ -75,7 +75,7 @@ def main():  # noqa
     you\'ve already run the ubuntu setup script there's no need to run
     this script."""
 
-    epi = "Latest update: 06/15/23"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
