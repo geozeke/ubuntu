@@ -95,7 +95,10 @@ def run_script(e: Environment) -> None:
 
     labels.next()
     keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
-    dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
+    dest = '/etc/apt/keyrings/docker.gpg'
+    cmd = 'sudo install -m 0755 -d /etc/apt/keyrings'
+    run_one_command(e, cmd)
+
     with tf.NamedTemporaryFile(mode='w', delete=False) as f1:
         with tf.NamedTemporaryFile(delete=False) as f2:
             f1_name = f1.name
@@ -112,7 +115,7 @@ def run_script(e: Environment) -> None:
                                          std_out=f2)
 
     if result == e.PASS:
-        cmd = f'sudo -f mv {f2_name} {dest} -f'
+        cmd = f'sudo mv -f {f2_name} {dest}'
         result = run_one_command(e, cmd)
         cmd = f'rm -f {f1_name}'
         run_one_command(e, cmd)
@@ -126,7 +129,7 @@ def run_script(e: Environment) -> None:
     labels.next()
     run_one_command(e, 'dpkg --print-architecture')
     deb = f'deb [arch={clean_str(e.RESULT.stdout)} '
-    deb += 'signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] '
+    deb += 'signed-by=/etc/apt/keyrings/docker.gpg] '
     deb += 'https://download.docker.com/linux/ubuntu '
     run_one_command(e, 'lsb_release -cs')
     deb += f'{clean_str(e.RESULT.stdout)} stable'
