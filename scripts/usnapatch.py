@@ -9,6 +9,7 @@ RuntimeError
 
 import argparse
 import tempfile as tf
+from typing import Text
 
 from library.classes import Environment
 from library.classes import Labels
@@ -21,7 +22,32 @@ SYSTEM = 'http://apt.cs.usna.edu/ssl/install-ssl-system.sh'
 BROWSER = 'http://apt.cs.usna.edu/ssl/install-ssl.sh'
 
 
-def run_script(args: argparse.Namespace, e: Environment) -> None:
+def run_script(e: Environment, script: str) -> Text:
+    """Run a remote shell script.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables saved as attributes in an
+        Environment object.
+    script : str
+        URL of the remote script to run.
+
+    Returns
+    -------
+    Text
+        A green check red X indicating success or failure.
+    """
+    with tf.TemporaryFile(mode='w') as f:
+        cmd = f'curl -sL {script}'
+        result = run_one_command(e, cmd, capture=False, std_out=f)
+        if result == e.PASS:
+            f.seek(0)
+            result = run_one_command(e, 'bash', std_in=f)
+    return result
+
+
+def run_patches(args: argparse.Namespace, e: Environment) -> None:
     """Patch openssl configuration and run certificate scripts.
 
     Parameters
@@ -41,6 +67,7 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     # Setup status labels
 
     labels = Labels("""
+        Patching openssl configuration
         Updating system certificates
         Updating browser certificates""")
 
@@ -61,26 +88,22 @@ def run_script(args: argparse.Namespace, e: Environment) -> None:
     match args.mode:
 
         case 'system':
+            # Patch openssl
             labels.next()
-            with tf.TemporaryFile(mode='w') as f:
-                cmd = f'curl -sL {SYSTEM}'
-                result = run_one_command(e, cmd, capture=False, std_out=f)
-                if result == e.PASS:
-                    f.seek(0)
-                    result = run_one_command(e, 'bash', std_in=f)
-            print(result)
+            target = '/usr/lib/ssl/openssl.cnf'
+            cmd = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
+            print(run_one_command(e, cmd))
+
+            # Run certificate script
+            labels.next()
+            print(run_script(e, SYSTEM))
             labels.dump(1)
 
         case 'browser':
-            labels.dump(1)
+            # Run browser script.
+            labels.dump(2)
             labels.next()
-            with tf.TemporaryFile(mode='w') as f:
-                cmd = f'curl -sL {BROWSER}'
-                result = run_one_command(e, cmd, capture=False, std_out=f)
-                if result == e.PASS:
-                    f.seek(0)
-                    result = run_one_command(e, 'bash', std_in=f)
-            print(result)
+            print(run_script(e, BROWSER))
 
         case _:
             pass
@@ -121,7 +144,7 @@ def main():  # noqa
                         help=msg)
 
     args = parser.parse_args()
-    run_script(args, e)
+    run_patches(args, e)
 
     return
 
