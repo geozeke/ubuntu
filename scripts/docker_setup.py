@@ -9,19 +9,17 @@ RuntimeError
 
 import argparse
 import getpass
-import tempfile
 
 from library.classes import Environment
 from library.classes import Labels
-from library.utilities import clean_str
 from library.utilities import clear
 from library.utilities import min_python_version
-from library.utilities import run_many_arguments
 from library.utilities import run_one_command
+from library.utilities import run_script
 from library.utilities import wrap_tight
 
 
-def run_script(e: Environment) -> None:
+def task_runner(e: Environment) -> None:
     """Install docker engine.
 
     Parameters
@@ -38,12 +36,7 @@ def run_script(e: Environment) -> None:
 
     labels = Labels("""
         System initialization
-        Updating package index
-        Installing dependencies
-        Installing Docker public key
-        Mapping the Docker repository
-        Installing Docker Engine
-        Installing Docker Compose
+        Installing docker components
         Adding user to Docker group""")
 
     # ------------------------------------------
@@ -62,106 +55,26 @@ def run_script(e: Environment) -> None:
     # Step 1: System initialization.
 
     labels.next()
-    targets: list[str] = []
     print(e.PASS)
 
     # ------------------------------------------
 
-    # Step 2: Update package index
+    # Step 2: Install docker components
 
     labels.next()
-    commands: list[str] = []
-    commands.append('sudo apt update')
-    commands.append('sudo apt upgrade -y')
-    for command in commands:
-        run_one_command(e, command)
-    print(e.PASS)
+    print(run_script(e,
+                     script='https://get.docker.com',
+                     shell='sh',
+                     as_sudo=True))
 
-    # ------------------------------------------
-
-    # Step 3: Install dependencies
-
-    labels.next()
-    cmd = 'sudo apt install TARGET -y'
-    targets.append('apt-transport-https')
-    targets.append('ca-certificates')
-    targets.append('curl')
-    targets.append('gnupg-agent')
-    targets.append('make')
-    targets.append('software-properties-common')
-    print(run_many_arguments(e, cmd, targets))
-
-    # Step 4: Install Docker public key.
-
-    labels.next()
-    temp1 = f'{tempfile.NamedTemporaryFile().name}.asc'
-    temp2 = f'{tempfile.NamedTemporaryFile().name}.gpg'
-    keyloc = 'https://download.docker.com/linux/ubuntu/gpg'
-    dest = '/usr/share/keyrings/docker-archive-keyring.gpg'
-    cmd = f'curl -o {temp1} -fsSL {keyloc}'
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
-        cmd = f'gpg -o {temp2} --dearmor {temp1}'
-        result = run_one_command(e, cmd)
-        if result == e.PASS:
-            cmd = f'sudo mv {temp2} {dest} -f'
-            result = run_one_command(e, cmd)
-            if result == e.PASS:
-                cmd = f'rm {temp1} -f'
-                result = run_one_command(e, cmd)
-    print(result)
-
-    # ------------------------------------------
-
-    # Step 5: Map to the Docker repository. Again, special handling with
-    # subprocess because we're using pipes.
-
-    labels.next()
-    run_one_command(e, 'dpkg --print-architecture')
-    deb = f'deb [arch={clean_str(e.RESULT.stdout)} '
-    deb += 'signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] '
-    deb += 'https://download.docker.com/linux/ubuntu '
-    run_one_command(e, 'lsb_release -cs')
-    deb += f'{clean_str(e.RESULT.stdout)} stable'
-    tempdest = f'{tempfile.NamedTemporaryFile().name}.list'
-    with open(tempdest, 'w') as f:
-        f.write(f'{deb}\n')
-    dest = '/etc/apt/sources.list.d/docker.list'
-    cmd = f'sudo mv {tempdest} {dest} -f'
-    print(run_one_command(e, cmd))
-
-    # ------------------------------------------
-
-    # Step 6: Install Docker Engine
-
-    labels.next()
-    cmd = 'sudo apt update'
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
-        cmd = 'sudo apt install TARGET -y'
-        targets = []
-        targets.append('docker-ce')
-        targets.append('docker-ce-cli')
-        targets.append('containerd.io')
-        result = run_many_arguments(e, cmd, targets)
-    print(result)
-
-    # Step 7: Install Docker Compose
-
-    labels.next()
-    cmd = 'sudo apt install docker-compose-plugin -y'
-    print(run_one_command(e, cmd))
-
-    # Step 8: Add user to docker group.
+    # Step 3: Add user to docker group.
 
     labels.next()
     cmd = f'sudo usermod -aG docker {getpass.getuser()}'
     print(run_one_command(e, cmd))
 
-    msg = """Setup script is complete. If all steps above are marked
-    with green checkmarks, Docker Engine is ready to go. You must reboot
-    your VM now for the changes to take effect. If any steps above show
-    a red \"X\", there was an error during installation."""
+    msg = """Setup script is complete. You must reboot your VM now for
+    the changes to take effect."""
     print(f'\n{wrap_tight(msg)}\n')
 
     return
@@ -183,11 +96,11 @@ def main():  # noqa
     services and with a single command, can spin everything up or tear
     it all down."""
 
-    epi = "Latest update: 12/02/22"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    run_script(e)
+    task_runner(e)
 
     return
 

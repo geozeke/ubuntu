@@ -12,7 +12,7 @@ from library.utilities import min_python_version
 from library.utilities import wrap_tight
 
 
-def run_script(e: Environment) -> None:
+def task_runner(e: Environment) -> None:
     """Configure vim.
 
     Parameters
@@ -75,11 +75,11 @@ def main():  # noqa
     you\'ve already run the ubuntu setup script there's no need to run
     this script."""
 
-    epi = "Latest update: 12/02/22"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    run_script(e)
+    task_runner(e)
 
     return
 

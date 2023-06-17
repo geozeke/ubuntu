@@ -3,13 +3,15 @@
 
 import os
 import pathlib
+import re
 import shlex
 import shutil
 import subprocess as sp
 import sys
+import tempfile as tf
 import textwrap
+from typing import Any
 from typing import Text
-from typing import TextIO
 
 from .classes import Environment
 
@@ -64,11 +66,42 @@ def wrap_tight(msg: str, columns=70) -> str:
     return textwrap.fill(clean, width=columns)
 
 
+def lean_text(str_in: str) -> str:
+    """Strip blank lines and comments from a text file.
+
+    Take the contents of a text file, contained in a string variable,
+    and strip lines that are either blank (no printable characters), or
+    lines that represent comments (start with '#')
+
+    Note: If the file contains a environment line (e.g. #!/bin/bash),
+    that line will be stripped as well.
+
+    Parameters
+    ----------
+    str_in : str
+        A text file saved in a string variable.
+
+    Returns
+    -------
+    str
+        The input string, with blank lines and comment lines removed.
+    """
+    clean_lines: list[str] = []
+    input_lines: list[str] = str_in.split('\n')
+    for line in input_lines:
+        if re.search(r'^\s*$', line):  # Skip whitespace/blank lines
+            continue
+        if re.match(r'^\s*#', line):  # Skip lines starting with '#'
+            continue
+        clean_lines.append(line)
+    return '\n'.join(clean_lines)
+
+
 def run_one_command(e: Environment,
                     cmd: str,
                     capture: bool = True,
-                    std_in: TextIO | None = None,
-                    std_out: TextIO | None = None) -> Text:
+                    std_in: Any | None = None,
+                    std_out: Any | None = None) -> Text:
     """Run a single command in the shell.
 
     Parameters
@@ -82,14 +115,14 @@ def run_one_command(e: Environment,
     capture : bool, optional
         Determine if stdout should be suppressed (True) or displayed
         (False), by default True.
-    std_in : TextIO | None
+    std_in : Any | None
         If stdin needs to be redirected on the command line you can
-        pass an open file descriptor here for that purpose, by default
-        None.
-    std_out : TextIO | None
-        If stdin needs to be redirected on the command line you can
-        pass an open file descriptor here for that purpose, by default
-        None.
+        pass an open file descriptor here for that purpose. It can be
+        any kind of file object (Text/Binary), by default None.
+    std_out : Any | None
+        If stdout needs to be redirected on the command line you can
+        pass an open file descriptor here for that purpose. It can be
+        any kind of file object (Text/Binary), by default None.
 
     Returns
     -------
@@ -142,6 +175,46 @@ def run_many_arguments(e: Environment,
         result = run_one_command(e, cmd.replace(marker, target))
         if result == e.FAIL:
             return result
+    return result
+
+
+def run_script(e: Environment,
+               script: str,
+               shell: str = 'bash',
+               as_sudo: bool = False,
+               capture: bool = True) -> Text:
+    """Run a remote shell script.
+
+    Parameters
+    ----------
+    e : Environment
+        All the environment variables saved as attributes in an
+        Environment object.
+    script : str
+        URL of the remote script.
+    shell : str, optional
+        Shell to run (e.g. bash, sh, etc.), by default 'bash'.
+    as_sudo : bool, optional
+        Run the script as sudo, by default False.
+    capture : bool, optional
+        Capture stdout or not, by default True.
+
+    Returns
+    -------
+    Text
+        Returns a unicode string representing either a green checkmark
+        (PASS) or a red X (FAIL).
+    """
+    with tf.TemporaryFile(mode='w') as f:
+        cmd = f'curl -sL {script}'
+        result = run_one_command(e, cmd, capture=False, std_out=f)
+        if result == e.PASS:
+            f.seek(0)
+            if as_sudo:
+                cmd = f'sudo {shell}'
+            else:
+                cmd = shell
+            result = run_one_command(e, cmd, capture=capture, std_in=f)
     return result
 
 

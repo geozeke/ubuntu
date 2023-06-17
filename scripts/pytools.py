@@ -11,7 +11,7 @@ from library.utilities import run_one_command
 from library.utilities import wrap_tight
 
 
-def run_script(e: Environment) -> None:
+def task_runner(e: Environment) -> None:
     """Install Python development tools.
 
     Parameters
@@ -68,11 +68,11 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 12/02/22"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    run_script(e)
+    task_runner(e)
 
     return
 

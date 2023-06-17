@@ -12,13 +12,15 @@ import argparse
 from library.classes import Environment
 from library.classes import Labels
 from library.utilities import clear
+from library.utilities import lean_text
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
+from library.utilities import run_script
 from library.utilities import wrap_tight
 
 
-def run_script(e: Environment) -> None:
+def task_runner(e: Environment) -> None:
     """Perform pyenv setup steps.
 
     Parameters
@@ -36,8 +38,8 @@ def run_script(e: Environment) -> None:
     labels = Labels("""
         System initialization
         Updating package index
-        Checking dependencies
-        Cloning git repository
+        Checking python build dependencies
+        Installing pyenv and tools
         Adjusting shell environments""")
 
     # Step 0
@@ -53,15 +55,14 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 1: System initialization. Right now it's just a placeholder for
-    # future capability.
+    # Step 1: System initialization.
 
     labels.next()
     print(e.PASS)
 
     # ------------------------------------------
 
-    # Step 2: Updating package index
+    # Step 2: Update package index
 
     labels.next()
     cmd = 'sudo apt update'
@@ -69,7 +70,7 @@ def run_script(e: Environment) -> None:
 
     # ------------------------------------------
 
-    # Step 3: Checking dependencies
+    # Step 3: Check dependencies
 
     labels.next()
     cmd = 'sudo apt install TARGET -y'
@@ -83,7 +84,6 @@ def run_script(e: Environment) -> None:
     targets.append('libsqlite3-dev')
     targets.append('wget')
     targets.append('curl')
-    targets.append('llvm')
     targets.append('libncursesw5-dev')
     targets.append('xz-utils')
     targets.append('tk-dev')
@@ -91,37 +91,40 @@ def run_script(e: Environment) -> None:
     targets.append('libxmlsec1-dev')
     targets.append('libffi-dev')
     targets.append('liblzma-dev')
-    targets.append('git')
     print(run_many_arguments(e, cmd, targets))
 
     # ------------------------------------------
 
-    # Step 4: Cloning git repository
+    # Step 4: Install pyenv
 
     labels.next()
-    src = "https://github.com/pyenv/pyenv.git"
-    dest = f"{e.HOME}/.pyenv"
-    cmd = f"git clone {src} {dest} --depth 1"
-    print(run_one_command(e, cmd))
+    print(run_script(e, 'https://pyenv.run'))
 
     # ------------------------------------------
 
-    # Step 5: Adjusting shell environments
+    # Step 5: Adjust shell environments
 
     labels.next()
-    src = f"{e.SHELL}/pyenvsupport.txt"
+
+    # Setup variables with file locations
+    support = f"{e.SHELL}/pyenvsupport.txt"
     bash = f"{e.HOME}/.bashrc"
     zsh = f"{e.HOME}/.zshrc"
-    try:
-        with open(src, 'r') as f1:
+
+    # Check to see if the adjustments have already been made, then proceed if
+    # not.
+    with open(zsh, 'r') as f1:
+        with open(support, 'r') as f2:
+            rc_str = f1.read()
+            sup_str = lean_text(f2.read())
+    if sup_str not in rc_str:
+        with open(support, 'r') as f1:
             with open(bash, 'a') as f2:
                 f2.write(f1.read())
             f1.seek(0)
             with open(zsh, 'a') as f2:
                 f2.write(f1.read())
-        print(e.PASS)
-    except Exception:
-        print(e.FAIL)
+    print(e.PASS)
 
     # ------------------------------------------
 
@@ -150,11 +153,11 @@ def main():  # noqa
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
-    epi = "Latest update: 12/02/22"
+    epi = "Latest update: 06/16/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    run_script(e)
+    task_runner(e)
 
     return
 

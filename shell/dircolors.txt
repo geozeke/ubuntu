@@ -1,4 +1,4 @@
-# Customized by Peter Nardi on 12/02/22
+# Customized by Peter Nardi on 06/16/23
 # I tweaked the following two entries:
 #
 # STICKY_OTHER_WRITABLE  - dir that is sticky and other-writable (+t,o+w)
