@@ -29,56 +29,57 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         All the environment variables saved as attributes in an
         Environment object.
     """
-    labels = Labels("""
+    labels = Labels(
+        """
         Pulling updates to git repo
         Scanning for updates to pip
         Scanning for updates to jupyter
         Scanning for updates to jupyter lab
         Scanning for updates to pytest
-        Synchronizing jupyter notebooks""")
+        Synchronizing jupyter notebooks"""
+    )
 
     # Ubuntu updates (verbose)
 
     commands: list[str] = []
-    commands.append('sudo apt update')
-    commands.append('sudo apt upgrade -y')
-    commands.append('sudo apt autoclean -y')
-    commands.append('sudo apt autoremove -y')
-    commands.append('sudo snap refresh')
+    commands.append("sudo apt update")
+    commands.append("sudo apt upgrade -y")
+    commands.append("sudo apt autoclean -y")
+    commands.append("sudo apt autoremove -y")
+    commands.append("sudo snap refresh")
     for cmd in commands:
         run_one_command(e, cmd, capture=False)
 
     # Perform additional updates if -a is selected
 
     if args.all:
-
-        print('\nPerforming additional updates\n')
+        print("\nPerforming additional updates\n")
 
         # Pull updates to the ubuntu git repo. This facilitates installing
         # custom patches later.
         labels.next()
-        cmd = f'git -C {e.UBUNTU} pull'
+        cmd = f"git -C {e.UBUNTU} pull"
         print(run_one_command(e, cmd))
 
         # Update selected Python packages. Start with pip itself to ensure
         # we've got the lastest version of the Python package installer.
         pips: list[str] = []
-        pips.append('pip')
-        pips.append('jupyter')
-        pips.append('jupyterlab')
-        pips.append('pytest')
+        pips.append("pip")
+        pips.append("jupyter")
+        pips.append("jupyterlab")
+        pips.append("pytest")
         for pip in pips:
-            pip_test = f'pip3 show {pip}'
+            pip_test = f"pip3 show {pip}"
             if run_one_command(e, pip_test) == e.PASS:
                 labels.next()
-                cmd = f'pip3 install --upgrade {pip}'
+                cmd = f"pip3 install --upgrade {pip}"
                 print(run_one_command(e, cmd))
             else:  # Dump the label if the package is not installed
                 labels.pop_first()
 
         # Sync jupyter notebooks
         labels.next()
-        cmd = f'git -C {e.HOME}/.notebooksrepo pull'
+        cmd = f"git -C {e.HOME}/.notebooksrepo pull"
         result = run_one_command(e, cmd)
         if result == e.PASS:
             result = sync_notebooks(e)
@@ -88,17 +89,16 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 
     msg = """All updates and upgrades are complete. A reboot is
     recommended to ensure that the changes take effect."""
-    print(f'\n{wrap_tight(msg)}\n')
+    print(f"\n{wrap_tight(msg)}\n")
 
     return
 
 
 def main():  # noqa
-
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := min_python_version(e)):
+    if result := min_python_version(e):
         raise RuntimeError(result)
 
     msg = """This script will perform updates of system files and
@@ -107,16 +107,12 @@ def main():  # noqa
 
     epi = "Latest update: 06/16/23"
 
-    parser = argparse.ArgumentParser(description=msg,
-                                     epilog=epi,
-                                     prog='tuneup')
+    parser = argparse.ArgumentParser(description=msg, epilog=epi, prog="tuneup")
 
     msg = """In addition to updating Ubuntu system, ppa, and snap files,
     also update preinstalled pip3 packages in Python and synchronize
     installed jupyter notebooks."""
-    parser.add_argument('-a', '--all',
-                        help=msg,
-                        action='store_true')
+    parser.add_argument("-a", "--all", help=msg, action="store_true")
 
     args = parser.parse_args()
     run_updates(args, e)
@@ -124,5 +120,5 @@ def main():  # noqa
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -22,7 +22,7 @@ def clear() -> None:
     This is an os-agnostic version, which will work with both Windows
     and Linux.
     """
-    os.system('clear' if os.name == 'posix' else 'cls')
+    os.system("clear" if os.name == "posix" else "cls")
 
 
 def clean_str(bstr: bytes) -> Text:
@@ -41,7 +41,7 @@ def clean_str(bstr: bytes) -> Text:
     Text
         A utf-8 string.
     """
-    return bstr.decode('utf-8').rstrip()
+    return bstr.decode("utf-8").rstrip()
 
 
 def wrap_tight(msg: str, columns=70) -> str:
@@ -62,7 +62,7 @@ def wrap_tight(msg: str, columns=70) -> str:
     str
         A wrapped paragraph.
     """
-    clean = ' '.join([t for token in msg.split('\n') if (t := token.strip())])
+    clean = " ".join([t for token in msg.split("\n") if (t := token.strip())])
     return textwrap.fill(clean, width=columns)
 
 
@@ -87,21 +87,23 @@ def lean_text(str_in: str) -> str:
         The input string, with blank lines and comment lines removed.
     """
     clean_lines: list[str] = []
-    input_lines: list[str] = str_in.split('\n')
+    input_lines: list[str] = str_in.split("\n")
     for line in input_lines:
-        if re.search(r'^\s*$', line):  # Skip whitespace/blank lines
+        if re.search(r"^\s*$", line):  # Skip whitespace/blank lines
             continue
-        if re.match(r'^\s*#', line):  # Skip lines starting with '#'
+        if re.match(r"^\s*#", line):  # Skip lines starting with '#'
             continue
         clean_lines.append(line)
-    return '\n'.join(clean_lines)
+    return "\n".join(clean_lines)
 
 
-def run_one_command(e: Environment,
-                    cmd: str,
-                    capture: bool = True,
-                    std_in: Any | None = None,
-                    std_out: Any | None = None) -> Text:
+def run_one_command(
+    e: Environment,
+    cmd: str,
+    capture: bool = True,
+    std_in: Any | None = None,
+    std_out: Any | None = None,
+) -> Text:
     """Run a single command in the shell.
 
     Parameters
@@ -131,22 +133,20 @@ def run_one_command(e: Environment,
         (PASS) or a red X (FAIL).
     """
     if e.DEBUG:
-        print(f'\nRunning: {shlex.split(cmd)}')
+        print(f"\nRunning: {shlex.split(cmd)}")
         return e.PASS
     else:
-        e.RESULT = sp.run(shlex.split(cmd),
-                          capture_output=capture,
-                          stdin=std_in,
-                          stdout=std_out)
+        e.RESULT = sp.run(
+            shlex.split(cmd), capture_output=capture, stdin=std_in, stdout=std_out
+        )
         if e.RESULT.returncode != 0:
             return e.FAIL
     return e.PASS
 
 
-def run_many_arguments(e: Environment,
-                       cmd: str,
-                       targets: list[str],
-                       marker: str = 'TARGET') -> Text:
+def run_many_arguments(
+    e: Environment, cmd: str, targets: list[str], marker: str = "TARGET"
+) -> Text:
     """Run the same command with multiple arguments.
 
     Parameters
@@ -178,11 +178,13 @@ def run_many_arguments(e: Environment,
     return result
 
 
-def run_script(e: Environment,
-               script: str,
-               shell: str = 'bash',
-               as_sudo: bool = False,
-               capture: bool = True) -> Text:
+def run_shell_script(
+    e: Environment,
+    script: str,
+    shell: str = "bash",
+    as_sudo: bool = False,
+    capture: bool = True,
+) -> Text:
     """Run a remote shell script.
 
     Parameters
@@ -205,21 +207,22 @@ def run_script(e: Environment,
         Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
-    with tf.TemporaryFile(mode='w') as f:
-        cmd = f'curl -sL {script}'
+    with tf.TemporaryFile(mode="w") as f:
+        cmd = f"curl -sL {script}"
         result = run_one_command(e, cmd, capture=False, std_out=f)
         if result == e.PASS:
             f.seek(0)
             if as_sudo:
-                cmd = f'sudo {shell}'
+                cmd = f"sudo {shell}"
             else:
                 cmd = shell
             result = run_one_command(e, cmd, capture=capture, std_in=f)
     return result
 
 
-def copy_files(e: Environment,
-               targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
+def copy_files(
+    e: Environment, targets: list[tuple[pathlib.Path, pathlib.Path]]
+) -> None:
     """Copy files from source to destination.
 
     Parameters
@@ -234,9 +237,9 @@ def copy_files(e: Environment,
     for target in targets:
         copy_from, copy_to = target[0], target[1]
         if e.DEBUG:
-            print(f'\nCopying: {str(copy_from)}\nTo: {str(copy_to)}')
+            print(f"\nCopying: {str(copy_from)}\nTo: {str(copy_to)}")
         else:
-            if '*' in copy_from.name:
+            if "*" in copy_from.name:
                 for file in copy_from.parent.resolve().glob(copy_from.name):
                     shutil.copy(file, copy_to)
             else:
@@ -268,11 +271,11 @@ def sync_notebooks(e: Environment) -> Text:
         Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
-    src = f'{e.HOME}/.notebooksrepo/'
-    dest = f'{e.HOME}/notebooks'
-    exclude = f'{e.SYSTEM}/rsync_exclude.txt'
-    options = f'-rc --exclude-from={exclude} --delete --delete-excluded'
-    cmd = f'rsync {src} {dest} {options}'
+    src = f"{e.HOME}/.notebooksrepo/"
+    dest = f"{e.HOME}/notebooks"
+    exclude = f"{e.SYSTEM}/rsync_exclude.txt"
+    options = f"-rc --exclude-from={exclude} --delete --delete-excluded"
+    cmd = f"rsync {src} {dest} {options}"
     return run_one_command(e, cmd)
 
 
@@ -291,12 +294,11 @@ def min_python_version(e: Environment) -> Text | None:
         If Python is at the minimum version return None. If not,
         return a string error message.
     """
-    msg = f'Minimum required Python version is {e.MAJOR}.{e.MINOR}'
-    if ((sys.version_info.major < e.MAJOR) or
-       (sys.version_info.minor < e.MINOR)):
+    msg = f"Minimum required Python version is {e.MAJOR}.{e.MINOR}"
+    if (sys.version_info.major < e.MAJOR) or (sys.version_info.minor < e.MINOR):
         return msg
     return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass

@@ -23,10 +23,12 @@ def task_runner(e: Environment) -> None:
     """
     clear()
 
-    labels = Labels("""
+    labels = Labels(
+        """
         System initialization
         Creating new directories
-        Copying files""")
+        Copying files"""
+    )
 
     # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
@@ -37,7 +39,7 @@ def task_runner(e: Environment) -> None:
     # Step 2. Creating new directory
 
     labels.next()
-    p = e.HOME/'.vim/colors'
+    p = e.HOME / ".vim/colors"
     if e.DEBUG:
         print(p)
     else:
@@ -48,8 +50,8 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     targets: list[tuple[Any, Any]] = []
-    targets.append((e.VIM/'vimrc.txt', e.HOME/'.vimrc'))
-    targets.append((e.VIM/'vimcolors/*', e.HOME/'.vim/colors'))
+    targets.append((e.VIM / "vimrc.txt", e.HOME / ".vimrc"))
+    targets.append((e.VIM / "vimcolors/*", e.HOME / ".vim/colors"))
     copy_files(e, targets)
     print(e.PASS)
 
@@ -57,17 +59,16 @@ def task_runner(e: Environment) -> None:
 
     msg = """vim setup complete. You are now ready to use vi or vim and
     enjoy a pleasing visual experience."""
-    print(f'\n{wrap_tight(msg)}\n')
+    print(f"\n{wrap_tight(msg)}\n")
 
     return
 
 
 def main():  # noqa
-
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := min_python_version(e)):
+    if result := min_python_version(e):
         raise RuntimeError(result)
 
     msg = """This script installs the necessary settings files and
@@ -84,5 +85,5 @@ def main():  # noqa
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

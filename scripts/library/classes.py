@@ -14,7 +14,6 @@ class Environment:
     """
 
     def __init__(self):
-
         # Minimum required python version for Ubuntu VM scripts.
 
         self.MAJOR = 3
@@ -24,12 +23,12 @@ class Environment:
         # environment variable to hold the result from running commands using
         # sub-process. These results may be needed in future use cases.
 
-        GREEN = '\033[0;32;49m'
-        RED = '\033[0;31;49m'
-        COLOR_END = '\x1b[0m'
+        GREEN = "\033[0;32;49m"
+        RED = "\033[0;31;49m"
+        COLOR_END = "\x1b[0m"
 
-        self.PASS = f'{GREEN}\u2714{COLOR_END}'
-        self.FAIL = f'{RED}\u2718{COLOR_END}'
+        self.PASS = f"{GREEN}\u2714{COLOR_END}"
+        self.FAIL = f"{RED}\u2718{COLOR_END}"
         self.DEBUG = False
         self.RESULT = None
 
@@ -40,11 +39,11 @@ class Environment:
         # facilitate debugging. The repo should still be cloned in ~ per the
         # setup instructions..
         self.UBUNTU = Path(__file__).resolve().parents[2]
-        self.OHMYZSH = self.HOME/'.oh-my-zsh'
-        self.SCRIPTS = self.UBUNTU/'scripts'
-        self.SHELL = self.UBUNTU/'shell'
-        self.SYSTEM = self.UBUNTU/'system'
-        self.VIM = self.UBUNTU/'vim'
+        self.OHMYZSH = self.HOME / ".oh-my-zsh"
+        self.SCRIPTS = self.UBUNTU / "scripts"
+        self.SHELL = self.UBUNTU / "shell"
+        self.SYSTEM = self.UBUNTU / "system"
+        self.VIM = self.UBUNTU / "vim"
 
 
 class ExhaustedListError(Exception):
@@ -80,7 +79,7 @@ class Labels:
         # leading/trailing whitespace in the docstring. It assigns
         # token.strip() to t then evaluates t. If t is an empty string, it
         # evaluates to False otherwise it's True.
-        self.labels = [t for token in s.split('\n') if (t := token.strip())]
+        self.labels = [t for token in s.split("\n") if (t := token.strip())]
         self.pad = len(max(self.labels, key=len)) + 3
         return
 
@@ -94,7 +93,7 @@ class Labels:
         """
         if len(self.labels) == 0:
             raise ExhaustedListError()
-        print(f'{self.labels.pop(0):.<{self.pad}}', end='', flush=True)
+        print(f"{self.labels.pop(0):.<{self.pad}}", end="", flush=True)
         return
 
     def pop_first(self) -> str:
@@ -155,8 +154,8 @@ class Labels:
             label = self.labels.pop(index)
             return label
         except IndexError as e:
-            print(f'{e}. Attempting to pop index {index}.')
-            print('Terminating program.')
+            print(f"{e}. Attempting to pop index {index}.")
+            print("Terminating program.")
             sys.exit(1)
 
     def dump(self, num_labels: int) -> None:
@@ -171,13 +170,16 @@ class Labels:
         num_labels : int
             The number of labels to dump.
         """
-        if ((type(num_labels) != int) or
-                (num_labels <= 0) or (len(self.labels) < num_labels)):
+        if (
+            (type(num_labels) != int)
+            or (num_labels <= 0)
+            or (len(self.labels) < num_labels)
+        ):
             return
         else:
             self.labels = self.labels[num_labels:]
         return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass
