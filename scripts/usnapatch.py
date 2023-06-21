@@ -14,7 +14,7 @@ from library.classes import Labels
 from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_one_command
-from library.utilities import run_script
+from library.utilities import run_shell_script
 from library.utilities import wrap_tight
 
 SYSTEM = "http://apt.cs.usna.edu/ssl/install-ssl-system.sh"
@@ -71,14 +71,14 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
 
             # Run system script
             labels.next()
-            print(run_script(e, script=SYSTEM))
+            print(run_shell_script(e, script=SYSTEM))
             labels.dump(1)
 
         case "browser":
             # Run browser script.
             labels.dump(2)
             labels.next()
-            print(run_script(e, script=BROWSER))
+            print(run_shell_script(e, script=BROWSER))
 
         case _:
             pass

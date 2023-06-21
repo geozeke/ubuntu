@@ -16,7 +16,7 @@ from library.utilities import lean_text
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
-from library.utilities import run_script
+from library.utilities import run_shell_script
 from library.utilities import wrap_tight
 
 
@@ -100,7 +100,7 @@ def task_runner(e: Environment) -> None:
     # Step 4: Install pyenv
 
     labels.next()
-    print(run_script(e, "https://pyenv.run"))
+    print(run_shell_script(e, "https://pyenv.run"))
 
     # ------------------------------------------
 

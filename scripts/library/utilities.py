@@ -178,7 +178,7 @@ def run_many_arguments(
     return result
 
 
-def run_script(
+def run_shell_script(
     e: Environment,
     script: str,
     shell: str = "bash",
