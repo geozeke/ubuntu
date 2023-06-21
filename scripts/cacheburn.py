@@ -18,23 +18,25 @@ def burn_it_up(e: Environment) -> None:
         All the environment variables saved as attributes in an
         Environment object.
     """
-    labels = Labels("""
+    labels = Labels(
+        """
         Deleting __pycache__ directories
         Deleting .pytest_cache directories
         Deleting .ipynb_checkpoints directories
         Zapping pesky Icon files
-        Crunching annoying desktop.ini files""")
+        Crunching annoying desktop.ini files"""
+    )
 
     # Start with cache directories:
 
     # NOTE: If this command were being run on the command line, you'd need to
     # escape the semicolon (\;)
-    home = e.HOME/'shares'
-    base = f'find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune'
+    home = e.HOME / "shares"
+    base = f"find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune"
     commands: list[str] = []
-    commands.append(base.replace('DIR', '__pycache__'))
-    commands.append(base.replace('DIR', '.pytest_cache'))
-    commands.append(base.replace('DIR', '.ipynb_checkpoints'))
+    commands.append(base.replace("DIR", "__pycache__"))
+    commands.append(base.replace("DIR", ".pytest_cache"))
+    commands.append(base.replace("DIR", ".ipynb_checkpoints"))
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
@@ -42,10 +44,10 @@ def burn_it_up(e: Environment) -> None:
     # Tee up files for deletion. You can sneak some other options in for the
     # find command if necessary.
 
-    base = f'find {home} -name FILE -type f -delete'
+    base = f"find {home} -name FILE -type f -delete"
     commands = []
-    commands.append(base.replace('FILE', 'Icon? -size 0'))
-    commands.append(base.replace('FILE', 'desktop.ini'))
+    commands.append(base.replace("FILE", "Icon? -size 0"))
+    commands.append(base.replace("FILE", "desktop.ini"))
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
@@ -54,11 +56,10 @@ def burn_it_up(e: Environment) -> None:
 
 
 def main():  # noqa
-
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := min_python_version(e)):
+    if result := min_python_version(e):
         raise RuntimeError(result)
 
     msg = """This script will scan the ~/shares directory to wipe caches
@@ -66,9 +67,7 @@ def main():  # noqa
 
     epi = "Latest update: 06/16/23"
 
-    parser = argparse.ArgumentParser(description=msg,
-                                     epilog=epi,
-                                     prog='cacheburn')
+    parser = argparse.ArgumentParser(description=msg, epilog=epi, prog="cacheburn")
 
     parser.parse_args()
     print()
@@ -78,5 +77,5 @@ def main():  # noqa
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

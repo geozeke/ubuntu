@@ -22,11 +22,13 @@ def task_runner(e: Environment) -> None:
     """
     clear()
 
-    labels = Labels("""
+    labels = Labels(
+        """
         System initialization
         Installing jupyter
         Installing jupyter lab
-        Installing pytest""")
+        Installing pytest"""
+    )
 
     # Step 1. System initialization. Right now it's just a placeholder for
     # future capability.
@@ -36,11 +38,11 @@ def task_runner(e: Environment) -> None:
 
     # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
 
-    base = 'pip3 install --upgrade TARGET'
+    base = "pip3 install --upgrade TARGET"
     commands: list[str] = []
-    commands.append(base.replace('TARGET', 'jupyter'))
-    commands.append(base.replace('TARGET', 'jupyterlab'))
-    commands.append(base.replace('TARGET', 'pytest'))
+    commands.append(base.replace("TARGET", "jupyter"))
+    commands.append(base.replace("TARGET", "jupyterlab"))
+    commands.append(base.replace("TARGET", "pytest"))
     for cmd in commands:
         labels.next()
         print(run_one_command(e, cmd))
@@ -49,17 +51,16 @@ def task_runner(e: Environment) -> None:
 
     msg = """Python tools installation complete. Install additional
     tools if desired. No reboot is necessary."""
-    print(f'\n{wrap_tight(msg)}\n')
+    print(f"\n{wrap_tight(msg)}\n")
 
     return
 
 
 def main():  # noqa
-
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := min_python_version(e)):
+    if result := min_python_version(e):
         raise RuntimeError(result)
 
     msg = """This script will install several Python tools.
@@ -77,5 +78,5 @@ def main():  # noqa
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

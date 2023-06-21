@@ -35,23 +35,25 @@ def task_runner(e: Environment) -> None:
 
     # Setup status labels
 
-    labels = Labels("""
+    labels = Labels(
+        """
         System initialization
         Updating package index
         Checking python build dependencies
         Installing pyenv and tools
-        Adjusting shell environments""")
+        Adjusting shell environments"""
+    )
 
     # Step 0
 
     msg = """Please enter your password if prompted."""
-    print(f'\n{wrap_tight(msg)}\n')
+    print(f"\n{wrap_tight(msg)}\n")
 
     # Push a dummy sudo command just to force password entry before first ppa
     # pull. This will avoid having the password prompt come in the middle of a
     # label when providing status
 
-    run_one_command(e, 'sudo ls')
+    run_one_command(e, "sudo ls")
 
     # ------------------------------------------
 
@@ -65,7 +67,7 @@ def task_runner(e: Environment) -> None:
     # Step 2: Update package index
 
     labels.next()
-    cmd = 'sudo apt update'
+    cmd = "sudo apt update"
     print(run_one_command(e, cmd))
 
     # ------------------------------------------
@@ -73,24 +75,24 @@ def task_runner(e: Environment) -> None:
     # Step 3: Check dependencies
 
     labels.next()
-    cmd = 'sudo apt install TARGET -y'
+    cmd = "sudo apt install TARGET -y"
     targets: list[str] = []
-    targets.append('make')
-    targets.append('build-essential')
-    targets.append('libssl-dev')
-    targets.append('zlib1g-dev')
-    targets.append('libbz2-dev')
-    targets.append('libreadline-dev')
-    targets.append('libsqlite3-dev')
-    targets.append('wget')
-    targets.append('curl')
-    targets.append('libncursesw5-dev')
-    targets.append('xz-utils')
-    targets.append('tk-dev')
-    targets.append('libxml2-dev')
-    targets.append('libxmlsec1-dev')
-    targets.append('libffi-dev')
-    targets.append('liblzma-dev')
+    targets.append("make")
+    targets.append("build-essential")
+    targets.append("libssl-dev")
+    targets.append("zlib1g-dev")
+    targets.append("libbz2-dev")
+    targets.append("libreadline-dev")
+    targets.append("libsqlite3-dev")
+    targets.append("wget")
+    targets.append("curl")
+    targets.append("libncursesw5-dev")
+    targets.append("xz-utils")
+    targets.append("tk-dev")
+    targets.append("libxml2-dev")
+    targets.append("libxmlsec1-dev")
+    targets.append("libffi-dev")
+    targets.append("liblzma-dev")
     print(run_many_arguments(e, cmd, targets))
 
     # ------------------------------------------
@@ -98,7 +100,7 @@ def task_runner(e: Environment) -> None:
     # Step 4: Install pyenv
 
     labels.next()
-    print(run_script(e, 'https://pyenv.run'))
+    print(run_script(e, "https://pyenv.run"))
 
     # ------------------------------------------
 
@@ -113,17 +115,14 @@ def task_runner(e: Environment) -> None:
 
     # Check to see if the adjustments have already been made, then proceed if
     # not.
-    with open(zsh, 'r') as f1:
-        with open(support, 'r') as f2:
-            rc_str = f1.read()
-            sup_str = lean_text(f2.read())
+    with open(zsh, "r") as f1, open(support, "r") as f2:
+        rc_str = f1.read()
+        sup_str = lean_text(f2.read())
     if sup_str not in rc_str:
-        with open(support, 'r') as f1:
-            with open(bash, 'a') as f2:
-                f2.write(f1.read())
+        with open(support, "r") as f1, open(bash, "a") as f2, open(zsh, "a") as f3:
+            f2.write(f1.read())
             f1.seek(0)
-            with open(zsh, 'a') as f2:
-                f2.write(f1.read())
+            f3.write(f1.read())
     print(e.PASS)
 
     # ------------------------------------------
@@ -134,17 +133,16 @@ def task_runner(e: Environment) -> None:
     with green checkmarks, pyenv is ready to go. You must reboot your
     VM now for the changes to take effect. If any steps above show a
     red \"X\", there was an error during installation."""
-    print(f'\n{wrap_tight(msg)}\n')
+    print(f"\n{wrap_tight(msg)}\n")
 
     return
 
 
 def main():  # noqa
-
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := min_python_version(e)):
+    if result := min_python_version(e):
         raise RuntimeError(result)
 
     msg = """This script will setup and install the dependencies to use
@@ -162,5 +160,5 @@ def main():  # noqa
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

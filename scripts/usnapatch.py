@@ -17,8 +17,8 @@ from library.utilities import run_one_command
 from library.utilities import run_script
 from library.utilities import wrap_tight
 
-SYSTEM = 'http://apt.cs.usna.edu/ssl/install-ssl-system.sh'
-BROWSER = 'http://apt.cs.usna.edu/ssl/install-ssl.sh'
+SYSTEM = "http://apt.cs.usna.edu/ssl/install-ssl-system.sh"
+BROWSER = "http://apt.cs.usna.edu/ssl/install-ssl.sh"
 
 
 def task_runner(args: argparse.Namespace, e: Environment) -> None:
@@ -40,10 +40,12 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
 
     # Setup status labels
 
-    labels = Labels("""
+    labels = Labels(
+        """
         Patching openssl configuration
         Updating system certificates
-        Updating browser certificates""")
+        Updating browser certificates"""
+    )
 
     # ------------------------------------------
 
@@ -53,19 +55,18 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
     # Push a dummy sudo command just to force password entry before first
     # command. This will avoid having the password prompt come in the middle of
     # a label when providing status
-    run_one_command(e, 'sudo ls')
+    run_one_command(e, "sudo ls")
 
     # ------------------------------------------
 
     # Step 2: Take action based on selected option.
 
     match args.mode:
-
-        case 'system':
+        case "system":
             # Patch openssl
             labels.next()
-            target = '/usr/lib/ssl/openssl.cnf'
-            cmd = f'sudo cp -f {e.SYSTEM}/openssl.cnf {target}'
+            target = "/usr/lib/ssl/openssl.cnf"
+            cmd = f"sudo cp -f {e.SYSTEM}/openssl.cnf {target}"
             print(run_one_command(e, cmd))
 
             # Run system script
@@ -73,7 +74,7 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
             print(run_script(e, script=SYSTEM))
             labels.dump(1)
 
-        case 'browser':
+        case "browser":
             # Run browser script.
             labels.dump(2)
             labels.next()
@@ -88,17 +89,16 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
     with green checkmarks, the certificate patching was successful. If
     any steps above show a red \"X\", there was an error during
     certificate modification."""
-    print(f'\n{wrap_tight(msg)}\n')
+    print(f"\n{wrap_tight(msg)}\n")
 
     return
 
 
 def main():  # noqa
-
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := min_python_version(e)):
+    if result := min_python_version(e):
         raise RuntimeError(result)
 
     msg = """This script installs a patched openssl configuration file
@@ -112,10 +112,7 @@ def main():  # noqa
 
     msg = """Include one of the following options indicating where
     to apply patches: system, browser"""
-    parser.add_argument('mode',
-                        choices=['system', 'browser'],
-                        type=str,
-                        help=msg)
+    parser.add_argument("mode", choices=["system", "browser"], type=str, help=msg)
 
     args = parser.parse_args()
     task_runner(args, e)
@@ -123,5 +120,5 @@ def main():  # noqa
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

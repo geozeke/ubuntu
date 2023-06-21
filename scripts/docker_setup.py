@@ -34,10 +34,12 @@ def task_runner(e: Environment) -> None:
 
     # Setup status labels
 
-    labels = Labels("""
+    labels = Labels(
+        """
         System initialization
         Installing docker components
-        Adding user to Docker group""")
+        Adding user to Docker group"""
+    )
 
     # ------------------------------------------
 
@@ -48,7 +50,7 @@ def task_runner(e: Environment) -> None:
     # command. This will avoid having the password prompt come in the middle of
     # a label when providing status
 
-    run_one_command(e, 'sudo ls')
+    run_one_command(e, "sudo ls")
 
     # ------------------------------------------
 
@@ -62,30 +64,26 @@ def task_runner(e: Environment) -> None:
     # Step 2: Install docker components
 
     labels.next()
-    print(run_script(e,
-                     script='https://get.docker.com',
-                     shell='sh',
-                     as_sudo=True))
+    print(run_script(e, script="https://get.docker.com", shell="sh", as_sudo=True))
 
     # Step 3: Add user to docker group.
 
     labels.next()
-    cmd = f'sudo usermod -aG docker {getpass.getuser()}'
+    cmd = f"sudo usermod -aG docker {getpass.getuser()}"
     print(run_one_command(e, cmd))
 
     msg = """Setup script is complete. You must reboot your VM now for
     the changes to take effect."""
-    print(f'\n{wrap_tight(msg)}\n')
+    print(f"\n{wrap_tight(msg)}\n")
 
     return
 
 
 def main():  # noqa
-
     # Get a new Environment variable with all the necessary properties
     # initialized.
     e = Environment()
-    if (result := min_python_version(e)):
+    if result := min_python_version(e):
         raise RuntimeError(result)
 
     msg = """This script will install Docker Engine, which is the
@@ -105,5 +103,5 @@ def main():  # noqa
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
