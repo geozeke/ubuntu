@@ -9,15 +9,17 @@ RuntimeError
 
 import argparse
 
-from library.classes import Environment
 from library.classes import Labels
+from library.environment import HOME
+from library.environment import PASS
+from library.environment import UBUNTU
 from library.utilities import min_python_version
 from library.utilities import run_one_command
 from library.utilities import sync_notebooks
 from library.utilities import wrap_tight
 
 
-def run_updates(args: argparse.Namespace, e: Environment) -> None:
+def run_updates(args: argparse.Namespace) -> None:
     """Perform system updates.
 
     Parameters
@@ -48,7 +50,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
     commands.append("sudo apt autoremove -y")
     commands.append("sudo snap refresh")
     for cmd in commands:
-        run_one_command(e, cmd, capture=False)
+        run_one_command(cmd, capture=False)
 
     # Perform additional updates if -a is selected
 
@@ -58,8 +60,8 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         # Pull updates to the ubuntu git repo. This facilitates installing
         # custom patches later.
         labels.next()
-        cmd = f"git -C {e.UBUNTU} pull"
-        print(run_one_command(e, cmd))
+        cmd = f"git -C {UBUNTU} pull"
+        print(run_one_command(cmd))
 
         # Update selected Python packages. Start with pip itself to ensure
         # we've got the lastest version of the Python package installer.
@@ -70,19 +72,19 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
         pips.append("pytest")
         for pip in pips:
             pip_test = f"pip3 show {pip}"
-            if run_one_command(e, pip_test) == e.PASS:
+            if run_one_command(pip_test) == PASS:
                 labels.next()
                 cmd = f"pip3 install --upgrade {pip}"
-                print(run_one_command(e, cmd))
+                print(run_one_command(cmd))
             else:  # Dump the label if the package is not installed
                 labels.pop_first()
 
         # Sync jupyter notebooks
         labels.next()
-        cmd = f"git -C {e.HOME}/.notebooksrepo pull"
-        result = run_one_command(e, cmd)
-        if result == e.PASS:
-            result = sync_notebooks(e)
+        cmd = f"git -C {HOME}/.notebooksrepo pull"
+        result = run_one_command(cmd)
+        if result == PASS:
+            result = sync_notebooks()
         print(result)
 
     # Done
@@ -97,8 +99,7 @@ def run_updates(args: argparse.Namespace, e: Environment) -> None:
 def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
-    e = Environment()
-    if result := min_python_version(e):
+    if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script will perform updates of system files and
@@ -115,7 +116,7 @@ def main():  # noqa
     parser.add_argument("-a", "--all", help=msg, action="store_true")
 
     args = parser.parse_args()
-    run_updates(args, e)
+    run_updates(args)
 
     return
 

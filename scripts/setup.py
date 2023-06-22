@@ -11,8 +11,14 @@ import argparse
 from pathlib import Path
 from typing import Any
 
-from library.classes import Environment
 from library.classes import Labels
+from library.environment import DEBUG
+from library.environment import HOME
+from library.environment import PASS
+from library.environment import SCRIPTS
+from library.environment import SHELL
+from library.environment import SYSTEM
+from library.environment import VIM
 from library.utilities import clear
 from library.utilities import copy_files
 from library.utilities import min_python_version
@@ -22,7 +28,7 @@ from library.utilities import sync_notebooks
 from library.utilities import wrap_tight
 
 
-def task_runner(e: Environment) -> None:
+def task_runner() -> None:
     """Perform tool installation and setup.
 
     Parameters
@@ -73,38 +79,38 @@ def task_runner(e: Environment) -> None:
     dir_targets: list[Path] = []
     file_targets: list[tuple[Any, Any]] = []
     targets: list[str] = []
-    print(e.PASS)
+    print(PASS)
 
     # ------------------------------------------
 
     # Step 2: Create new directories
 
     labels.next()
-    dir_targets.append(e.HOME / ".vim/colors")
-    dir_targets.append(e.HOME / "shares")
-    dir_targets.append(e.HOME / "notebooks")
-    dir_targets.append(e.HOME / ".notebooksrepo")
+    dir_targets.append(HOME / ".vim/colors")
+    dir_targets.append(HOME / "shares")
+    dir_targets.append(HOME / "notebooks")
+    dir_targets.append(HOME / ".notebooksrepo")
     for target in dir_targets:
-        if e.DEBUG:
+        if DEBUG:
             print(f"\nMaking: {str(target)}")
         else:
             target.mkdir(parents=True, exist_ok=True)
-    print(e.PASS)
+    print(PASS)
 
     # ------------------------------------------
 
     # Step 3: Copy files
 
     labels.next()
-    file_targets.append((e.SHELL / "bashrc.txt", e.HOME / ".bashrc"))
-    file_targets.append((e.SHELL / "zshrc.txt", e.HOME / ".zshrc"))
-    file_targets.append((e.SHELL / "profile.txt", e.HOME / ".profile"))
-    file_targets.append((e.SHELL / "profile.txt", e.HOME / ".zprofile"))
-    file_targets.append((e.SHELL / "dircolors.txt", e.HOME / ".dircolors"))
-    file_targets.append((e.VIM / "vimrc.txt", e.HOME / ".vimrc"))
-    file_targets.append((e.VIM / "vimcolors/*", e.HOME / ".vim/colors"))
-    copy_files(e, file_targets)
-    print(e.PASS)
+    file_targets.append((SHELL / "bashrc.txt", HOME / ".bashrc"))
+    file_targets.append((SHELL / "zshrc.txt", HOME / ".zshrc"))
+    file_targets.append((SHELL / "profile.txt", HOME / ".profile"))
+    file_targets.append((SHELL / "profile.txt", HOME / ".zprofile"))
+    file_targets.append((SHELL / "dircolors.txt", HOME / ".dircolors"))
+    file_targets.append((VIM / "vimrc.txt", HOME / ".vimrc"))
+    file_targets.append((VIM / "vimcolors/*", HOME / ".vim/colors"))
+    copy_files(file_targets)
+    print(PASS)
 
     # ------------------------------------------
 
@@ -112,8 +118,8 @@ def task_runner(e: Environment) -> None:
     # correct. It may not be absolutely necessary, but it won't hurt.
 
     labels.next()
-    cmd = f"find {e.SCRIPTS} -name *.py -exec chmod 754 {{}} ;"
-    print(run_one_command(e, cmd))
+    cmd = f"find {SCRIPTS} -name *.py -exec chmod 754 {{}} ;"
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -122,14 +128,14 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "dconf reset -f /org/gnome/terminal/"
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
+    result = run_one_command(cmd)
+    if result == PASS:
         cmd = "dconf load /org/gnome/terminal/"
-        path = e.SYSTEM / "terminalSettings.txt"
-        if e.DEBUG:
+        path = SYSTEM / "terminalSettings.txt"
+        if DEBUG:
             print(f"Opening: {path}")
         with open(path, "r") as f:
-            result = run_one_command(e, cmd, std_in=f)
+            result = run_one_command(cmd, std_in=f)
     print(result)
 
     # ------------------------------------------
@@ -142,7 +148,7 @@ def task_runner(e: Environment) -> None:
     # pull. This will avoid having the password prompt come in the middle of a
     # label when providing status
 
-    run_one_command(e, "sudo ls")
+    run_one_command("sudo ls")
 
     # ------------------------------------------
 
@@ -162,7 +168,7 @@ def task_runner(e: Environment) -> None:
     targets.append("ccache")
     targets.append("vim")
     targets.append("tree")
-    print(run_many_arguments(e, cmd, targets))
+    print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
@@ -170,7 +176,7 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     seahorse = cmd.replace("TARGET", "seahorse-nautilus")
-    print(run_one_command(e, seahorse))
+    print(run_one_command(seahorse))
 
     # ------------------------------------------
 
@@ -180,17 +186,17 @@ def task_runner(e: Environment) -> None:
     targets = []
     targets.append("zsh")
     targets.append("powerline")
-    result = run_many_arguments(e, cmd, targets)
-    if result == e.PASS:
-        src = "https://github.com/robbyrussell/oh-my-zsh.git"
-        dest = e.HOME / ".oh-my-zsh"
+    result = run_many_arguments(cmd, targets)
+    if result == PASS:
+        src: str | Path = "https://github.com/robbyrussell/oh-my-zsh.git"
+        dest: str | Path = HOME / ".oh-my-zsh"
         cmd = f"git clone {src} {dest} --depth 1"
-        result = run_one_command(e, cmd)
-    if result == e.PASS:
-        src = e.SHELL / "peter.zsh-theme"
-        dest = e.HOME / ".oh-my-zsh/custom/themes"
+        result = run_one_command(cmd)
+    if result == PASS:
+        src = SHELL / "peter.zsh-theme"
+        dest = HOME / ".oh-my-zsh/custom/themes"
         file_targets = [(src, dest)]
-        copy_files(e, file_targets)
+        copy_files(file_targets)
     print(result)
 
     # ------------------------------------------
@@ -200,14 +206,14 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "dconf reset -f /org/gnome/TextEditor/"
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
+    result = run_one_command(cmd)
+    if result == PASS:
         cmd = "dconf load /org/gnome/TextEditor/"
-        path = e.SYSTEM / "text_editor_settings.txt"
-        if e.DEBUG:
+        path = SYSTEM / "text_editor_settings.txt"
+        if DEBUG:
             print(f"Opening: {path}")
         with open(path, "r") as f:
-            result = run_one_command(e, cmd, std_in=f)
+            result = run_one_command(cmd, std_in=f)
     print(result)
 
     # ------------------------------------------
@@ -216,7 +222,7 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "sudo apt install -y python3-pip"
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -224,15 +230,15 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "sudo apt install -y python3-venv"
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
     # Step-12: Create Python virtual environment
 
     labels.next()
-    cmd = f"python3 -m venv {e.HOME}/.venv"
-    print(run_one_command(e, cmd))
+    cmd = f"python3 -m venv {HOME}/.venv"
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -242,10 +248,10 @@ def task_runner(e: Environment) -> None:
     google_deb = "google-chrome-stable_current_amd64.deb"
     src = f"https://dl.google.com/linux/direct/{google_deb}"
     cmd = f"wget -O /tmp/{google_deb} {src}"
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
+    result = run_one_command(cmd)
+    if result == PASS:
         cmd = f"sudo dpkg -i /tmp/{google_deb}"
-        result = run_one_command(e, cmd)
+        result = run_one_command(cmd)
     print(result)
 
     # ------------------------------------------
@@ -255,11 +261,11 @@ def task_runner(e: Environment) -> None:
     labels.next()
     # Clone the notebook repo (single branch, depth 1)
     src = "https://github.com/geozeke/notebooks.git"
-    dest = e.HOME / ".notebooksrepo"
+    dest = HOME / ".notebooksrepo"
     cmd = f"git clone {src} {dest} --single-branch --depth 1"
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
-        result = sync_notebooks(e)
+    result = run_one_command(cmd)
+    if result == PASS:
+        result = sync_notebooks()
     print(result)
 
     # ------------------------------------------
@@ -268,7 +274,7 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "sudo snap refresh"
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -288,7 +294,7 @@ def task_runner(e: Environment) -> None:
     targets.append("snap-store_ubuntu-software.desktop")
     targets.append("org.gnome.seahorse.Application.desktop")
     cmd += "','".join(targets) + "']\""
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -296,7 +302,7 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.screensaver lock-enabled false"
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -304,7 +310,7 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.session idle-delay 0"
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -314,11 +320,11 @@ def task_runner(e: Environment) -> None:
     dest = "/etc/apt/apt.conf.d/20auto-upgrades"
     argument = r"s+Update-Package-Lists\ \"1\"+Update-Package-Lists\ \"0\"+"
     cmd = f"sudo sed -i {argument} {dest}"
-    result = run_one_command(e, cmd)
-    if result == e.PASS:
+    result = run_one_command(cmd)
+    if result == PASS:
         argument = r"s+Unattended-Upgrade\ \"1\"+Unattended-Upgrade\ \"0\"+"
         cmd = f"sudo sed -i {argument} {dest}"
-        result = run_one_command(e, cmd)
+        result = run_one_command(cmd)
     print(result)
 
     # ------------------------------------------
@@ -331,7 +337,7 @@ def task_runner(e: Environment) -> None:
     argument = r"s+\#user_allow_other+user_allow_other+"
     dest = "/etc/fuse.conf"
     cmd = f"sudo sed -i {argument} {dest}"
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -345,7 +351,7 @@ def task_runner(e: Environment) -> None:
     targets.append(f"{base}ding start-corner bottom-left")
     targets.append(f"{base}ding show-trash true")
     cmd = "gsettings set TARGET"
-    print(run_many_arguments(e, cmd, targets))
+    print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
@@ -355,9 +361,9 @@ def task_runner(e: Environment) -> None:
     targets = []
     targets.append(f"/tmp/{google_deb}")
     cmd = "rm -f TARGET"
-    result = run_many_arguments(e, cmd, targets)
-    if result == e.PASS:
-        result = run_one_command(e, "sudo snap remove firefox")
+    result = run_many_arguments(cmd, targets)
+    if result == PASS:
+        result = run_one_command("sudo snap remove firefox")
     print(result)
 
     # ------------------------------------------
@@ -376,8 +382,7 @@ def task_runner(e: Environment) -> None:
 def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
-    e = Environment()
-    if result := min_python_version(e):
+    if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script will install the necessary programs and
@@ -393,7 +398,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    task_runner(e)
+    task_runner()
 
     return
 

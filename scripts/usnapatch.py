@@ -9,19 +9,19 @@ RuntimeError
 
 import argparse
 
-from library.classes import Environment
 from library.classes import Labels
+from library.environment import SYSTEM
 from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_one_command
 from library.utilities import run_shell_script
 from library.utilities import wrap_tight
 
-SYSTEM = "http://apt.cs.usna.edu/ssl/install-ssl-system.sh"
-BROWSER = "http://apt.cs.usna.edu/ssl/install-ssl.sh"
+SYSTEM_SH = "http://apt.cs.usna.edu/ssl/install-ssl-system.sh"
+BROWSER_SH = "http://apt.cs.usna.edu/ssl/install-ssl.sh"
 
 
-def task_runner(args: argparse.Namespace, e: Environment) -> None:
+def task_runner(args: argparse.Namespace) -> None:
     """Patch openssl configuration and run certificate scripts.
 
     Parameters
@@ -55,7 +55,7 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
     # Push a dummy sudo command just to force password entry before first
     # command. This will avoid having the password prompt come in the middle of
     # a label when providing status
-    run_one_command(e, "sudo ls")
+    run_one_command("sudo ls")
 
     # ------------------------------------------
 
@@ -66,19 +66,19 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
             # Patch openssl
             labels.next()
             target = "/usr/lib/ssl/openssl.cnf"
-            cmd = f"sudo cp -f {e.SYSTEM}/openssl.cnf {target}"
-            print(run_one_command(e, cmd))
+            cmd = f"sudo cp -f {SYSTEM}/openssl.cnf {target}"
+            print(run_one_command(cmd))
 
             # Run system script
             labels.next()
-            print(run_shell_script(e, script=SYSTEM))
+            print(run_shell_script(script=SYSTEM_SH))
             labels.dump(1)
 
         case "browser":
             # Run browser script.
             labels.dump(2)
             labels.next()
-            print(run_shell_script(e, script=BROWSER))
+            print(run_shell_script(script=BROWSER_SH))
 
         case _:
             pass
@@ -97,8 +97,7 @@ def task_runner(args: argparse.Namespace, e: Environment) -> None:
 def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
-    e = Environment()
-    if result := min_python_version(e):
+    if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script installs a patched openssl configuration file
@@ -115,7 +114,7 @@ def main():  # noqa
     parser.add_argument("mode", choices=["system", "browser"], type=str, help=msg)
 
     args = parser.parse_args()
-    task_runner(args, e)
+    task_runner(args)
 
     return
 

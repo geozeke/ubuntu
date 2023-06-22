@@ -9,8 +9,10 @@ RuntimeError
 
 import argparse
 
-from library.classes import Environment
 from library.classes import Labels
+from library.environment import HOME
+from library.environment import PASS
+from library.environment import SHELL
 from library.utilities import clear
 from library.utilities import lean_text
 from library.utilities import min_python_version
@@ -20,7 +22,7 @@ from library.utilities import run_shell_script
 from library.utilities import wrap_tight
 
 
-def task_runner(e: Environment) -> None:
+def task_runner() -> None:
     """Perform pyenv setup steps.
 
     Parameters
@@ -53,14 +55,14 @@ def task_runner(e: Environment) -> None:
     # pull. This will avoid having the password prompt come in the middle of a
     # label when providing status
 
-    run_one_command(e, "sudo ls")
+    run_one_command("sudo ls")
 
     # ------------------------------------------
 
     # Step 1: System initialization.
 
     labels.next()
-    print(e.PASS)
+    print(PASS)
 
     # ------------------------------------------
 
@@ -68,7 +70,7 @@ def task_runner(e: Environment) -> None:
 
     labels.next()
     cmd = "sudo apt update"
-    print(run_one_command(e, cmd))
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -93,14 +95,14 @@ def task_runner(e: Environment) -> None:
     targets.append("libxmlsec1-dev")
     targets.append("libffi-dev")
     targets.append("liblzma-dev")
-    print(run_many_arguments(e, cmd, targets))
+    print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
     # Step 4: Install pyenv
 
     labels.next()
-    print(run_shell_script(e, "https://pyenv.run"))
+    print(run_shell_script("https://pyenv.run"))
 
     # ------------------------------------------
 
@@ -109,10 +111,9 @@ def task_runner(e: Environment) -> None:
     labels.next()
 
     # Setup variables with file locations
-    support = f"{e.SHELL}/pyenvsupport.txt"
-    bash = f"{e.HOME}/.bashrc"
-    zsh = f"{e.HOME}/.zshrc"
-
+    support = SHELL / "pyenvsupport.txt"
+    bash = HOME / ".bashrc"
+    zsh = HOME / ".zshrc"
     # Check to see if the adjustments have already been made, then proceed if
     # not.
     with open(zsh, "r") as f1, open(support, "r") as f2:
@@ -123,7 +124,7 @@ def task_runner(e: Environment) -> None:
             f2.write(f1.read())
             f1.seek(0)
             f3.write(f1.read())
-    print(e.PASS)
+    print(PASS)
 
     # ------------------------------------------
 
@@ -141,8 +142,7 @@ def task_runner(e: Environment) -> None:
 def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
-    e = Environment()
-    if result := min_python_version(e):
+    if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script will setup and install the dependencies to use
@@ -155,7 +155,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    task_runner(e)
+    task_runner()
 
     return
 

@@ -13,7 +13,13 @@ import textwrap
 from typing import Any
 from typing import Text
 
-from .classes import Environment
+from .environment import DEBUG
+from .environment import FAIL
+from .environment import HOME
+from .environment import MAJOR
+from .environment import MINOR
+from .environment import PASS
+from .environment import SYSTEM
 
 
 def clear() -> None:
@@ -98,7 +104,6 @@ def lean_text(str_in: str) -> str:
 
 
 def run_one_command(
-    e: Environment,
     cmd: str,
     capture: bool = True,
     std_in: Any | None = None,
@@ -108,9 +113,6 @@ def run_one_command(
 
     Parameters
     ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
     cmd : str
         A shell command (with potentially options) saved as a Python
         string.
@@ -132,28 +134,23 @@ def run_one_command(
         Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
-    if e.DEBUG:
+    if DEBUG:
         print(f"\nRunning: {shlex.split(cmd)}")
-        return e.PASS
+        return PASS
     else:
-        e.RESULT = sp.run(
+        result = sp.run(
             shlex.split(cmd), capture_output=capture, stdin=std_in, stdout=std_out
         )
-        if e.RESULT.returncode != 0:
-            return e.FAIL
-    return e.PASS
+        if result.returncode != 0:
+            return FAIL
+    return PASS
 
 
-def run_many_arguments(
-    e: Environment, cmd: str, targets: list[str], marker: str = "TARGET"
-) -> Text:
+def run_many_arguments(cmd: str, targets: list[str], marker: str = "TARGET") -> Text:
     """Run the same command with multiple arguments.
 
     Parameters
     ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
     cmd : str
         A shell command (with potentially options) saved as a Python
         string.
@@ -172,14 +169,13 @@ def run_many_arguments(
         (PASS) or a red X (FAIL).
     """
     for target in targets:
-        result = run_one_command(e, cmd.replace(marker, target))
-        if result == e.FAIL:
+        result = run_one_command(cmd.replace(marker, target))
+        if result == FAIL:
             return result
     return result
 
 
 def run_shell_script(
-    e: Environment,
     script: str,
     shell: str = "bash",
     as_sudo: bool = False,
@@ -189,9 +185,6 @@ def run_shell_script(
 
     Parameters
     ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
     script : str
         URL of the remote script.
     shell : str, optional
@@ -209,34 +202,29 @@ def run_shell_script(
     """
     with tf.TemporaryFile(mode="w") as f:
         cmd = f"curl -sL {script}"
-        result = run_one_command(e, cmd, capture=False, std_out=f)
-        if result == e.PASS:
+        result = run_one_command(cmd, capture=False, std_out=f)
+        if result == PASS:
             f.seek(0)
             if as_sudo:
                 cmd = f"sudo {shell}"
             else:
                 cmd = shell
-            result = run_one_command(e, cmd, capture=capture, std_in=f)
+            result = run_one_command(cmd, capture=capture, std_in=f)
     return result
 
 
-def copy_files(
-    e: Environment, targets: list[tuple[pathlib.Path, pathlib.Path]]
-) -> None:
+def copy_files(targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
     """Copy files from source to destination.
 
     Parameters
     ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
     targets : list[tuple[pathlib.Path, pathlib.Path]]
         A list of tuples. Files will be copied from source [0] to
         destination [1].
     """
     for target in targets:
         copy_from, copy_to = target[0], target[1]
-        if e.DEBUG:
+        if DEBUG:
             print(f"\nCopying: {str(copy_from)}\nTo: {str(copy_to)}")
         else:
             if "*" in copy_from.name:
@@ -247,7 +235,7 @@ def copy_files(
     return
 
 
-def sync_notebooks(e: Environment) -> Text:
+def sync_notebooks() -> Text:
     """Synchronize jupyter notebooks.
 
     Sync the hidden repository with the local notebooks directory. Use
@@ -259,34 +247,22 @@ def sync_notebooks(e: Environment) -> Text:
     contents of the source directory to a destination directory with a
     different name.
 
-    Parameters
-    ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
-
     Returns
     -------
     Text
         Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
-    src = f"{e.HOME}/.notebooksrepo/"
-    dest = f"{e.HOME}/notebooks"
-    exclude = f"{e.SYSTEM}/rsync_exclude.txt"
+    src = f"{HOME}/.notebooksrepo/"
+    dest = f"{HOME}/notebooks"
+    exclude = f"{SYSTEM}/rsync_exclude.txt"
     options = f"-rc --exclude-from={exclude} --delete --delete-excluded"
     cmd = f"rsync {src} {dest} {options}"
-    return run_one_command(e, cmd)
+    return run_one_command(cmd)
 
 
-def min_python_version(e: Environment) -> Text | None:
+def min_python_version() -> Text | None:
     """Determine if Python is at required min version.
-
-    Parameters
-    ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
 
     Returns
     -------
@@ -294,8 +270,8 @@ def min_python_version(e: Environment) -> Text | None:
         If Python is at the minimum version return None. If not,
         return a string error message.
     """
-    msg = f"Minimum required Python version is {e.MAJOR}.{e.MINOR}"
-    if (sys.version_info.major < e.MAJOR) or (sys.version_info.minor < e.MINOR):
+    msg = f"Minimum required Python version is {MAJOR}.{MINOR}"
+    if (sys.version_info.major < MAJOR) or (sys.version_info.minor < MINOR):
         return msg
     return None
 

@@ -3,15 +3,15 @@
 
 import argparse
 
-from library.classes import Environment
 from library.classes import Labels
+from library.environment import PASS
 from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_one_command
 from library.utilities import wrap_tight
 
 
-def task_runner(e: Environment) -> None:
+def task_runner() -> None:
     """Install Python development tools.
 
     Parameters
@@ -34,7 +34,7 @@ def task_runner(e: Environment) -> None:
     # future capability.
 
     labels.next()
-    print(e.PASS)
+    print(PASS)
 
     # Step 2, 3, 4 Install jupyter, jupyterlab & pytest
 
@@ -45,7 +45,7 @@ def task_runner(e: Environment) -> None:
     commands.append(base.replace("TARGET", "pytest"))
     for cmd in commands:
         labels.next()
-        print(run_one_command(e, cmd))
+        print(run_one_command(cmd))
 
     # Done
 
@@ -59,8 +59,7 @@ def task_runner(e: Environment) -> None:
 def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
-    e = Environment()
-    if result := min_python_version(e):
+    if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script will install several Python tools.
@@ -73,7 +72,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    task_runner(e)
+    task_runner()
 
     return
 

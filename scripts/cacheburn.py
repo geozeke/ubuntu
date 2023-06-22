@@ -3,21 +3,14 @@
 
 import argparse
 
-from library.classes import Environment
 from library.classes import Labels
+from library.environment import HOME
 from library.utilities import min_python_version
 from library.utilities import run_one_command
 
 
-def burn_it_up(e: Environment) -> None:
-    """Perform cached file cleaning operation.
-
-    Parameters
-    ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
-    """
+def burn_it_up() -> None:
+    """Perform cached file cleaning operation."""
     labels = Labels(
         """
         Deleting __pycache__ directories
@@ -31,7 +24,7 @@ def burn_it_up(e: Environment) -> None:
 
     # NOTE: If this command were being run on the command line, you'd need to
     # escape the semicolon (\;)
-    home = e.HOME / "shares"
+    home = HOME / "shares"
     base = f"find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune"
     commands: list[str] = []
     commands.append(base.replace("DIR", "__pycache__"))
@@ -39,7 +32,7 @@ def burn_it_up(e: Environment) -> None:
     commands.append(base.replace("DIR", ".ipynb_checkpoints"))
     for cmd in commands:
         labels.next()
-        print(run_one_command(e, cmd))
+        print(run_one_command(cmd))
 
     # Tee up files for deletion. You can sneak some other options in for the
     # find command if necessary.
@@ -50,7 +43,7 @@ def burn_it_up(e: Environment) -> None:
     commands.append(base.replace("FILE", "desktop.ini"))
     for cmd in commands:
         labels.next()
-        print(run_one_command(e, cmd))
+        print(run_one_command(cmd))
 
     return
 
@@ -58,8 +51,7 @@ def burn_it_up(e: Environment) -> None:
 def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
-    e = Environment()
-    if result := min_python_version(e):
+    if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script will scan the ~/shares directory to wipe caches
@@ -71,7 +63,7 @@ def main():  # noqa
 
     parser.parse_args()
     print()
-    burn_it_up(e)
+    burn_it_up()
     print()
 
     return
