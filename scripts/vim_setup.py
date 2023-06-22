@@ -4,15 +4,18 @@
 import argparse
 from typing import Any
 
-from library.classes import Environment
 from library.classes import Labels
+from library.environment import DEBUG
+from library.environment import HOME
+from library.environment import PASS
+from library.environment import VIM
 from library.utilities import clear
 from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import wrap_tight
 
 
-def task_runner(e: Environment) -> None:
+def task_runner() -> None:
     """Configure vim.
 
     Parameters
@@ -34,26 +37,26 @@ def task_runner(e: Environment) -> None:
     # future capability.
 
     labels.next()
-    print(e.PASS)
+    print(PASS)
 
     # Step 2. Creating new directory
 
     labels.next()
-    p = e.HOME / ".vim/colors"
-    if e.DEBUG:
+    p = HOME / ".vim/colors"
+    if DEBUG:
         print(p)
     else:
         p.mkdir(parents=True, exist_ok=True)
-    print(e.PASS)
+    print(PASS)
 
     # Step 3. Copying files
 
     labels.next()
     targets: list[tuple[Any, Any]] = []
-    targets.append((e.VIM / "vimrc.txt", e.HOME / ".vimrc"))
-    targets.append((e.VIM / "vimcolors/*", e.HOME / ".vim/colors"))
-    copy_files(e, targets)
-    print(e.PASS)
+    targets.append((VIM / "vimrc.txt", HOME / ".vimrc"))
+    targets.append((VIM / "vimcolors/*", HOME / ".vim/colors"))
+    copy_files(targets)
+    print(PASS)
 
     # Done
 
@@ -67,8 +70,7 @@ def task_runner(e: Environment) -> None:
 def main():  # noqa
     # Get a new Environment variable with all the necessary properties
     # initialized.
-    e = Environment()
-    if result := min_python_version(e):
+    if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script installs the necessary settings files and
@@ -80,7 +82,7 @@ def main():  # noqa
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
-    task_runner(e)
+    task_runner()
 
     return
 
