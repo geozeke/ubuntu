@@ -101,7 +101,7 @@ def main():  # noqa
     software installed through Ubuntu Personal Package Archives (ppa).
     You will be prompted for your password during updating."""
 
-    epi = "Latest update: 06/16/23"
+    epi = "Latest update: 07/12/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi, prog="tuneup")
 

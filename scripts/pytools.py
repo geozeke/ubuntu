@@ -59,7 +59,7 @@ def main():  # noqa
     this script, or skip this script and install the tools in a Python
     virtual environment manually."""
 
-    epi = "Latest update: 06/16/23"
+    epi = "Latest update: 07/12/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

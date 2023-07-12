@@ -142,7 +142,7 @@ def main():  # noqa
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
-    epi = "Latest update: 06/16/23"
+    epi = "Latest update: 07/12/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
