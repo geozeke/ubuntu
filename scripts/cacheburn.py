@@ -49,15 +49,13 @@ def burn_it_up() -> None:
 
 
 def main():  # noqa
-    # Get a new Environment variable with all the necessary properties
-    # initialized.
     if result := min_python_version():
         raise RuntimeError(result)
 
     msg = """This script will scan the ~/shares directory to wipe caches
     and delete other temporary files."""
 
-    epi = "Latest update: 06/16/23"
+    epi = "Latest update: 07/12/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi, prog="cacheburn")
 

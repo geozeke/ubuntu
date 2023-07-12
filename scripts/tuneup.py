@@ -27,9 +27,6 @@ def run_updates(args: argparse.Namespace) -> None:
     args : argparse.Namespace
         If `args.all` is set then update Python packages in addition
         to performing system updates.
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
     """
     labels = Labels(
         """
@@ -97,8 +94,6 @@ def run_updates(args: argparse.Namespace) -> None:
 
 
 def main():  # noqa
-    # Get a new Environment variable with all the necessary properties
-    # initialized.
     if result := min_python_version():
         raise RuntimeError(result)
 
@@ -106,7 +101,7 @@ def main():  # noqa
     software installed through Ubuntu Personal Package Archives (ppa).
     You will be prompted for your password during updating."""
 
-    epi = "Latest update: 06/16/23"
+    epi = "Latest update: 07/12/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi, prog="tuneup")
 

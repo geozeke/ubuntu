@@ -1,4 +1,4 @@
-"""Environment for the ubuntu scripts.
+"""Environment variables for the ubuntu scripts.
 
 All the paths, debugging flags, and pass/fail glyphs are created and
 initialized here.

@@ -20,14 +20,7 @@ from library.utilities import wrap_tight
 
 
 def task_runner() -> None:
-    """Install docker engine.
-
-    Parameters
-    ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
-    """
+    """Install docker engine."""
     clear()
 
     # ------------------------------------------
@@ -80,8 +73,6 @@ def task_runner() -> None:
 
 
 def main():  # noqa
-    # Get a new Environment variable with all the necessary properties
-    # initialized.
     if result := min_python_version():
         raise RuntimeError(result)
 
@@ -93,7 +84,7 @@ def main():  # noqa
     services and with a single command, can spin everything up or tear
     it all down."""
 
-    epi = "Latest update: 06/16/23"
+    epi = "Latest update: 07/12/23"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
