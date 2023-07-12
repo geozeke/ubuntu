@@ -20,14 +20,7 @@ from library.utilities import wrap_tight
 
 
 def task_runner() -> None:
-    """Install docker engine.
-
-    Parameters
-    ----------
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
-    """
+    """Install docker engine."""
     clear()
 
     # ------------------------------------------
@@ -80,8 +73,6 @@ def task_runner() -> None:
 
 
 def main():  # noqa
-    # Get a new Environment variable with all the necessary properties
-    # initialized.
     if result := min_python_version():
         raise RuntimeError(result)
 

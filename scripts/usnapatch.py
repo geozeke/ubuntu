@@ -30,9 +30,6 @@ def task_runner(args: argparse.Namespace) -> None:
         This will contain the argparse object, which allows us to
         extract the mode. The mode determines which operation to
         perform: system, browser.
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
     """
     clear()
 
@@ -95,8 +92,6 @@ def task_runner(args: argparse.Namespace) -> None:
 
 
 def main():  # noqa
-    # Get a new Environment variable with all the necessary properties
-    # initialized.
     if result := min_python_version():
         raise RuntimeError(result)
 

@@ -27,9 +27,6 @@ def run_updates(args: argparse.Namespace) -> None:
     args : argparse.Namespace
         If `args.all` is set then update Python packages in addition
         to performing system updates.
-    e : Environment
-        All the environment variables saved as attributes in an
-        Environment object.
     """
     labels = Labels(
         """
@@ -97,8 +94,6 @@ def run_updates(args: argparse.Namespace) -> None:
 
 
 def main():  # noqa
-    # Get a new Environment variable with all the necessary properties
-    # initialized.
     if result := min_python_version():
         raise RuntimeError(result)
 

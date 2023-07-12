@@ -49,8 +49,6 @@ def burn_it_up() -> None:
 
 
 def main():  # noqa
-    # Get a new Environment variable with all the necessary properties
-    # initialized.
     if result := min_python_version():
         raise RuntimeError(result)
 
