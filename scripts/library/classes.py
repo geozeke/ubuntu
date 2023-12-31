@@ -51,7 +51,7 @@ class Labels:
         """
         if len(self.labels) == 0:
             raise ExhaustedListError()
-        print(f"{self.labels.pop(0):.<{self.pad}}", end="", flush=True)
+        print(f"{self.labels.pop(0):.<{self.pad}}", end="", flush=True)  # noqa
         return
 
     def pop_first(self) -> str:
@@ -130,8 +130,8 @@ class Labels:
         """
         if (
             (type(num_labels) != int)
-            or (num_labels <= 0)
-            or (len(self.labels) < num_labels)
+            or (num_labels <= 0)  # noqa
+            or (len(self.labels) < num_labels)  # noqa
         ):
             return
         else:

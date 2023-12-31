@@ -111,7 +111,7 @@ def task_runner() -> None:
     # correct. It may not be absolutely necessary, but it won't hurt.
 
     labels.next()
-    cmd = f"find {SCRIPTS} -name *.py -exec chmod 754 {{}} ;"
+    cmd = f"find {SCRIPTS} -name *.py -exec chmod 754 {{}} ;"  # noqa
     print(run_one_command(cmd))
 
     # ------------------------------------------
@@ -239,7 +239,7 @@ def task_runner() -> None:
 
     labels.next()
     google_deb = "google-chrome-stable_current_amd64.deb"
-    src = f"https://dl.google.com/linux/direct/{google_deb}"
+    src = f"https://dl.google.com/linux/direct/{google_deb}"  # noqa
     cmd = f"wget -O /tmp/{google_deb} {src}"
     result = run_one_command(cmd)
     if result == PASS:

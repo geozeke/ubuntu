@@ -168,6 +168,7 @@ def run_many_arguments(cmd: str, targets: list[str], marker: str = "TARGET") -> 
         Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
+    result = PASS
     for target in targets:
         result = run_one_command(cmd.replace(marker, target))
         if result == FAIL:

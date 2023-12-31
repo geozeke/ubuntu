@@ -25,7 +25,7 @@ def burn_it_up() -> None:
     # NOTE: If this command were being run on the command line, you'd need to
     # escape the semicolon (\;)
     home = HOME / "shares"
-    base = f"find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune"
+    base = f"find {home} -name DIR -type d -exec rm -rvf {{}} ; -prune"  # noqa
     commands: list[str] = []
     commands.append(base.replace("DIR", "__pycache__"))
     commands.append(base.replace("DIR", ".pytest_cache"))
