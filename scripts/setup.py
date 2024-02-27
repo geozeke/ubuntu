@@ -72,6 +72,8 @@ def task_runner() -> None:
     dir_targets: list[Path] = []
     file_targets: list[tuple[Any, Any]] = []
     targets: list[str] = []
+    src: str | Path = ""
+    dest: str | Path = ""
     print(PASS)
 
     # ------------------------------------------
@@ -79,10 +81,12 @@ def task_runner() -> None:
     # Step 2: Create new directories
 
     labels.next()
-    dir_targets.append(HOME / ".vim/colors")
-    dir_targets.append(HOME / "shares")
-    dir_targets.append(HOME / "notebooks")
-    dir_targets.append(HOME / ".notebooksrepo")
+    dir_targets = [
+        HOME / ".vim/colors",
+        HOME / "shares",
+        HOME / "notebooks",
+        HOME / ".notebooksrepo",
+    ]
     for target in dir_targets:
         if DEBUG:
             print(f"\nMaking: {str(target)}")
@@ -95,13 +99,15 @@ def task_runner() -> None:
     # Step 3: Copy files
 
     labels.next()
-    file_targets.append((SHELL / "bashrc.txt", HOME / ".bashrc"))
-    file_targets.append((SHELL / "zshrc.txt", HOME / ".zshrc"))
-    file_targets.append((SHELL / "profile.txt", HOME / ".profile"))
-    file_targets.append((SHELL / "profile.txt", HOME / ".zprofile"))
-    file_targets.append((SHELL / "dircolors.txt", HOME / ".dircolors"))
-    file_targets.append((VIM / "vimrc.txt", HOME / ".vimrc"))
-    file_targets.append((VIM / "vimcolors/*", HOME / ".vim/colors"))
+    file_targets = [
+        (SHELL / "bashrc.txt", HOME / ".bashrc"),
+        (SHELL / "zshrc.txt", HOME / ".zshrc"),
+        (SHELL / "profile.txt", HOME / ".profile"),
+        (SHELL / "profile.txt", HOME / ".zprofile"),
+        (SHELL / "dircolors.txt", HOME / ".dircolors"),
+        (VIM / "vimrc.txt", HOME / ".vimrc"),
+        (VIM / "vimcolors/*", HOME / ".vim/colors"),
+    ]
     copy_files(file_targets)
     print(PASS)
 
@@ -155,12 +161,13 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "sudo apt -y install TARGET"
-    targets = []
-    targets.append("gnome-text-editor")
-    targets.append("build-essential")
-    targets.append("ccache")
-    targets.append("vim")
-    targets.append("tree")
+    targets = [
+        "gnome-text-editor",
+        "build-essential",
+        "ccache",
+        "vim",
+        "tree",
+    ]
     print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
@@ -168,29 +175,16 @@ def task_runner() -> None:
     # Step-7: seahorse nautilus
 
     labels.next()
-    seahorse = cmd.replace("TARGET", "seahorse-nautilus")
-    print(run_one_command(seahorse))
+    targets = ["seahorse-nautilus"]
+    print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
-    # Step-8: zsh. Also copy over the peter zsh theme.
+    # Step-8: Install zsh.
 
     labels.next()
-    targets = []
-    targets.append("zsh")
-    targets.append("powerline")
-    result = run_many_arguments(cmd, targets)
-    if result == PASS:
-        src: str | Path = "https://github.com/robbyrussell/oh-my-zsh.git"
-        dest: str | Path = HOME / ".oh-my-zsh"
-        cmd = f"git clone {src} {dest} --depth 1"
-        result = run_one_command(cmd)
-    if result == PASS:
-        src = SHELL / "peter.zsh-theme"
-        dest = HOME / ".oh-my-zsh/custom/themes"
-        file_targets = [(src, dest)]
-        copy_files(file_targets)
-    print(result)
+    targets = ["zsh", "powerline"]
+    print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
@@ -338,11 +332,12 @@ def task_runner() -> None:
 
     labels.next()
     base = "org.gnome.shell.extensions."
-    targets = []
-    targets.append(f"{base}dash-to-dock show-trash false")
-    targets.append(f"{base}dash-to-dock show-mounts false")
-    targets.append(f"{base}ding start-corner bottom-left")
-    targets.append(f"{base}ding show-trash true")
+    targets = [
+        f"{base}dash-to-dock show-trash false",
+        f"{base}dash-to-dock show-mounts false",
+        f"{base}ding start-corner bottom-left",
+        f"{base}ding show-trash true",
+    ]
     cmd = "gsettings set TARGET"
     print(run_many_arguments(cmd, targets))
 
