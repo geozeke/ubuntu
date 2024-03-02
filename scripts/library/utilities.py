@@ -211,18 +211,19 @@ def run_shell_script(
         Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
-    with tf.TemporaryFile(mode="w") as f:
+    with tf.NamedTemporaryFile(mode="w+", delete=True) as f:
         cmd = f"curl -sL {script}"
         result = run_one_command(cmd, capture=False, std_out=f)
         if result == PASS:
             f.seek(0)
+            fname = f.name
             if as_sudo:
-                cmd = f"sudo {shell}"
+                cmd = f"sudo {shell} {fname}"
             else:
-                cmd = shell
+                cmd = f"{shell} {fname}"
             if options != "":
-                cmd += f" {options}"
-            result = run_one_command(cmd, capture=capture, std_in=f)
+                cmd = f"{cmd} {options}"
+            result = run_one_command(cmd, capture=capture)
     return result
 
 
