@@ -221,8 +221,7 @@ def main():  # noqa
     )
 
     args = parser.parse_args()
-    print(args.user)
-    #    task_runner()
+    task_runner(args)
 
     return
 
