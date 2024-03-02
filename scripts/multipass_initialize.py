@@ -60,7 +60,7 @@ def task_runner(args: argparse.Namespace) -> None:
     labels.next()
     crypt_passwd = io.StringIO()
     cmd = f"openssl passwd -1 {args.passwd}"
-    run_one_command(cmd, std_out=crypt_passwd)
+    run_one_command(cmd, std_out=crypt_passwd, capture=False)
     cmd = f"sudo useradd -m -p {crypt_passwd}) {args.user}"
     crypt_passwd.close()
     print(run_one_command(cmd))
