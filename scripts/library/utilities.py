@@ -105,7 +105,7 @@ def lean_text(str_in: str) -> str:
 
 def run_one_command(
     cmd: str,
-    capture: bool = False,
+    capture: bool = True,
     std_in: Any | None = None,
     std_out: Any | None = None,
 ) -> Text:
@@ -139,14 +139,21 @@ def run_one_command(
         return PASS
     else:
         result = sp.run(
-            shlex.split(cmd), capture_output=capture, stdin=std_in, stdout=std_out
+            shlex.split(cmd),
+            capture_output=capture,
+            stdin=std_in,
+            stdout=std_out,
         )
         if result.returncode != 0:
             return FAIL
     return PASS
 
 
-def run_many_arguments(cmd: str, targets: list[str], marker: str = "TARGET") -> Text:
+def run_many_arguments(
+    cmd: str,
+    targets: list[str],
+    marker: str = "TARGET",
+) -> Text:
     """Run the same command with multiple arguments.
 
     Parameters

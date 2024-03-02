@@ -8,6 +8,7 @@ RuntimeError
 """
 
 import argparse
+import io
 from pathlib import Path
 from typing import Any
 
@@ -57,7 +58,11 @@ def task_runner(args: argparse.Namespace) -> None:
     # Step 2: Create new user
 
     labels.next()
-    cmd = f"sudo useradd -m -p $(openssl passwd -1 {args.passwd}) {args.user}"
+    crypt_passwd = io.StringIO()
+    cmd = f"openssl passwd -1 {args.passwd}"
+    run_one_command(cmd, std_out=crypt_passwd)
+    cmd = f"sudo useradd -m -p {crypt_passwd}) {args.user}"
+    crypt_passwd.close()
     print(run_one_command(cmd))
 
     # ------------------------------------------
