@@ -105,7 +105,7 @@ def lean_text(str_in: str) -> str:
 
 def run_one_command(
     cmd: str,
-    capture: bool = True,
+    capture: bool = False,
     std_in: Any | None = None,
     std_out: Any | None = None,
 ) -> Text:

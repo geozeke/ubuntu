@@ -73,7 +73,7 @@ def task_runner(args: argparse.Namespace) -> None:
     # Step 7: Install nala
 
     labels.next()
-    cmd = "sudo apt install nala"
+    cmd = "sudo apt install nala -y"
     print(run_one_command(cmd))
 
     # ------------------------------------------
@@ -81,7 +81,7 @@ def task_runner(args: argparse.Namespace) -> None:
     # Step 8: Install zsh
 
     labels.next()
-    cmd = "sudo apt install zsh"
+    cmd = "sudo apt install zsh -y"
     print(run_one_command(cmd))
 
     # ------------------------------------------
