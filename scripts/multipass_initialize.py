@@ -60,7 +60,7 @@ def task_runner(args: argparse.Namespace) -> None:
         run_one_command(cmd, std_out=f, capture=False)
         f.seek(0)
         crypt_passwd = f.read()
-    cmd = f"sudo useradd -m -p {crypt_passwd} {args.user}"
+    cmd = f"sudo useradd -s /bin/bash -m -p {crypt_passwd} {args.user}"
     print(run_one_command(cmd))
 
     # ------------------------------------------
