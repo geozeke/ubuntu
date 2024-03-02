@@ -17,7 +17,7 @@ from library.environment import HOME
 from library.environment import PASS
 from library.environment import SHELL
 from library.environment import VIM
-from library.utilities import clear
+from library.utilities import clear, run_shell_script
 from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import run_one_command
@@ -89,8 +89,8 @@ def task_runner() -> None:
 
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
-    cmd = f'$curl -fsSL {src}install.sh "" --unattended'
-    print(run_one_command(cmd))
+    cmd = f"{src}install.sh"
+    print(run_shell_script(script=cmd, options=' "" --unattended'))
 
     # ------------------------------------------
 

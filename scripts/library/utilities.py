@@ -188,6 +188,7 @@ def run_shell_script(
     shell: str = "bash",
     as_sudo: bool = False,
     capture: bool = True,
+    options: str = "",
 ) -> Text:
     """Run a remote shell script.
 
@@ -201,6 +202,8 @@ def run_shell_script(
         Run the script as sudo, by default False.
     capture : bool, optional
         Capture stdout or not, by default True.
+    options : str, options
+        Any additional options to be passed to the shell script
 
     Returns
     -------
@@ -217,6 +220,8 @@ def run_shell_script(
                 cmd = f"sudo {shell}"
             else:
                 cmd = shell
+            if options != "":
+                cmd += f" {options}"
             result = run_one_command(cmd, capture=capture, std_in=f)
     return result
 
