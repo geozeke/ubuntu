@@ -44,9 +44,9 @@ def task_runner() -> None:
     msg = """Please enter your password if prompted."""
     print(f"\n{wrap_tight(msg)}\n")
 
-    # Push a dummy sudo command just to force password entry before first ppa
-    # pull. This will avoid having the password prompt come in the middle of a
-    # label when providing status
+    # Push a dummy sudo command just to force password entry before
+    # first ppa pull. This will avoid having the password prompt come in
+    # the middle of a label when providing status
 
     run_one_command("sudo ls")
 
@@ -107,8 +107,8 @@ def task_runner() -> None:
     support = SHELL / "pyenvsupport.txt"
     bash = HOME / ".bashrc"
     zsh = HOME / ".zshrc"
-    # Check to see if the adjustments have already been made, then proceed if
-    # not.
+    # Check to see if the adjustments have already been made, then
+    # proceed if not.
     with open(zsh, "r") as f1, open(support, "r") as f2:
         rc_str = f1.read()
         sup_str = lean_text(f2.read())

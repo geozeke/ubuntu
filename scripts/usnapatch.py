@@ -106,7 +106,12 @@ def main():  # noqa
 
     msg = """Include one of the following options indicating where
     to apply patches: system, browser"""
-    parser.add_argument("mode", choices=["system", "browser"], type=str, help=msg)
+    parser.add_argument(
+        "mode",
+        choices=["system", "browser"],
+        type=str,
+        help=msg,
+    )
 
     args = parser.parse_args()
     task_runner(args)

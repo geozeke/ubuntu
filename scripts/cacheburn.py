@@ -57,7 +57,11 @@ def main():  # noqa
 
     epi = "Latest update: 07/12/23"
 
-    parser = argparse.ArgumentParser(description=msg, epilog=epi, prog="cacheburn")
+    parser = argparse.ArgumentParser(
+        description=msg,
+        epilog=epi,
+        prog="cacheburn",
+    )
 
     parser.parse_args()
     print()

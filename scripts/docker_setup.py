@@ -57,7 +57,13 @@ def task_runner() -> None:
     # Step 2: Install docker components
 
     labels.next()
-    print(run_shell_script(script="https://get.docker.com", shell="sh", as_sudo=True))
+    print(
+        run_shell_script(
+            script="https://get.docker.com",
+            shell="sh",
+            as_sudo=True,
+        )
+    )
 
     # Step 3: Add user to docker group.
 
