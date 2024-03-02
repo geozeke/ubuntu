@@ -33,13 +33,10 @@ def task_runner(args: argparse.Namespace) -> None:
     # Setup status labels
 
     labels = Labels(
-        f"""
+        """
         System initialization
         Creating new directories
         Setting up vim
-        Enabling remote login with ssh
-        Installing nala
-        Installing zsh
         Installing OhMyZsh
         Installing OhMyZsh Full-autoupdate
         Installing powerlevel10k theme
@@ -60,22 +57,6 @@ def task_runner(args: argparse.Namespace) -> None:
     dest: str | Path = ""
     target: str | Path = ""
     print(PASS)
-
-    # ------------------------------------------
-
-    # Step 2: Create new user
-
-    labels.next()
-    cmd = f"sudo useradd -m -p $(openssl passwd -1 {args.passwd}) {args.user}"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 5: Add new user to sudoers
-
-    labels.next()
-    cmd = f"sudo usermod -aG sudo {args.user}"
-    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -101,49 +82,6 @@ def task_runner(args: argparse.Namespace) -> None:
     ]
     copy_files(file_targets)
     print(PASS)
-
-    # ------------------------------------------
-
-    # Step 4: Create new user
-
-    labels.next()
-    cmd = f"sudo useradd -m -p $(openssl passwd -1 {args.passwd}) {args.user}"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 5: Add new user to sudoers
-
-    labels.next()
-    cmd = f"sudo usermod -aG sudo {args.user}"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 6: Enable remote login with ssh
-
-    labels.next()
-    target = "60-cloudimg-settings.conf"
-    dest = f"/etc/ssh/sshd_config.d/{target}"
-    file_targets = [(SHELL / "{target}", dest)]
-    copy_files(file_targets)
-    print(PASS)
-
-    # ------------------------------------------
-
-    # Step 7: Install nala
-
-    labels.next()
-    cmd = "sudo apt install nala"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 8: Install zsh
-
-    labels.next()
-    cmd = "sudo apt install zsh"
-    print(run_one_command(cmd))
 
     # ------------------------------------------
 
@@ -193,10 +131,10 @@ def task_runner(args: argparse.Namespace) -> None:
     msg = """Setup script is complete. If all steps above are marked
     with green checkmarks, the multipass Ubuntu instance is ready to go.
     You must reboot your VM instance now for the changes to take effect.
-    Log back in with the username you created and immediately change the
-    shell to zsh using the \"chsh\" command. Logout and log back in and
-    you should be all set. If any steps above show a red \"X\", there
-    was an error during installation."""
+    Log back in and immediately change the shell to zsh using the
+    \"chsh\" command. Logout and log back in and you should be all set.
+    If any steps above show a red \"X\", there was an error during
+    installation."""
     print(f"\n{wrap_tight(msg)}\n")
 
     return
