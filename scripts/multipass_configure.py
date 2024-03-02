@@ -90,7 +90,7 @@ def task_runner() -> None:
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
     cmd = f"{src}install.sh"
-    print(run_shell_script(script=cmd, options=' "" --unattended'))
+    print(run_shell_script(script=cmd, options=' "" --unattended', capture=False))
 
     # ------------------------------------------
 
