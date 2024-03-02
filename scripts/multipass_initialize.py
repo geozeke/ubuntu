@@ -10,13 +10,11 @@ RuntimeError
 import argparse
 import tempfile
 from pathlib import Path
-from typing import Any
 
 from library.classes import Labels
 from library.environment import PASS
 from library.environment import SHELL
 from library.utilities import clear
-from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import run_one_command
 from library.utilities import wrap_tight
@@ -48,7 +46,6 @@ def task_runner(args: argparse.Namespace) -> None:
     # Commands with special target-types are shown below.
 
     labels.next()
-    file_targets: list[tuple[Any, Any]] = []
     dest: str | Path = ""
     target: str | Path = ""
     print(PASS)
@@ -63,7 +60,7 @@ def task_runner(args: argparse.Namespace) -> None:
         run_one_command(cmd, std_out=f, capture=False)
         f.seek(0)
         crypt_passwd = f.read()
-    cmd = f"sudo useradd -m -p {crypt_passwd}) {args.user}"
+    cmd = f"sudo useradd -m -p {crypt_passwd} {args.user}"
     print(run_one_command(cmd))
 
     # ------------------------------------------
@@ -96,10 +93,10 @@ def task_runner(args: argparse.Namespace) -> None:
 
     labels.next()
     target = "60-cloudimg-settings.conf"
+    src = str(SHELL / target)
     dest = f"/etc/ssh/sshd_config.d/{target}"
-    file_targets = [(SHELL / "{target}", dest)]
-    copy_files(file_targets)
-    print(PASS)
+    cmd = f"sudo cp {src} {dest}"
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
