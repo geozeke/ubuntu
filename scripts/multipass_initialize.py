@@ -8,7 +8,7 @@ RuntimeError
 """
 
 import argparse
-import io
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -59,7 +59,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     labels.next()
     cmd = f"openssl passwd -1 {args.passwd}"
-    with io.StringIO() as f:
+    with tempfile.TemporaryFile(mode="rw") as f:
         run_one_command(cmd, std_out=f, capture=False)
         f.seek(0)
         crypt_passwd = f.read()
