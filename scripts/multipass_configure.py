@@ -90,15 +90,17 @@ def task_runner() -> None:
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
     cmd = f"{src}install.sh"
-    print(run_shell_script(script=cmd, options=' "" --unattended', capture=False))
+    print(run_shell_script(shell="sh", script=cmd, options='"" --unattended'))
 
     # ------------------------------------------
 
     # Step 10: Install OhMyZsh Full-autoupdate
 
+    zsh_home: str = str(HOME / ".oh-my-zsh/custom")
+
     labels.next()
     src = "https://github.com/Pilaton/OhMyZsh-full-autoupdate.git"
-    dest = "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate"
+    dest = f"{zsh_home}/plugins/ohmyzsh-full-autoupdate"
     cmd = f"git clone --depth=1 {src} {dest}"
     print(run_one_command(cmd))
 
@@ -108,7 +110,7 @@ def task_runner() -> None:
 
     labels.next()
     src = "https://github.com/romkatv/powerlevel10k.git"
-    dest = "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k"
+    dest = f"{zsh_home}/themes/powerlevel10k"
     cmd = f"git clone --depth=1 {src} {dest}"
     print(run_one_command(cmd))
 
