@@ -24,7 +24,7 @@ from library.utilities import run_one_command
 from library.utilities import wrap_tight
 
 
-def task_runner(args: argparse.Namespace) -> None:
+def task_runner() -> None:
     """Perform VM configuration and setup."""
     clear()
 
@@ -153,27 +153,8 @@ def main():  # noqa
     epi = "Latest update: 03/02/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
-
-    msg = """username for new account."""
-    parser.add_argument(
-        "-u",
-        "--user",
-        required=True,
-        type=str,
-        help=msg,
-    )
-
-    msg = """password for new account."""
-    parser.add_argument(
-        "-p",
-        "--passwd",
-        required=True,
-        type=str,
-        help=msg,
-    )
-
-    args = parser.parse_args()
-    task_runner(args)
+    parser.parse_args()
+    task_runner()
 
     return
 
