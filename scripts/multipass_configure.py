@@ -37,8 +37,6 @@ def task_runner(args: argparse.Namespace) -> None:
         System initialization
         Creating new directories
         Setting up vim
-        Creating new user {args.user}
-        Adding {args.user} to sudoers
         Enabling remote login with ssh
         Installing nala
         Installing zsh
@@ -62,6 +60,22 @@ def task_runner(args: argparse.Namespace) -> None:
     dest: str | Path = ""
     target: str | Path = ""
     print(PASS)
+
+    # ------------------------------------------
+
+    # Step 2: Create new user
+
+    labels.next()
+    cmd = f"sudo useradd -m -p $(openssl passwd -1 {args.passwd}) {args.user}"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 5: Add new user to sudoers
+
+    labels.next()
+    cmd = f"sudo usermod -aG sudo {args.user}"
+    print(run_one_command(cmd))
 
     # ------------------------------------------
 
