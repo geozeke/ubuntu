@@ -215,12 +215,10 @@ def run_shell_script(
         cmd = f"curl -sL {script}"
         result = run_one_command(cmd, capture=False, std_out=f)
         if result == PASS:
-            f.seek(0)
             fname = f.name
+            cmd = f"{shell} {fname}"
             if as_sudo:
-                cmd = f"sudo {shell} {fname}"
-            else:
-                cmd = f"{shell} {fname}"
+                cmd = f"sudo {cmd}"
             if options != "":
                 cmd = f"{cmd} {options}"
             result = run_one_command(cmd, capture=capture)

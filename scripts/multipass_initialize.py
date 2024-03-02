@@ -33,6 +33,7 @@ def task_runner(args: argparse.Namespace) -> None:
         System initialization
         Creating user {args.user}
         Adding user {args.user} to sudoers
+        Turning off password requirement for sudo
         Installing nala
         Installing zsh
         Enabling remote login with ssh
@@ -65,7 +66,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # ------------------------------------------
 
-    # Step 5: Add new user to sudoers
+    # Step 3: Add new user to sudoers
 
     labels.next()
     cmd = f"sudo usermod -aG sudo {args.user}"
@@ -73,7 +74,17 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # ------------------------------------------
 
-    # Step 7: Install nala
+    # Step 4: Turn off password requirement when using sudo
+
+    labels.next()
+    patch = f"{args.user} ALL=(ALL) NOPASSWD:ALL"
+    target = "/etc/sudoers.d/90-cloud-init-users"
+    cmd = f"sudo sh -c 'echo \"{patch}\" >> {target}'"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 5: Install nala
 
     labels.next()
     cmd = "sudo apt install nala -y"
@@ -81,7 +92,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # ------------------------------------------
 
-    # Step 8: Install zsh
+    # Step 6: Install zsh
 
     labels.next()
     cmd = "sudo apt install zsh -y"
@@ -89,7 +100,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # ------------------------------------------
 
-    # Step 6: Enable remote login with ssh
+    # Step 7: Enable remote login with ssh
 
     labels.next()
     target = "60-cloudimg-settings.conf"

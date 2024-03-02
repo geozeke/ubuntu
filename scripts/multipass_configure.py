@@ -90,7 +90,7 @@ def task_runner() -> None:
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
     cmd = f"{src}install.sh"
-    print(run_shell_script(shell="sh", script=cmd, options='""--unattended'))
+    print(run_shell_script(shell="sh", script=cmd, options='"" --unattended'))
 
     # ------------------------------------------
 
@@ -147,10 +147,8 @@ def main():  # noqa
         raise RuntimeError(result)
 
     msg = """This script will configure a Ubuntu VM instance created
-          with Multipass. It will create a new (non-root) user, defined
-          on the command line with user/password, and add that user to
-          the sudoers group. The VM instance will also be configured to
-          allow for remote login using ssh."""
+          with Multipass. It will setup OhMyZsh & vim with standardized
+          settings."""
 
     epi = "Latest update: 03/02/24"
 
