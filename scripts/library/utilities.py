@@ -237,7 +237,7 @@ def copy_files(targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
     for target in targets:
         copy_from, copy_to = target[0], target[1]
         if DEBUG:
-            print(f"\nCopying: {str(copy_from)}\nTo: {str(copy_to)}")
+            print(f"\nCopying: {copy_from}\nTo: {copy_to}")
         else:
             if "*" in copy_from.name:
                 for file in copy_from.parent.resolve().glob(copy_from.name):

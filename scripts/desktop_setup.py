@@ -89,7 +89,7 @@ def task_runner() -> None:
     ]
     for target in dir_targets:
         if DEBUG:
-            print(f"\nMaking: {str(target)}")
+            print(f"\nMaking: {target}")
         else:
             target.mkdir(parents=True, exist_ok=True)
     print(PASS)

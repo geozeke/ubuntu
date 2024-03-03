@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Configure VM instances created with Multipass.
+"""Configure Ubuntu VM server instances.
 
 Raises
 ------
@@ -17,10 +17,11 @@ from library.environment import HOME
 from library.environment import PASS
 from library.environment import SHELL
 from library.environment import VIM
-from library.utilities import clear, run_shell_script
+from library.utilities import clear
 from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import run_one_command
+from library.utilities import run_shell_script
 from library.utilities import wrap_tight
 
 
@@ -66,7 +67,7 @@ def task_runner() -> None:
     dir_targets = [HOME / ".vim/colors"]
     for target in dir_targets:
         if DEBUG:
-            print(f"\nMaking: {str(target)}")
+            print(f"\nMaking: {target}")
         else:
             target.mkdir(parents=True, exist_ok=True)
     print(PASS)
@@ -96,7 +97,7 @@ def task_runner() -> None:
 
     # Step 10: Install OhMyZsh Full-autoupdate
 
-    zsh_home: str = str(HOME / ".oh-my-zsh/custom")
+    zsh_home = HOME / ".oh-my-zsh/custom"
 
     labels.next()
     src = "https://github.com/Pilaton/OhMyZsh-full-autoupdate.git"
@@ -131,12 +132,10 @@ def task_runner() -> None:
     # Done
 
     msg = """Setup script is complete. If all steps above are marked
-    with green checkmarks, the multipass Ubuntu instance is ready to go.
-    You must reboot your VM instance now for the changes to take effect.
-    Log back in and immediately change the shell to zsh using the
-    \"chsh\" command. Logout and log back in and you should be all set.
-    If any steps above show a red \"X\", there was an error during
-    installation."""
+    with green checkmarks, the Ubuntu instance is ready to go.
+    Change your shell \"/bin/zsh\" using the \"chsh\" command. Logout
+    and log back in and you should be all set. If any steps above show a
+    red \"X\", there was an error during installation."""
     print(f"\n{wrap_tight(msg)}\n")
 
     return
@@ -146,9 +145,8 @@ def main():  # noqa
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script will configure a Ubuntu VM instance created
-          with Multipass. It will setup OhMyZsh & vim with standardized
-          settings."""
+    msg = """This script will configure a Ubuntu server instance. It
+    will setup OhMyZsh & vim with standardized settings."""
 
     epi = "Latest update: 03/02/24"
 

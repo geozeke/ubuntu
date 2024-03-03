@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Initialize a new multipass instance.
+"""Initialize a new server instance.
 
 Raises
 ------
@@ -33,7 +33,7 @@ def task_runner(args: argparse.Namespace) -> None:
         System initialization
         Creating user {args.user}
         Adding user {args.user} to sudoers
-        Turning off password requirement for sudo
+        Turn off password for {args.user} when using sudo
         Installing nala
         Installing zsh
         Enabling remote login with ssh
@@ -104,7 +104,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     labels.next()
     target = "60-cloudimg-settings.conf"
-    src = str(SHELL / target)
+    src = SHELL / target
     dest = f"/etc/ssh/sshd_config.d/{target}"
     cmd = f"sudo cp {src} {dest}"
     print(run_one_command(cmd))
@@ -114,10 +114,10 @@ def task_runner(args: argparse.Namespace) -> None:
     # Done
 
     msg = f"""Initialization script is complete. If all steps above are
-    marked with green checkmarks, the multipass Ubuntu instance is ready
+    marked with green checkmarks, the Ubuntu server instance is ready
     to go. You must reboot your VM instance now for the changes to take
     effect. Log back in as {args.user} and run
-    ~/.ubuntu/scripts/multipass_configure.py. If any steps above show a
+    ~/.ubuntu/scripts/server_configure.py. If any steps above show a
     red \"X\", there was an error during installation."""
     print(f"\n{wrap_tight(msg)}\n")
 
@@ -128,11 +128,11 @@ def main():  # noqa
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script will initialize a Ubuntu VM instance created
-          with Multipass. It will create a new (non-root) user, defined
-          on the command line with user/password, and add that user to
-          the sudoers group. The VM instance will also be configured to
-          allow for remote login using ssh."""
+    msg = """This script will initialize a Ubuntu VM server instance.
+    It will create a new (non-root) user, defined on the command line
+    with user/password, and add that user to the sudoers group. The VM
+    instance will also be configured to allow for remote login using
+    ssh."""
 
     epi = "Latest update: 03/02/24"
 
