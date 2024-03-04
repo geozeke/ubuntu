@@ -8,56 +8,37 @@ alt = "Dinobox logo" width="120"/>
 
 ## VM Setup Guides (Start Here)
 
-To install a new Ubuntu Virtual Machine using the tools in this repository,
-follow the setup guide available here: [Ubuntu
-Setup](https://sites.google.com/view/ubuntuvm)
+To install a new Ubuntu Virtual Machine (desktop version) using the tools in
+this repository, follow the setup guide available here: [Ubuntu
+Setup](https://sites.google.com/view/ubuntuvm). This repository also includes
+tools to initialize and configure a server version of Ubuntu.
 
 ## Included Tools
 
 This repo manages a series of setup and maintenance scripts for Ubuntu VMs. I
-started this repo for Cyber Operations classes at USNA, but it's broadened and
-become useful for setting up Ubuntu VMs for any purpose.
+originally started this repo for Cyber Operations classes at USNA, but it's
+broadened and become useful for setting up Ubuntu VMs for any purpose.
 
-* [setup.py](#setup)
-* [usnapatch.py](#usnapatch)
-* [pyenv_setup.py](#pyenv_setup)
-* [pytools.py](#pytools)
+* [desktop_setup.py](#desktop_setup)
+* [server_initialize.py](#server) and [server_configure.py](#server)
 * [tuneup.py](#tuneup)
-* [cacheburn.py](#cacheburn)
 * [docker_setup.py](#docker_setup)
 * [vim_setup.py](#vim_setup)
 
-### <a id="setup"></a> `setup.py`
+### <a id="desktop_setup"></a> `desktop_setup.py`
 
 This script sets up a new Ubuntu VM with the following software and settings:
 
-* Create new directories to hold various settings/resource files.
-* Copy new settings files for:
-  * bash
-  * zsh
-  * profile
-  * vi
-* Set the correct file permissions for scripts.
+* Setup and configure zsh and vim
 * Initialize the terminal profile with a nicer color scheme.
 * Install the following packages from the ppa:
   * gnome-text-editor
   * build-essential
   * ccache
-  * vim
+  * nala
   * tree
   * seahorse-nautilus
-  * zsh
-  * powerline
-  * python3-pip
-  * python3-venv
-* Install the following software / tools from developer sites:
-  * oh-my-zsh (GitHub)
-  * Google Chrome (vendor site)
-* Setup and configure a series of jupyter notebooks for introductory topics in
-  Python. More information is [available
-  here](https://github.com/geozeke/notebooks).
 * Configure the gnome favorites in the application launcher.
-* Setup a starter Python virtual environment located here: `~/.venv/env`.
 * Tune system settings:
   * Disable auto screen lock.
   * Set idle timeout to 'never'.
@@ -65,8 +46,6 @@ This script sets up a new Ubuntu VM with the following software and settings:
   * Patch `/etc/fuse.conf` to un-comment `user_allow_other`. This permits
     running programs from the command line when you're inside a directory in
     the share point.
-  * Neatly arrange icons on the favorites launcher.
-  * Clean up and delete temporary and unused files.
 
 #### usage
 
@@ -74,14 +53,33 @@ Follow the [VM Setup Guides](#top).
 
 [top](#top)
 
-### <a id="usnapatch"></a> `usnapatch.py`
+### <a id="server"></a> `server_initialize.py` and `server_configure.py`
 
-This script installs a patched openssl configuration file and runs the
-necessary scripts to support networking on the USNA mission network.
+These two scripts work together to initialize and configure a server version of
+Ubuntu (one without a desktop environment). An easy and elegant way to create a
+server VM like this is by using [Multipass](https://multipass.run).
+
+`server_initialize.py`
+
+After creating and logging-in to the new VM, clone this repo and run this
+script. It will install some basic tools and create a new user account, which
+you can specify on the command line.
+
+`server_configure.py`
+
+After initializing the server, login with the new user credentials you created,
+clone this repo again, and run this script. It will setup vim and [Oh My
+Zsh](https://ohmyz.sh). Note, for all new Ubuntu instances, a default account is
+created called `ubuntu`. When you run this script you also have the option to
+delete the default account.
 
 #### usage
 
-Follow the [VM Setup Guides](#top).
+Learn about each script by getting help on the command line:
+
+`~/ubuntu/scripts/server_initialize.py -h`
+
+`~/ubuntu/scripts/server_configure.py -h`
 
 [top](#top)
 
@@ -95,21 +93,6 @@ installation.
 #### usage
 
 `~/ubuntu/scripts/pyenv_setup.py`
-
-[top](#top)
-
-### <a id="pytools"></a> `pytools.py`
-
-This script installs the following Python tools. *Recommend activating a python
-virtual environment before running this script*:
-
-* jupyter
-* jupyterlab
-* pytest
-
-#### usage
-
-`~/ubuntu/scripts/pytools.py`
 
 [top](#top)
 
@@ -130,38 +113,15 @@ the following updates:
 An alias for this script is created when the VM is setup. To run the tuneup
 script and get help, just enter: `tuneup -h`.
 
-[top](#top)
-
-### <a id="cacheburn"></a> `cacheburn.py`
-
-This script is used to clean caches and temp files from the share point. The
-following are deleted from `~/shares`:
-
-Directories:
-
-* `__pycache__`
-* `.pytest_cache`
-* `.ipynb_checkpoints`
-
-Files:
-
-* `Icon?`
-* `desktop.ini`
-
-#### usage
-
-An alias for this script is created when the VM is setup. To run the cacheburn
-script and get help, just enter: `cacheburn -h`.
-
-[top](#top)
-
 ### <a id="docker_setup"></a> `docker_setup.py`
 
 This standalone script will install [Docker
 Engine](https://docs.docker.com/engine/), which is the underlying client-server
 technology that builds and runs containers using Docker's components and
 services. It also installs [Docker
-Compose](https://docs.docker.com/get-started/08_using_compose/).
+Compose](https://docs.docker.com/get-started/08_using_compose/), and sets up
+the appropriate user permissions to run docker without having to enter `sudo`
+first.
 
 #### usage
 

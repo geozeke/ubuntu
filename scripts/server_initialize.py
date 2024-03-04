@@ -102,12 +102,21 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # Step 7: Enable remote login with ssh
 
+    # Right now, this is setup to only patch config files on VMs created
+    # with Multipass. For Raspberry Pi installations, ssh password
+    # authentication is enabled when the Micro USB is flashed, so no
+    # patching is required. Additional research is required for bare
+    # metal installations on other hardware (e.g. Ubuntu Server on a
+    # Dell Micro).
+
     labels.next()
-    target = "60-cloudimg-settings.conf"
     src = SHELL / target
-    dest = f"/etc/ssh/sshd_config.d/{target}"
-    cmd = f"sudo cp {src} {dest}"
-    print(run_one_command(cmd))
+    dest = Path("/etc/ssh/sshd_config.d/60-cloudimg-settings.conf")
+    if dest.exists():
+        cmd = f"sudo cp {src} {dest}"
+        print(run_one_command(cmd))
+    else:
+        print(PASS)
 
     # ------------------------------------------
 
