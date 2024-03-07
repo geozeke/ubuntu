@@ -110,8 +110,9 @@ def task_runner(args: argparse.Namespace) -> None:
     # Dell Micro).
 
     labels.next()
+    target = "60-cloudimg-settings.conf"
     src = SHELL / target
-    dest = Path("/etc/ssh/sshd_config.d/60-cloudimg-settings.conf")
+    dest = Path(f"/etc/ssh/sshd_config.d/{target}")
     if dest.exists():
         cmd = f"sudo cp {src} {dest}"
         print(run_one_command(cmd))
