@@ -47,12 +47,13 @@ def task_runner() -> None:
         Installing developer tools
         Installing seahorse nautilus
         Installing zsh
+        Installing nala
         Installing OhMyZsh
         Install OhMyZsh Full-autoupdate
         Installing powerlevel10k theme
         Installing Nerd Fonts
-        Installing nala
         Installing pipx
+        Installing snap store
         Setting Text Editor profile
         Refreshing snaps (please be patient)
         Configuring favorites
@@ -131,10 +132,10 @@ def task_runner() -> None:
     # here, because we're redirecting stdin.
 
     labels.next()
-    cmd = "dconf reset -f /org/gnome/terminal/"
+    cmd = "dconf reset -f /org/gnome/terminal/legacy"
     result = run_one_command(cmd)
     if result == PASS:
-        cmd = "dconf load /org/gnome/terminal/"
+        cmd = "dconf load /org/gnome/terminal/legacy/profiles:/"
         path = SYSTEM / "terminal_settings.txt"
         if DEBUG:
             print(f"Opening: {path}")
@@ -164,6 +165,7 @@ def task_runner() -> None:
         "build-essential",
         "ccache",
         "gnome-text-editor",
+        "open-vm-tools-desktop",
         "tree",
         "vim",
     ]
@@ -187,7 +189,15 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 9: Install OhMyZsh.
+    # Step 9: Install nala.
+
+    labels.next()
+    targets = ["nala"]
+    print(run_many_arguments(cmd, targets))
+
+    # ------------------------------------------
+
+    # Step 10: Install OhMyZsh.
 
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
@@ -196,7 +206,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 10: Install OhMyZsh Full-autoupdate
+    # Step 11: Install OhMyZsh Full-autoupdate
 
     zsh_home = HOME / ".oh-my-zsh/custom"
 
@@ -208,7 +218,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 11: Install powerlevel10k theme
+    # Step 12: Install powerlevel10k theme
 
     labels.next()
     src = "https://github.com/romkatv/powerlevel10k.git"
@@ -218,7 +228,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 12: Install Nerd Fonts
+    # Step 13: Install Nerd Fonts
 
     labels.next()
     base = "https://github.com/romkatv/powerlevel10k-media/raw/master/"
@@ -240,14 +250,6 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 13: Install nala.
-
-    labels.next()
-    targets = ["nala"]
-    print(run_many_arguments(cmd, targets))
-
-    # ------------------------------------------
-
     # Step 14: Install pipx.
 
     # NOTE: These installation steps will change when 24.04 is released.
@@ -263,7 +265,15 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 15: Setting Text Editor profile. Again, need special handling
+    # Step 15: Install snap store.
+
+    labels.next()
+    cmd = "sudo snap install snap-store"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 16: Setting Text Editor profile. Again, need special handling
     # here, because we're redirecting stdin.
 
     labels.next()
@@ -280,7 +290,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 16: Refresh snaps
+    # Step 17: Refresh snaps
 
     labels.next()
     cmd = "sudo snap refresh"
@@ -288,7 +298,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 17: Configure favorites. NOTE: To get the information needed
+    # Step 18: Configure favorites. NOTE: To get the information needed
     # for the code below, setup desired favorites, then run this
     # command: gsettings get org.gnome.shell favorite-apps
 
@@ -309,7 +319,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 18: Disable auto screen lock
+    # Step 19: Disable auto screen lock
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.screensaver lock-enabled false"
@@ -317,7 +327,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 19: Set idle timeout to 'never'.
+    # Step 20: Set idle timeout to 'never'.
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.session idle-delay 0"
@@ -325,7 +335,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 20: Disable auto updates.
+    # Step 21: Disable auto updates.
 
     labels.next()
     dest = "/etc/apt/apt.conf.d/20auto-upgrades"
@@ -340,7 +350,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 21: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
+    # Step 22: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
     # This allows users to start programs from the command line when
     # their current working directory is inside the share.
 
@@ -352,7 +362,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 22: Arrange icons.
+    # Step 23: Arrange icons.
 
     labels.next()
     base = "org.gnome.shell.extensions."
@@ -367,7 +377,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 23: Cleanup any unused file.
+    # Step 24: Cleanup any unused file.
 
     labels.next()
     print(PASS)

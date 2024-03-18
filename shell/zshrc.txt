@@ -162,5 +162,5 @@ set -o ignoreeof     # ^D will not exit shell
 # AdHoc aliases
 ##########################################################
 
-tuneup='sudo nala update && sudo nala upgrade --full -y && \
+alias tuneup='sudo nala update && sudo nala upgrade --full -y && \
   sudo nala autoremove -y && sudo nala clean'
