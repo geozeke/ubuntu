@@ -130,7 +130,7 @@ def task_runner() -> None:
     result = run_one_command(cmd)
     if result == PASS:
         cmd = "dconf load /org/gnome/terminal/"
-        path = SYSTEM / "terminalSettings.txt"
+        path = SYSTEM / "terminal_settings.txt"
         if DEBUG:
             print(f"Opening: {path}")
         with open(path, "r") as f:
