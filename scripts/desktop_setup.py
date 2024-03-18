@@ -223,14 +223,14 @@ def task_runner() -> None:
     labels.next()
     base = "https://github.com/romkatv/powerlevel10k-media/raw/master/"
     fonts: list[str] = [
-        f"{base}MesloLGS%20NF%20Regular.ttf",
-        f"{base}MesloLGS%20NF%20Bold.ttf",
-        f"{base}MesloLGS%20NF%20Italic.ttf",
-        f"{base}MesloLGS%20NF%20Bold%20Italic.ttf",
+        "MesloLGS%20NF%20Regular.ttf",
+        "MesloLGS%20NF%20Bold.ttf",
+        "MesloLGS%20NF%20Italic.ttf",
+        "MesloLGS%20NF%20Bold%20Italic.ttf",
     ]
     for font in fonts:
         f_name = " ".join(font.split("%20"))
-        cmd = f"curl -sL {font} -o {HOME}/.fonts/{f_name}"
+        cmd = f"curl -sL {base}{font} -o {HOME}/.fonts/{f_name}"
         if (result := run_one_command(cmd)) == FAIL:
             break
     if result == PASS:
