@@ -1,5 +1,5 @@
 [/]
-custom-font='Monospace 14'
+custom-font='MesloLGS NF 12'
 indent-style='space'
 right-margin-position=uint32 79
 show-line-numbers=true
