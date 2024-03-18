@@ -229,7 +229,7 @@ def task_runner() -> None:
         "MesloLGS%20NF%20Bold%20Italic.ttf",
     ]
     for font in fonts:
-        f_name = " ".join(font.split("%20"))
+        f_name = "\\ ".join(font.split("%20"))
         cmd = f"curl -sL {base}{font} -o {HOME}/.fonts/{f_name}"
         if (result := run_one_command(cmd)) == FAIL:
             break
@@ -253,10 +253,12 @@ def task_runner() -> None:
     # NOTE: These installation steps will change when 24.04 is released.
 
     labels.next()
-    cmd = "python3 -m pip install --user pipx"
+    cmd = "sudo apt install -y python3-pip"
     if (result := run_one_command(cmd)) == PASS:
-        cmd = "python3 -m pipx ensurepath"
-        result = run_one_command(cmd)
+        cmd = "python3 -m pip install --user pipx"
+        if (result := run_one_command(cmd)) == PASS:
+            cmd = "python3 -m pipx ensurepath"
+            result = run_one_command(cmd)
     print(result)
 
     # ------------------------------------------
