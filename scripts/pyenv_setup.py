@@ -71,23 +71,24 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "sudo apt install TARGET -y"
-    targets: list[str] = []
-    targets.append("make")
-    targets.append("build-essential")
-    targets.append("libssl-dev")
-    targets.append("zlib1g-dev")
-    targets.append("libbz2-dev")
-    targets.append("libreadline-dev")
-    targets.append("libsqlite3-dev")
-    targets.append("wget")
-    targets.append("curl")
-    targets.append("libncursesw5-dev")
-    targets.append("xz-utils")
-    targets.append("tk-dev")
-    targets.append("libxml2-dev")
-    targets.append("libxmlsec1-dev")
-    targets.append("libffi-dev")
-    targets.append("liblzma-dev")
+    targets: list[str] = [
+        "make",
+        "build-essential",
+        "libssl-dev",
+        "zlib1g-dev",
+        "libbz2-dev",
+        "libreadline-dev",
+        "libsqlite3-dev",
+        "wget",
+        "curl",
+        "libncursesw5-dev",
+        "xz-utils",
+        "tk-dev",
+        "libxml2-dev",
+        "libxmlsec1-dev",
+        "libffi-dev",
+        "liblzma-dev",
+    ]
     print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
@@ -146,7 +147,7 @@ def main():  # noqa
     breaking the system default python installation. You will be
     prompted for your password during the setup."""
 
-    epi = "Latest update: 07/12/23"
+    epi = "Latest update: 03/17/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

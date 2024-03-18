@@ -170,7 +170,7 @@ def main():  # noqa
     settings. NOTE: Make sure to run the server_initialize.py script
     before running this one."""
 
-    epi = "Latest update: 03/02/24"
+    epi = "Latest update: 03/17/24"
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
     msg = """use this option to delete the default user (ubuntu) that
