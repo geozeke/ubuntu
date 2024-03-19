@@ -165,6 +165,8 @@ def task_runner() -> None:
         "ccache",
         "gnome-text-editor",
         "open-vm-tools-desktop",
+        "python3-pip",
+        "python3-venv",
         "tree",
         "vim",
     ]
@@ -261,12 +263,10 @@ def task_runner() -> None:
     # NOTE: These installation steps will change when 24.04 is released.
 
     labels.next()
-    cmd = "sudo apt install -y python3-pip"
+    cmd = "python3 -m pip install --user pipx"
     if (result := run_one_command(cmd)) == PASS:
-        cmd = "python3 -m pip install --user pipx"
-        if (result := run_one_command(cmd)) == PASS:
-            cmd = "python3 -m pipx ensurepath"
-            result = run_one_command(cmd)
+        cmd = "python3 -m pipx ensurepath"
+        result = run_one_command(cmd)
     print(result)
 
     # ------------------------------------------
