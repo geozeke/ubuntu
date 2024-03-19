@@ -85,11 +85,11 @@ def task_runner() -> None:
 
     labels.next()
     dir_targets = [
-        HOME / ".vim/colors",
-        HOME / "shares",
-        HOME / "notebooks",
-        HOME / ".notebooksrepo",
         HOME / ".fonts",
+        HOME / ".notebooksrepo",
+        HOME / ".vim/colors",
+        HOME / "notebooks",
+        HOME / "shares",
     ]
     for target in dir_targets:
         if DEBUG:
@@ -233,10 +233,10 @@ def task_runner() -> None:
     labels.next()
     base = "https://github.com/romkatv/powerlevel10k-media/raw/master/"
     fonts: list[str] = [
-        "MesloLGS%20NF%20Regular.ttf",
         "MesloLGS%20NF%20Bold.ttf",
-        "MesloLGS%20NF%20Italic.ttf",
         "MesloLGS%20NF%20Bold%20Italic.ttf",
+        "MesloLGS%20NF%20Italic.ttf",
+        "MesloLGS%20NF%20Regular.ttf",
     ]
     for font in fonts:
         f_name = "\\ ".join(font.split("%20"))
@@ -278,8 +278,7 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "dconf reset -f /org/gnome/TextEditor/"
-    result = run_one_command(cmd)
-    if result == PASS:
+    if (result := run_one_command(cmd)) == PASS:
         cmd = "dconf load /org/gnome/TextEditor/"
         path = SYSTEM / "text_editor_settings.txt"
         if DEBUG:
