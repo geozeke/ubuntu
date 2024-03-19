@@ -109,7 +109,6 @@ def task_runner() -> None:
         (SHELL / "p10k.txt", HOME / ".p10k.zsh"),
         (SHELL / "profile.txt", HOME / ".profile"),
         (SHELL / "profile.txt", HOME / ".zprofile"),
-        (SHELL / "zshrc.txt", HOME / ".zshrc"),
         (VIM / "vimcolors/*", HOME / ".vim/colors"),
         (VIM / "vimrc.txt", HOME / ".vimrc"),
     ]
@@ -202,7 +201,14 @@ def task_runner() -> None:
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
     cmd = f"{src}install.sh"
-    print(run_shell_script(shell="sh", script=cmd, options='"" --unattended'))
+    result = (
+        run_shell_script(shell="sh", script=cmd, options='"" --unattended')
+    )  # fmt: skip
+    # After zsh installation, copy over new .zshrc file
+    if result == PASS:
+        file_targets = [(SHELL / "zshrc.txt", HOME / ".zshrc")]
+        copy_files(file_targets)
+    print(result)
 
     # ------------------------------------------
 
