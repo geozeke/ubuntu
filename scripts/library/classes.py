@@ -14,6 +14,7 @@ class ExhaustedListError(Exception):
     """
 
     def __init__(self):
+        """Initialize a new label instance."""
         self.message = "Cannot remove label, list of labels is empty."
         super().__init__(self.message)
 
@@ -129,7 +130,7 @@ class Labels:
             The number of labels to dump.
         """
         if (
-            (type(num_labels) != int)
+            (type(num_labels) is not int)
             or (num_labels <= 0)  # noqa
             or (len(self.labels) < num_labels)  # noqa
         ):

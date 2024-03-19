@@ -139,14 +139,21 @@ def run_one_command(
         return PASS
     else:
         result = sp.run(
-            shlex.split(cmd), capture_output=capture, stdin=std_in, stdout=std_out
+            shlex.split(cmd),
+            capture_output=capture,
+            stdin=std_in,
+            stdout=std_out,
         )
         if result.returncode != 0:
             return FAIL
     return PASS
 
 
-def run_many_arguments(cmd: str, targets: list[str], marker: str = "TARGET") -> Text:
+def run_many_arguments(
+    cmd: str,
+    targets: list[str],
+    marker: str = "TARGET",
+) -> Text:
     """Run the same command with multiple arguments.
 
     Parameters
@@ -181,6 +188,7 @@ def run_shell_script(
     shell: str = "bash",
     as_sudo: bool = False,
     capture: bool = True,
+    options: str = "",
 ) -> Text:
     """Run a remote shell script.
 
@@ -194,6 +202,8 @@ def run_shell_script(
         Run the script as sudo, by default False.
     capture : bool, optional
         Capture stdout or not, by default True.
+    options : str, options
+        Any additional options to be passed to the shell script
 
     Returns
     -------
@@ -201,16 +211,17 @@ def run_shell_script(
         Returns a unicode string representing either a green checkmark
         (PASS) or a red X (FAIL).
     """
-    with tf.TemporaryFile(mode="w") as f:
+    with tf.NamedTemporaryFile(mode="w+", delete=True) as f:
         cmd = f"curl -sL {script}"
         result = run_one_command(cmd, capture=False, std_out=f)
         if result == PASS:
-            f.seek(0)
+            fname = f.name
+            cmd = f"{shell} {fname}"
             if as_sudo:
-                cmd = f"sudo {shell}"
-            else:
-                cmd = shell
-            result = run_one_command(cmd, capture=capture, std_in=f)
+                cmd = f"sudo {cmd}"
+            if options != "":
+                cmd = f"{cmd} {options}"
+            result = run_one_command(cmd, capture=capture)
     return result
 
 
@@ -226,7 +237,7 @@ def copy_files(targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
     for target in targets:
         copy_from, copy_to = target[0], target[1]
         if DEBUG:
-            print(f"\nCopying: {str(copy_from)}\nTo: {str(copy_to)}")
+            print(f"\nCopying: {copy_from}\nTo: {copy_to}")
         else:
             if "*" in copy_from.name:
                 for file in copy_from.parent.resolve().glob(copy_from.name):

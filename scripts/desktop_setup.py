@@ -13,6 +13,7 @@ from typing import Any
 
 from library.classes import Labels
 from library.environment import DEBUG
+from library.environment import FAIL
 from library.environment import HOME
 from library.environment import PASS
 from library.environment import SCRIPTS
@@ -24,7 +25,7 @@ from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
-from library.utilities import sync_notebooks
+from library.utilities import run_shell_script
 from library.utilities import wrap_tight
 
 
@@ -46,12 +47,14 @@ def task_runner() -> None:
         Installing developer tools
         Installing seahorse nautilus
         Installing zsh
+        Installing nala
+        Installing OhMyZsh
+        Install OhMyZsh Full-autoupdate
+        Installing powerlevel10k theme
+        Installing Nerd Fonts
+        Installing pipx
+        Installing snap store
         Setting Text Editor profile
-        Installing python pip3
-        Installing python venv
-        Creating virtual environment (env)
-        Installing Google Chrome
-        Setting up jupyter notebooks
         Refreshing snaps (please be patient)
         Configuring favorites
         Disabling auto screen lock
@@ -65,13 +68,15 @@ def task_runner() -> None:
     # ------------------------------------------
 
     # Step 1: Initialize lists for running many arguments. When running
-    # commands with generic string targets, the "targets" array will be used.
-    # Commands with special target-types are shown below.
+    # commands with generic string targets, the "targets" array will be
+    # used. Commands with special target-types are shown below.
 
     labels.next()
     dir_targets: list[Path] = []
     file_targets: list[tuple[Any, Any]] = []
     targets: list[str] = []
+    src: str | Path = ""
+    dest: str | Path = ""
     print(PASS)
 
     # ------------------------------------------
@@ -79,13 +84,16 @@ def task_runner() -> None:
     # Step 2: Create new directories
 
     labels.next()
-    dir_targets.append(HOME / ".vim/colors")
-    dir_targets.append(HOME / "shares")
-    dir_targets.append(HOME / "notebooks")
-    dir_targets.append(HOME / ".notebooksrepo")
+    dir_targets = [
+        HOME / ".fonts",
+        HOME / ".notebooksrepo",
+        HOME / ".vim/colors",
+        HOME / "notebooks",
+        HOME / "shares",
+    ]
     for target in dir_targets:
         if DEBUG:
-            print(f"\nMaking: {str(target)}")
+            print(f"\nMaking: {target}")
         else:
             target.mkdir(parents=True, exist_ok=True)
     print(PASS)
@@ -95,20 +103,24 @@ def task_runner() -> None:
     # Step 3: Copy files
 
     labels.next()
-    file_targets.append((SHELL / "bashrc.txt", HOME / ".bashrc"))
-    file_targets.append((SHELL / "zshrc.txt", HOME / ".zshrc"))
-    file_targets.append((SHELL / "profile.txt", HOME / ".profile"))
-    file_targets.append((SHELL / "profile.txt", HOME / ".zprofile"))
-    file_targets.append((SHELL / "dircolors.txt", HOME / ".dircolors"))
-    file_targets.append((VIM / "vimrc.txt", HOME / ".vimrc"))
-    file_targets.append((VIM / "vimcolors/*", HOME / ".vim/colors"))
+    file_targets = [
+        (SHELL / "bashrc.txt", HOME / ".bashrc"),
+        (SHELL / "dircolors.txt", HOME / ".dircolors"),
+        (SHELL / "p10k.txt", HOME / ".p10k.zsh"),
+        (SHELL / "profile.txt", HOME / ".profile"),
+        (SHELL / "profile.txt", HOME / ".zprofile"),
+        (SHELL / "zshrc.txt", HOME / ".zshrc"),
+        (VIM / "vimcolors/*", HOME / ".vim/colors"),
+        (VIM / "vimrc.txt", HOME / ".vimrc"),
+    ]
     copy_files(file_targets)
     print(PASS)
 
     # ------------------------------------------
 
-    # Step 4: Adjust file permissions on scripts just to make sure they're
-    # correct. It may not be absolutely necessary, but it won't hurt.
+    # Step 4: Adjust file permissions on scripts just to make sure
+    # they're correct. It may not be absolutely necessary, but it won't
+    # hurt.
 
     labels.next()
     cmd = f"find {SCRIPTS} -name *.py -exec chmod 754 {{}} ;"  # noqa
@@ -116,15 +128,15 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 5: Setting terminal profile. Need a little special handling here,
-    # because we're redirecting stdin.
+    # Step 5: Setting terminal profile. Need a little special handling
+    # here, because we're redirecting stdin.
 
     labels.next()
-    cmd = "dconf reset -f /org/gnome/terminal/"
+    cmd = "dconf reset -f /org/gnome/terminal/legacy"
     result = run_one_command(cmd)
     if result == PASS:
-        cmd = "dconf load /org/gnome/terminal/"
-        path = SYSTEM / "terminalSettings.txt"
+        cmd = "dconf load /org/gnome/terminal/legacy/profiles:/"
+        path = SYSTEM / "terminal_settings.txt"
         if DEBUG:
             print(f"Opening: {path}")
         with open(path, "r") as f:
@@ -137,70 +149,136 @@ def task_runner() -> None:
     if prompted."""
     print(f"\n{wrap_tight(msg)}\n")
 
-    # Push a dummy sudo command just to force password entry before first ppa
-    # pull. This will avoid having the password prompt come in the middle of a
-    # label when providing status
+    # Push a dummy sudo command just to force password entry before
+    # first ppa pull. This will avoid having the password prompt come in
+    # the middle of a label when providing status
 
     run_one_command("sudo ls")
 
     # ------------------------------------------
 
-    # Step 6: Packages from the ppa.
-
-    # NOTE: libnss3-tools, libpcsclite1, pcscd, and pcsc-tools are needed for
-    # certificate fixes at USNA. These can be deleted for future non-USNA
-    # installations.
-
-    # Build tools
+    # Step 6: Some baseline packages from the ppa.
 
     labels.next()
     cmd = "sudo apt -y install TARGET"
-    targets = []
-    targets.append("gnome-text-editor")
-    targets.append("build-essential")
-    targets.append("ccache")
-    targets.append("vim")
-    targets.append("tree")
+    targets = [
+        "build-essential",
+        "ccache",
+        "gnome-text-editor",
+        "open-vm-tools-desktop",
+        "tree",
+        "vim",
+    ]
     print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
-    # Step-7: seahorse nautilus
+    # Step 7: seahorse nautilus
 
     labels.next()
-    seahorse = cmd.replace("TARGET", "seahorse-nautilus")
-    print(run_one_command(seahorse))
+    targets = ["seahorse-nautilus"]
+    print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
-    # Step-8: zsh. Also copy over the peter zsh theme.
+    # Step 8: Install zsh.
 
     labels.next()
-    targets = []
-    targets.append("zsh")
-    targets.append("powerline")
-    result = run_many_arguments(cmd, targets)
+    targets = ["zsh"]
+    print(run_many_arguments(cmd, targets))
+
+    # ------------------------------------------
+
+    # Step 9: Install nala.
+
+    labels.next()
+    targets = ["nala"]
+    print(run_many_arguments(cmd, targets))
+
+    # ------------------------------------------
+
+    # Step 10: Install OhMyZsh.
+
+    labels.next()
+    src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
+    cmd = f"{src}install.sh"
+    print(run_shell_script(shell="sh", script=cmd, options='"" --unattended'))
+
+    # ------------------------------------------
+
+    # Step 11: Install OhMyZsh Full-autoupdate
+
+    zsh_home = HOME / ".oh-my-zsh/custom"
+
+    labels.next()
+    src = "https://github.com/Pilaton/OhMyZsh-full-autoupdate.git"
+    dest = f"{zsh_home}/plugins/ohmyzsh-full-autoupdate"
+    cmd = f"git clone --depth=1 {src} {dest}"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 12: Install powerlevel10k theme
+
+    labels.next()
+    src = "https://github.com/romkatv/powerlevel10k.git"
+    dest = f"{zsh_home}/themes/powerlevel10k"
+    cmd = f"git clone --depth=1 {src} {dest}"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 13: Install Nerd Fonts
+
+    labels.next()
+    base = "https://github.com/romkatv/powerlevel10k-media/raw/master/"
+    fonts: list[str] = [
+        "MesloLGS%20NF%20Bold.ttf",
+        "MesloLGS%20NF%20Bold%20Italic.ttf",
+        "MesloLGS%20NF%20Italic.ttf",
+        "MesloLGS%20NF%20Regular.ttf",
+    ]
+    for font in fonts:
+        f_name = "\\ ".join(font.split("%20"))
+        cmd = f"curl -sL {base}{font} -o {HOME}/.fonts/{f_name}"
+        if (result := run_one_command(cmd)) == FAIL:
+            break
     if result == PASS:
-        src: str | Path = "https://github.com/robbyrussell/oh-my-zsh.git"
-        dest: str | Path = HOME / ".oh-my-zsh"
-        cmd = f"git clone {src} {dest} --depth 1"
+        cmd = "fc-cache -vf"
         result = run_one_command(cmd)
-    if result == PASS:
-        src = SHELL / "peter.zsh-theme"
-        dest = HOME / ".oh-my-zsh/custom/themes"
-        file_targets = [(src, dest)]
-        copy_files(file_targets)
     print(result)
 
     # ------------------------------------------
 
-    # Step 9: Setting Text Editor profile. Again, need special handling here,
-    # because we're redirecting stdin.
+    # Step 14: Install pipx.
+
+    # NOTE: These installation steps will change when 24.04 is released.
+
+    labels.next()
+    cmd = "sudo apt install -y python3-pip"
+    if (result := run_one_command(cmd)) == PASS:
+        cmd = "python3 -m pip install --user pipx"
+        if (result := run_one_command(cmd)) == PASS:
+            cmd = "python3 -m pipx ensurepath"
+            result = run_one_command(cmd)
+    print(result)
+
+    # ------------------------------------------
+
+    # Step 15: Install snap store.
+
+    labels.next()
+    cmd = "sudo snap install snap-store"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 16: Setting Text Editor profile. Again, need special handling
+    # here, because we're redirecting stdin.
 
     labels.next()
     cmd = "dconf reset -f /org/gnome/TextEditor/"
-    result = run_one_command(cmd)
-    if result == PASS:
+    if (result := run_one_command(cmd)) == PASS:
         cmd = "dconf load /org/gnome/TextEditor/"
         path = SYSTEM / "text_editor_settings.txt"
         if DEBUG:
@@ -211,59 +289,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step-10: pip3
-
-    labels.next()
-    cmd = "sudo apt install -y python3-pip"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step-11: python3 venv
-
-    labels.next()
-    cmd = "sudo apt install -y python3-venv"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step-12: Create Python virtual environment
-
-    labels.next()
-    cmd = f"python3 -m venv {HOME}/.venv"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step-13: Google Chrome
-
-    labels.next()
-    google_deb = "google-chrome-stable_current_amd64.deb"
-    src = f"https://dl.google.com/linux/direct/{google_deb}"  # noqa
-    cmd = f"wget -O /tmp/{google_deb} {src}"
-    result = run_one_command(cmd)
-    if result == PASS:
-        cmd = f"sudo dpkg -i /tmp/{google_deb}"
-        result = run_one_command(cmd)
-    print(result)
-
-    # ------------------------------------------
-
-    # Step-14: Set up jupyter notebooks
-
-    labels.next()
-    # Clone the notebook repo (single branch, depth 1)
-    src = "https://github.com/geozeke/notebooks.git"
-    dest = HOME / ".notebooksrepo"
-    cmd = f"git clone {src} {dest} --single-branch --depth 1"
-    result = run_one_command(cmd)
-    if result == PASS:
-        result = sync_notebooks()
-    print(result)
-
-    # ------------------------------------------
-
-    # Step-15: Refresh snaps
+    # Step 17: Refresh snaps
 
     labels.next()
     cmd = "sudo snap refresh"
@@ -271,27 +297,28 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step-16: Configure favorites. NOTE: To get the information needed for the
-    # code below, setup desired favorites, then run this command: gsettings get
-    # org.gnome.shell favorite-apps
+    # Step 18: Configure favorites. NOTE: To get the information needed
+    # for the code below, setup desired favorites, then run this
+    # command: gsettings get org.gnome.shell favorite-apps
 
     labels.next()
     cmd = "gsettings set org.gnome.shell favorite-apps \"['"
-    targets = []
-    targets.append("google-chrome.desktop")
-    targets.append("org.gnome.TextEditor.desktop")
-    targets.append("org.gnome.Terminal.desktop")
-    targets.append("org.gnome.Nautilus.desktop")
-    targets.append("org.gnome.Calculator.desktop")
-    targets.append("gnome-control-center.desktop")
-    targets.append("snap-store_ubuntu-software.desktop")
-    targets.append("org.gnome.seahorse.Application.desktop")
+    targets = [
+        "firefox_firefox.desktop",
+        "org.gnome.TextEditor.desktop",
+        "org.gnome.Terminal.desktop",
+        "org.gnome.Nautilus.desktop",
+        "org.gnome.Calculator.desktop",
+        "gnome-control-center.desktop",
+        "snap-store_ubuntu-software.desktop",
+        "org.gnome.seahorse.Application.desktop",
+    ]
     cmd += "','".join(targets) + "']\""
     print(run_one_command(cmd))
 
     # ------------------------------------------
 
-    # Step-17: Disable auto screen lock
+    # Step 19: Disable auto screen lock
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.screensaver lock-enabled false"
@@ -299,7 +326,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step-18: Set idle timeout to 'never'.
+    # Step 20: Set idle timeout to 'never'.
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.session idle-delay 0"
@@ -307,7 +334,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step-19: Disable auto updates.
+    # Step 21: Disable auto updates.
 
     labels.next()
     dest = "/etc/apt/apt.conf.d/20auto-upgrades"
@@ -322,9 +349,9 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step-20: Patch /etc/fuse.conf to un-comment 'user_allow_other'. This
-    # allows users to start programs from the command line when their current
-    # working directory is inside the share.
+    # Step 22: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
+    # This allows users to start programs from the command line when
+    # their current working directory is inside the share.
 
     labels.next()
     argument = r"s+\#user_allow_other+user_allow_other+"
@@ -334,30 +361,25 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 21: Arrange icons.
+    # Step 23: Arrange icons.
 
     labels.next()
     base = "org.gnome.shell.extensions."
-    targets = []
-    targets.append(f"{base}dash-to-dock show-trash false")
-    targets.append(f"{base}dash-to-dock show-mounts false")
-    targets.append(f"{base}ding start-corner bottom-left")
-    targets.append(f"{base}ding show-trash true")
+    targets = [
+        f"{base}dash-to-dock show-trash false",
+        f"{base}dash-to-dock show-mounts false",
+        f"{base}ding start-corner bottom-left",
+        f"{base}ding show-trash true",
+    ]
     cmd = "gsettings set TARGET"
     print(run_many_arguments(cmd, targets))
 
     # ------------------------------------------
 
-    # Step 22: Silently delete unused files. This includes the Firefox browser.
+    # Step 24: Cleanup any unused file.
 
     labels.next()
-    targets = []
-    targets.append(f"/tmp/{google_deb}")
-    cmd = "rm -f TARGET"
-    result = run_many_arguments(cmd, targets)
-    if result == PASS:
-        result = run_one_command("sudo snap remove firefox")
-    print(result)
+    print(PASS)
 
     # ------------------------------------------
 
@@ -385,7 +407,7 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 07/12/23"
+    epi = "Latest update: 03/17/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

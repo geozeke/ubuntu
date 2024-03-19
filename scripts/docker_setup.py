@@ -57,7 +57,13 @@ def task_runner() -> None:
     # Step 2: Install docker components
 
     labels.next()
-    print(run_shell_script(script="https://get.docker.com", shell="sh", as_sudo=True))
+    print(
+        run_shell_script(
+            script="https://get.docker.com",
+            shell="sh",
+            as_sudo=True,
+        )
+    )
 
     # Step 3: Add user to docker group.
 
@@ -84,7 +90,7 @@ def main():  # noqa
     services and with a single command, can spin everything up or tear
     it all down."""
 
-    epi = "Latest update: 07/12/23"
+    epi = "Latest update: 03/17/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

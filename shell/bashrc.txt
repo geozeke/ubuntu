@@ -1,5 +1,5 @@
 # File assembled and tweaked by Peter Nardi
-# Date: 07/12/23
+# Date: 03/17/24
 
 # Don't add duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
@@ -132,6 +132,5 @@ set -o ignoreeof     # ^D will not exit shell
 # AdHoc aliases
 ###########################################################
 
-alias nb='python3 -m nuitka --follow-imports --remove-output'
-alias tuneup='~/ubuntu/scripts/tuneup.py'
-alias cacheburn='~/ubuntu/scripts/cacheburn.py'
+alias tuneup='sudo nala update && sudo nala upgrade --full -y && \
+  sudo nala autoremove -y && sudo nala clean'

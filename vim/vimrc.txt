@@ -1,4 +1,4 @@
-"Last update: 07/12/23
+"Last update: 03/17/24
 
 "Basic setup items. Set columns to 90 to make room for line numbers.
 
@@ -66,3 +66,10 @@ set wildmenu
 "previous searches.
 
 nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+set mouse=a
+if has("mouse_sgr")
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
