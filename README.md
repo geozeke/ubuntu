@@ -34,11 +34,12 @@ and settings:
   * ccache
   * gnome-text-editor
   * nala
-  * pipx
   * python3-pip
+  * python3-venv
   * seahorse-nautilus
   * tree
   * zsh
+* Install [pipx][def6].
 * Install and configure [OhMyZsh][def] and the [powerlevel10K
   theme][def2].
 * Configure the GNOME favorites in the application launcher.
@@ -166,3 +167,4 @@ server and you just want a better look-and-feel for vi.
 [def3]: https://github.com/pyenv/pyenv
 [def4]: https://docs.docker.com/engine/
 [def5]: https://docs.docker.com/get-started/08_using_compose/
+[def6]: https://pipx.pypa.io/stable/
