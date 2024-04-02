@@ -263,9 +263,9 @@ def task_runner() -> None:
     # NOTE: These installation steps will change when 24.04 is released.
 
     labels.next()
-    cmd = "python3 -m pip install --user pipx"
+    cmd = "sudo apt install pipx"
     if (result := run_one_command(cmd)) == PASS:
-        cmd = "python3 -m pipx ensurepath"
+        cmd = "pipx ensurepath"
         result = run_one_command(cmd)
     print(result)
 

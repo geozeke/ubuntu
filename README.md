@@ -6,6 +6,11 @@
 src="https://drive.google.com/uc?export=view&id=1H04KVAA3ohH_dLXIrC0bXuJXDn3VutKc"
 alt = "Dinobox logo" width="120"/>
 
+## NOTE
+
+This repository has many dependencies that are pinned to Ubuntu 24.04.x.
+It will not work with older versions of Ubuntu.
+
 ## VM Setup (Start Here)
 
 These tools work with Ubuntu. You'll create either a Desktop (GNOME)

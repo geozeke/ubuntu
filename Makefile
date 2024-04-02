@@ -3,6 +3,27 @@ all: help
 
 # --------------------------------------------
 
+.PHONY: setup
+setup: ## setup project with dependencies
+ifeq (,$(wildcard .init/setup))
+	@(which poetry > /dev/null 2>&1) || \
+	(echo "ubuntu requires poetry."; exit 1)
+	@if [ ! -d "./scratch" ]; then \
+		mkdir -p scratch; \
+	fi
+	mkdir .init
+	touch .init/setup
+	poetry install --no-root
+else
+	@echo "Initial setup is already complete. If you are having issues, run:"
+	@echo
+	@echo "make reset"
+	@echo "make setup"
+	@echo
+endif
+
+# --------------------------------------------
+
 .PHONY: clean
 clean: ## Remove cached files and build products
 	@echo Cleaning caches and build products
@@ -13,9 +34,9 @@ clean: ## Remove cached files and build products
 # --------------------------------------------
 
 .PHONY: reset
-reset: clean ## clean, then remove .venv and .mypy cache
+reset: clean ## clean, then remove .venv .init
 	@echo Resetting project state
-	rm -rf .mypy_cache .venv
+	rm -rf .venv .init
 
 # --------------------------------------------
 
