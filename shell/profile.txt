@@ -1,4 +1,4 @@
-# Latest Revision: 03/17/24
+# Latest Revision: 04/12/24
 
 # ~/.profile: executed by the command interpreter for login shells.  This file
 # is not read by bash(1), if ~/.bash_profile or ~/.bash_login exists.  see
