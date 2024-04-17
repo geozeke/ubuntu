@@ -169,6 +169,7 @@ def task_runner() -> None:
         "python3-venv",
         "tree",
         "vim",
+        "xclip",
     ]
     print(run_many_arguments(cmd, targets))
 
