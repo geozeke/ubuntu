@@ -377,6 +377,7 @@ def task_runner() -> None:
         f"{base}dash-to-dock show-mounts false",
         f"{base}ding start-corner bottom-left",
         f"{base}ding show-trash true",
+        f"{base}ding show-home false",
     ]
     cmd = "gsettings set TARGET"
     print(run_many_arguments(cmd, targets))
@@ -414,7 +415,7 @@ def main():  # noqa
     machines). You will be prompted for your password during
     installation."""
 
-    epi = "Latest update: 04/12/24"
+    epi = "Latest update: 04/25/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

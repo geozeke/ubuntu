@@ -1,7 +1,7 @@
 # Install this theme, by copying it to: ~/.oh-my-zsh/custom/themes
 # Activate it by including this line in ~/.zshrc: ZSH_THEME="peter"
 
-# No original work here! On 04/12/24, Peter Nardi cobbled together pieces from
+# No original work here! On 04/25/24, Peter Nardi cobbled together pieces from
 # the fino and robbyrussell themes and tweaked them until it looked the way he
 # wanted :-)
 

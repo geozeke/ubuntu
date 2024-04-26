@@ -38,6 +38,8 @@ def task_runner(args) -> None:
         System initialization
         Creating new directories
         Setting up vim
+        Verifying nala installation
+        verifying zsh installation
         Installing OhMyZsh
         Installing OhMyZsh Full-autoupdate
         Installing powerlevel10k theme
@@ -86,7 +88,23 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 4: Install OhMyZsh
+    # Step 4: Verify nala
+
+    labels.next()
+    cmd = "sudo apt install nala -y"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 5: Verify zsh
+
+    labels.next()
+    cmd = "sudo apt install zsh -y"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 6: Install OhMyZsh
 
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
@@ -95,7 +113,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 5: Install OhMyZsh Full-autoupdate
+    # Step 7: Install OhMyZsh Full-autoupdate
 
     zsh_home = HOME / ".oh-my-zsh/custom"
 
@@ -107,7 +125,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 6: Install powerlevel10k theme
+    # Step 8: Install powerlevel10k theme
 
     labels.next()
     src = "https://github.com/romkatv/powerlevel10k.git"
@@ -117,7 +135,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 7: Copying dot files
+    # Step 9: Copying dot files
 
     labels.next()
     file_targets = [
@@ -150,7 +168,7 @@ def main():  # noqa
     settings. NOTE: Make sure to run the server_initialize.py script
     before running this one."""
 
-    epi = "Latest update: 04/12/24"
+    epi = "Latest update: 04/25/24"
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
     args = parser.parse_args()

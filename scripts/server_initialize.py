@@ -144,7 +144,7 @@ def main():  # noqa
     instance will also be configured to allow for remote login using
     ssh."""
 
-    epi = "Latest update: 04/12/24"
+    epi = "Latest update: 04/25/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
