@@ -49,11 +49,10 @@ def task_runner() -> None:
         Installing zsh
         Installing nala
         Installing OhMyZsh
-        Install OhMyZsh Full-autoupdate
+        Installing OhMyZsh Full-autoupdate
         Installing powerlevel10k theme
         Installing Nerd Fonts
         Installing pipx
-        Installing snap store
         Setting Text Editor profile
         Refreshing snaps (please be patient)
         Configuring favorites
@@ -272,15 +271,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 15: Install snap store.
-
-    labels.next()
-    cmd = "sudo snap install snap-store"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 16: Setting Text Editor profile. Again, need special handling
+    # Step 15: Setting Text Editor profile. Again, need special handling
     # here, because we're redirecting stdin.
 
     labels.next()
@@ -296,7 +287,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 17: Refresh snaps
+    # Step 16: Refresh snaps
 
     labels.next()
     cmd = "sudo snap refresh"
@@ -304,7 +295,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 18: Configure favorites. NOTE: To get the information needed
+    # Step 17: Configure favorites. NOTE: To get the information needed
     # for the code below, setup desired favorites, then run this
     # command: gsettings get org.gnome.shell favorite-apps
 
@@ -317,15 +308,17 @@ def task_runner() -> None:
         "org.gnome.Nautilus.desktop",
         "org.gnome.Calculator.desktop",
         "gnome-control-center.desktop",
-        "snap-store_ubuntu-software.desktop",
         "org.gnome.seahorse.Application.desktop",
     ]
+    # If the snap store gets added back in, insert this line into the
+    # list above:
+    # "snap-store_ubuntu-software.desktop",
     cmd += "','".join(targets) + "']\""
     print(run_one_command(cmd))
 
     # ------------------------------------------
 
-    # Step 19: Disable auto screen lock
+    # Step 18: Disable auto screen lock
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.screensaver lock-enabled false"
@@ -333,7 +326,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 20: Set idle timeout to 'never'.
+    # Step 19: Set idle timeout to 'never'.
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.session idle-delay 0"
@@ -341,7 +334,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 21: Disable auto updates.
+    # Step 20: Disable auto updates.
 
     labels.next()
     dest = "/etc/apt/apt.conf.d/20auto-upgrades"
@@ -356,7 +349,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 22: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
+    # Step 21: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
     # This allows users to start programs from the command line when
     # their current working directory is inside the share.
 
@@ -368,7 +361,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 23: Arrange icons.
+    # Step 22: Arrange icons.
 
     labels.next()
     base = "org.gnome.shell.extensions."
@@ -384,7 +377,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 24: Cleanup any unused file.
+    # Step 23: Cleanup any unused file.
 
     labels.next()
     print(PASS)
