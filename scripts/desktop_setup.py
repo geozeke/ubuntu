@@ -285,6 +285,7 @@ def task_runner() -> None:
         "org.gnome.Terminal.desktop",
         "org.gnome.Nautilus.desktop",
         "org.gnome.Calculator.desktop",
+        "org.gnome.Settings.desktop",
         "gnome-control-center.desktop",
         "snap-store_ubuntu-software.desktop",
         "org.gnome.seahorse.Application.desktop",
