@@ -39,7 +39,7 @@ def task_runner(args) -> None:
         Creating new directories
         Setting up vim
         Verifying nala installation
-        verifying zsh installation
+        Verifying zsh installation
         Installing OhMyZsh
         Installing OhMyZsh Full-autoupdate
         Installing powerlevel10k theme
