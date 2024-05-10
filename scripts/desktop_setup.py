@@ -53,7 +53,6 @@ def task_runner() -> None:
         Installing Nerd Fonts
         Setting Text Editor profile
         Refreshing snaps (please be patient)
-        Ensuring pipx path
         Configuring favorites
         Disabling auto screen lock
         Setting idle timeout to \"never\"
@@ -272,15 +271,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 15: Ensure pipx path
-
-    labels.next()
-    cmd = "pipx ensurepath"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 16: Configure favorites. NOTE: To get the information needed
+    # Step 15: Configure favorites. NOTE: To get the information needed
     # for the code below, setup desired favorites, then run this
     # command: gsettings get org.gnome.shell favorite-apps
 
@@ -302,7 +293,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 17: Disable auto screen lock
+    # Step 16: Disable auto screen lock
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.screensaver lock-enabled false"
@@ -310,7 +301,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 18: Set idle timeout to 'never'.
+    # Step 17: Set idle timeout to 'never'.
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.session idle-delay 0"
@@ -318,7 +309,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 19: Disable auto updates.
+    # Step 18: Disable auto updates.
 
     labels.next()
     dest = "/etc/apt/apt.conf.d/20auto-upgrades"
@@ -333,7 +324,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 20: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
+    # Step 19: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
     # This allows users to start programs from the command line when
     # their current working directory is inside the share.
 
@@ -345,7 +336,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 21: Arrange icons.
+    # Step 20: Arrange icons.
 
     labels.next()
     base = "org.gnome.shell.extensions."
@@ -361,7 +352,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 22: Cleanup any unused files.
+    # Step 21: Cleanup any unused files.
 
     labels.next()
     print(PASS)
