@@ -124,11 +124,11 @@ def task_runner(args: argparse.Namespace) -> None:
     # Done
 
     msg = f"""Initialization script is complete. If all steps above are
-    marked with green checkmarks, the Ubuntu server instance is ready
-    to go. You must reboot your VM instance now for the changes to take
-    effect. Log back in as {args.user} and run
-    ~/.ubuntu/scripts/server_configure.py. If any steps above show a
-    red \"X\", there was an error during installation."""
+    marked with green checkmarks, the Ubuntu server instance is ready to
+    go. You must reboot now for the changes to take effect. Log back in
+    as {args.user} and run ~/.ubuntu/scripts/server_configure.py. If any
+    steps above show a red \"X\", there was an error during
+    installation."""
     print(f"\n{wrap_tight(msg)}\n")
 
     return
@@ -144,7 +144,7 @@ def main():  # noqa
     instance will also be configured to allow for remote login using
     ssh."""
 
-    epi = "Latest update: 03/17/24"
+    epi = "Latest update: 04/25/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 

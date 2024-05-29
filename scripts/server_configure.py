@@ -8,13 +8,11 @@ RuntimeError
 """
 
 import argparse
-import pwd
 from pathlib import Path
 from typing import Any
 
 from library.classes import Labels
 from library.environment import DEBUG
-from library.environment import FAIL
 from library.environment import HOME
 from library.environment import PASS
 from library.environment import SHELL
@@ -40,11 +38,12 @@ def task_runner(args) -> None:
         System initialization
         Creating new directories
         Setting up vim
+        Verifying nala installation
+        Verifying zsh installation
         Installing OhMyZsh
         Installing OhMyZsh Full-autoupdate
         Installing powerlevel10k theme
         Copying dot files
-        Deleting default user account (ubuntu)
         """
     )
 
@@ -89,7 +88,23 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 4: Install OhMyZsh
+    # Step 4: Verify nala
+
+    labels.next()
+    cmd = "sudo apt install nala -y"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 5: Verify zsh
+
+    labels.next()
+    cmd = "sudo apt install zsh -y"
+    print(run_one_command(cmd))
+
+    # ------------------------------------------
+
+    # Step 6: Install OhMyZsh
 
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
@@ -98,7 +113,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 5: Install OhMyZsh Full-autoupdate
+    # Step 7: Install OhMyZsh Full-autoupdate
 
     zsh_home = HOME / ".oh-my-zsh/custom"
 
@@ -110,7 +125,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 6: Install powerlevel10k theme
+    # Step 8: Install powerlevel10k theme
 
     labels.next()
     src = "https://github.com/romkatv/powerlevel10k.git"
@@ -120,7 +135,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 7: Copying dot files
+    # Step 9: Copying dot files
 
     labels.next()
     file_targets = [
@@ -129,23 +144,6 @@ def task_runner(args) -> None:
     ]
     copy_files(file_targets)
     print(PASS)
-
-    # ------------------------------------------
-
-    # Step 8: Delete default user account (if that option is selected).
-
-    if args.delete:
-        labels.next()
-        try:
-            pwd.getpwnam("ubuntu")
-            cmd = "sudo deluser ubuntu"
-            run_one_command(cmd)
-            cmd = "sudo rm -rf /home/ubuntu"
-            print(run_one_command(cmd))
-        except KeyError:
-            print(FAIL)
-    else:
-        labels.dump(1)
 
     # ------------------------------------------
 
@@ -170,12 +168,8 @@ def main():  # noqa
     settings. NOTE: Make sure to run the server_initialize.py script
     before running this one."""
 
-    epi = "Latest update: 03/17/24"
+    epi = "Latest update: 04/25/24"
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
-
-    msg = """use this option to delete the default user (ubuntu) that
-    gets created when a new VM is instantiated."""
-    parser.add_argument("-d", "--delete", help=msg, action="store_true")
 
     args = parser.parse_args()
     task_runner(args)
