@@ -80,7 +80,7 @@ def task_runner(args) -> None:
 
     labels.next()
     file_targets = [
-        (VIM / "vimrc.txt", HOME / ".vimrc"),
+        (VIM / "vimrc.conf", HOME / ".vimrc"),
         (VIM / "vimcolors/*", HOME / ".vim/colors"),
     ]
     copy_files(file_targets)

@@ -46,7 +46,7 @@ def task_runner() -> None:
 
     labels.next()
     targets: list[tuple[Any, Any]] = []
-    targets.append((VIM / "vimrc.txt", HOME / ".vimrc"))
+    targets.append((VIM / "vimrc.conf", HOME / ".vimrc"))
     targets.append((VIM / "vimcolors/*", HOME / ".vim/colors"))
     copy_files(targets)
     print(PASS)

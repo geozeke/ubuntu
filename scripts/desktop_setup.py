@@ -107,7 +107,7 @@ def task_runner() -> None:
         (SHELL / "profile.conf", HOME / ".profile"),
         (SHELL / "profile.conf", HOME / ".zprofile"),
         (VIM / "vimcolors/*", HOME / ".vim/colors"),
-        (VIM / "vimrc.txt", HOME / ".vimrc"),
+        (VIM / "vimrc.conf", HOME / ".vimrc"),
     ]
     copy_files(file_targets)
     print(PASS)
