@@ -139,8 +139,8 @@ def task_runner(args) -> None:
 
     labels.next()
     file_targets = [
-        (SHELL / "zshrc.txt", HOME / ".zshrc"),
-        (SHELL / "p10k.txt", HOME / ".p10k.zsh"),
+        (SHELL / "zshrc.conf", HOME / ".zshrc"),
+        (SHELL / "p10k.conf", HOME / ".p10k.zsh"),
     ]
     copy_files(file_targets)
     print(PASS)

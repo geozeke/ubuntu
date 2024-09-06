@@ -105,7 +105,7 @@ def task_runner() -> None:
     labels.next()
 
     # Setup variables with file locations
-    support = SHELL / "pyenvsupport.txt"
+    support = SHELL / "pyenvsupport.conf"
     bash = HOME / ".bashrc"
     zsh = HOME / ".zshrc"
     # Check to see if the adjustments have already been made, then
