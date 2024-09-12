@@ -101,13 +101,13 @@ def task_runner() -> None:
 
     labels.next()
     file_targets = [
-        (SHELL / "bashrc.txt", HOME / ".bashrc"),
-        (SHELL / "dircolors.txt", HOME / ".dircolors"),
-        (SHELL / "p10k.txt", HOME / ".p10k.zsh"),
-        (SHELL / "profile.txt", HOME / ".profile"),
-        (SHELL / "profile.txt", HOME / ".zprofile"),
+        (SHELL / "bashrc.conf", HOME / ".bashrc"),
+        (SHELL / "dircolors.conf", HOME / ".dircolors"),
+        (SHELL / "p10k.conf", HOME / ".p10k.zsh"),
+        (SHELL / "profile.conf", HOME / ".profile"),
+        (SHELL / "profile.conf", HOME / ".zprofile"),
         (VIM / "vimcolors/*", HOME / ".vim/colors"),
-        (VIM / "vimrc.txt", HOME / ".vimrc"),
+        (VIM / "vimrc.conf", HOME / ".vimrc"),
     ]
     copy_files(file_targets)
     print(PASS)
@@ -197,7 +197,7 @@ def task_runner() -> None:
     )  # fmt: skip
     # After zsh installation, copy over new .zshrc file
     if result == PASS:
-        file_targets = [(SHELL / "zshrc.txt", HOME / ".zshrc")]
+        file_targets = [(SHELL / "zshrc.conf", HOME / ".zshrc")]
         copy_files(file_targets)
     print(result)
 
