@@ -13,7 +13,7 @@ ifeq (,$(wildcard .init/setup))
 	fi
 	mkdir .init
 	touch .init/setup
-	uv sync
+	uv sync --frozen
 else
 	@echo "Initial setup is already complete. If you are having issues, run:"
 	@echo
@@ -42,8 +42,7 @@ reset: clean ## clean, then remove .venv .init
 
 .PHONY: upgrade
 upgrade: ## upgrade development dependencies
-	@echo Upgrading dependencies
-	uv sync --upgrade
+	uv lock --upgrade
 
 # --------------------------------------------
 
