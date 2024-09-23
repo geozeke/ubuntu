@@ -6,14 +6,14 @@ all: help
 .PHONY: setup
 setup: ## setup project with dependencies
 ifeq (,$(wildcard .init/setup))
-	@(which poetry > /dev/null 2>&1) || \
-	(echo "ubuntu requires poetry."; exit 1)
+	@(which uv > /dev/null 2>&1) || \
+	(echo "ubuntu requires uv."; exit 1)
 	@if [ ! -d "./scratch" ]; then \
 		mkdir -p scratch; \
 	fi
 	mkdir .init
 	touch .init/setup
-	poetry install --no-root
+	uv sync
 else
 	@echo "Initial setup is already complete. If you are having issues, run:"
 	@echo
@@ -37,6 +37,13 @@ clean: ## Remove cached files and build products
 reset: clean ## clean, then remove .venv .init
 	@echo Resetting project state
 	rm -rf .venv .init
+
+# --------------------------------------------
+
+.PHONY: upgrade
+upgrade: ## upgrade development dependencies
+	@echo Upgrading dependencies
+	uv sync --upgrade
 
 # --------------------------------------------
 
