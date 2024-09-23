@@ -1,21 +1,19 @@
-[tool.poetry]
+[project]
 name = "ubuntu"
-version = "0.8.4"
+version = "0.8.5"
 description = "Tools to setup and manage an Ubuntu VM"
-authors = ["Peter Nardi <pete@nardi.com>"]
+authors = [
+    {name = "Peter Nardi", email = "pete@nardi.com"},
+]
 license = "MIT"
-readme = "README.md"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.10"
 
-[tool.poetry.dependencies]
-python = "^3.10"
+[tool.uv]
+dev-dependencies = [
+    "mypy>=1.11.2",
+    "ruff>=0.6.7",
+]
 
-[tool.poetry.group.dev.dependencies]
-flake8 = "^5.0.4"
-flake8-docstrings = "^1.6.0"
-mypy = "^0.982"
-black = "^23.3.0"
-isort = "^5.13.2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff.lint.isort]
+force-single-line = true
