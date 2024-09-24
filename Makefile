@@ -27,7 +27,7 @@ endif
 .PHONY: clean
 clean: ## Remove cached files and build products
 	@echo Cleaning caches and build products
-	@find . -type d -name .mypy_cache -exec rm -rf {} \; -prune
+	@rm -rf .mypy_cache .ruff_cache
 	@find . -type d -name __pycache__ -exec rm -rf {} \; -prune
 	@echo Cleaning complete
 
