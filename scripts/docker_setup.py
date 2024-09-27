@@ -31,7 +31,8 @@ def task_runner() -> None:
         """
         System initialization
         Installing docker components
-        Adding user to Docker group"""
+        Adding user to Docker group
+        """
     )
 
     # ------------------------------------------
@@ -43,7 +44,7 @@ def task_runner() -> None:
     # first command. This will avoid having the password prompt come in
     # the middle of a label when providing status
 
-    run_one_command("sudo ls")
+    run_one_command(cmd="sudo ls")
 
     # ------------------------------------------
 
@@ -69,11 +70,13 @@ def task_runner() -> None:
 
     labels.next()
     cmd = f"sudo usermod -aG docker {getpass.getuser()}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
-    msg = """Setup script is complete. You must reboot your VM now for
-    the changes to take effect."""
-    print(f"\n{wrap_tight(msg)}\n")
+    msg = """
+    Setup script is complete. You must reboot your VM now for the
+    changes to take effect.
+    """
+    print(f"\n{wrap_tight(msg=msg)}\n")
 
     return
 
@@ -82,15 +85,17 @@ def main():
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script will install Docker Engine, which is the
-    underlying client-server technology that builds and runs containers
-    using Docker\'s components and services. It will also install Docker
+    msg = """
+    This script will install Docker Engine, which is the underlying
+    client-server technology that builds and runs containers using
+    Docker\'s components and services. It will also install Docker
     Compose which is a tool to help define and share multi-container
     applications. With Compose, you can create a YAML file to define the
     services and with a single command, can spin everything up or tear
-    it all down."""
+    it all down.
+    """
 
-    epi = "Latest update: 04/25/24"
+    epi = "Latest update: 11/27/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

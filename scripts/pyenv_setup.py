@@ -36,13 +36,14 @@ def task_runner() -> None:
         Updating package index
         Checking python build dependencies
         Installing pyenv and tools
-        Adjusting shell environments"""
+        Adjusting shell environments
+        """
     )
 
     # Step 0
 
     msg = """Please enter your password if prompted."""
-    print(f"\n{wrap_tight(msg)}\n")
+    print(f"\n{wrap_tight(msg=msg)}\n")
 
     # Push a dummy sudo command just to force password entry before
     # first ppa pull. This will avoid having the password prompt come in
@@ -63,7 +64,7 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "sudo apt update"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -89,7 +90,7 @@ def task_runner() -> None:
         "libffi-dev",
         "liblzma-dev",
     ]
-    print(run_many_arguments(cmd, targets))
+    print(run_many_arguments(cmd=cmd, targets=targets))
 
     # ------------------------------------------
 
@@ -128,11 +129,13 @@ def task_runner() -> None:
 
     # Done
 
-    msg = """Setup script is complete. If all steps above are marked
-    with green checkmarks, pyenv is ready to go. You must reboot your
-    VM now for the changes to take effect. If any steps above show a
-    red \"X\", there was an error during installation."""
-    print(f"\n{wrap_tight(msg)}\n")
+    msg = """
+    Setup script is complete. If all steps above are marked with green
+    checkmarks, pyenv is ready to go. You must reboot your VM now for
+    the changes to take effect. If any steps above show a red \"X\",
+    there was an error during installation.
+    """
+    print(f"\n{wrap_tight(msg=msg)}\n")
 
     return
 
@@ -141,13 +144,15 @@ def main():
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script will setup and install the dependencies to use
-    pyenv. Pyenv is a powerfull tool that allows you to cleanly run
-    multiple, independent python versions without interference or
-    breaking the system default python installation. You will be
-    prompted for your password during the setup."""
+    msg = """
+    This script will setup and install the dependencies to use pyenv.
+    Pyenv is a powerfull tool that allows you to cleanly run multiple,
+    independent python versions without interference or breaking the
+    system default python installation. You will be prompted for your
+    password during the setup.
+    """
 
-    epi = "Latest update: 04/25/24"
+    epi = "Latest update: 11/27/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()
