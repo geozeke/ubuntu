@@ -8,7 +8,7 @@ from pathlib import Path
 
 # Minimum required python version for Ubuntu VM scripts.
 MAJOR = 3
-MINOR = 10
+MINOR = 12
 
 # PASS and FAIL markers and flag for enabling debug mode.
 GREEN = "\033[0;32;49m"

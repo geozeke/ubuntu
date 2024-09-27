@@ -283,7 +283,7 @@ def min_python_version() -> Text | None:
         return a string error message.
     """
     msg = f"Minimum required Python version is {MAJOR}.{MINOR}"
-    if (sys.version_info.major < MAJOR) or (sys.version_info.minor < MINOR):
+    if sys.version_info.major < MAJOR or sys.version_info.minor < MINOR:
         return msg
     return None
 

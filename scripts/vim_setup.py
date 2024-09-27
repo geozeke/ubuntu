@@ -26,8 +26,8 @@ def task_runner() -> None:
         Copying files"""
     )
 
-    # Step 1. System initialization. Right now it's just a placeholder for
-    # future capability.
+    # Step 1. System initialization. Right now it's just a placeholder
+    # for future capability.
 
     labels.next()
     print(PASS)
@@ -60,7 +60,7 @@ def task_runner() -> None:
     return
 
 
-def main():  # noqa
+def main():
     if result := min_python_version():
         raise RuntimeError(result)
 

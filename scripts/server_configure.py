@@ -38,7 +38,6 @@ def task_runner(args) -> None:
         System initialization
         Creating new directories
         Setting up vim
-        Verifying nala installation
         Verifying zsh installation
         Installing OhMyZsh
         Installing OhMyZsh Full-autoupdate
@@ -50,8 +49,8 @@ def task_runner(args) -> None:
     # ------------------------------------------
 
     # Step 1: Initialize lists for running many arguments. When running
-    # commands with generic string targets, the "targets" array will be used.
-    # Commands with special target-types are shown below.
+    # commands with generic string targets, the "targets" array will be
+    # used. Commands with special target-types are shown below.
 
     labels.next()
     dir_targets: list[Path] = []
@@ -88,15 +87,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 4: Verify nala
-
-    labels.next()
-    cmd = "sudo apt install nala -y"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 5: Verify zsh
+    # Step 4: Verify zsh
 
     labels.next()
     cmd = "sudo apt install zsh -y"
@@ -104,7 +95,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 6: Install OhMyZsh
+    # Step 5: Install OhMyZsh
 
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
@@ -113,7 +104,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 7: Install OhMyZsh Full-autoupdate
+    # Step 6: Install OhMyZsh Full-autoupdate
 
     zsh_home = HOME / ".oh-my-zsh/custom"
 
@@ -125,7 +116,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 8: Install powerlevel10k theme
+    # Step 7: Install powerlevel10k theme
 
     labels.next()
     src = "https://github.com/romkatv/powerlevel10k.git"
@@ -135,7 +126,7 @@ def task_runner(args) -> None:
 
     # ------------------------------------------
 
-    # Step 9: Copying dot files
+    # Step 8: Copying dot files
 
     labels.next()
     file_targets = [
@@ -159,7 +150,7 @@ def task_runner(args) -> None:
     return
 
 
-def main():  # noqa
+def main():
     if result := min_python_version():
         raise RuntimeError(result)
 

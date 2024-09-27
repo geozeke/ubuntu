@@ -54,14 +54,15 @@ def run_updates(args: argparse.Namespace) -> None:
     if args.all:
         print("\nPerforming additional updates\n")
 
-        # Pull updates to the ubuntu git repo. This facilitates installing
-        # custom patches later.
+        # Pull updates to the ubuntu git repo. This facilitates
+        # installing custom patches later.
         labels.next()
         cmd = f"git -C {UBUNTU} pull"
         print(run_one_command(cmd))
 
-        # Update selected Python packages. Start with pip itself to ensure
-        # we've got the lastest version of the Python package installer.
+        # Update selected Python packages. Start with pip itself to
+        # ensure we've got the lastest version of the Python package
+        # installer.
         pips: list[str] = []
         pips.append("pip")
         pips.append("jupyter")
@@ -93,7 +94,7 @@ def run_updates(args: argparse.Namespace) -> None:
     return
 
 
-def main():  # noqa
+def main():
     if result := min_python_version():
         raise RuntimeError(result)
 

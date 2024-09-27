@@ -33,11 +33,11 @@ class Labels:
             variable (pad) that represents the length of the longest
             label. This is used for justifying the output when printing.
         """
-        # The (t := token.strip()) part of the list comprehension below is
-        # python's assignment expression and takes care of any blank lines or
-        # leading/trailing whitespace in the docstring. It assigns
-        # token.strip() to t then evaluates t. If t is an empty string, it
-        # evaluates to False otherwise it's True.
+        # The (t := token.strip()) part of the list comprehension below
+        # is python's assignment expression and takes care of any blank
+        # lines or leading/trailing whitespace in the docstring. It
+        # assigns token.strip() to t then evaluates t. If t is an empty
+        # string, it evaluates to False otherwise it's True.
         self.labels = [t for token in s.split("\n") if (t := token.strip())]
         self.pad = len(max(self.labels, key=len)) + 3
         return
@@ -52,7 +52,7 @@ class Labels:
         """
         if len(self.labels) == 0:
             raise ExhaustedListError()
-        print(f"{self.labels.pop(0):.<{self.pad}}", end="", flush=True)  # noqa
+        print(f"{self.labels.pop(0):.<{self.pad}}", end="", flush=True)
         return
 
     def pop_first(self) -> str:
@@ -131,8 +131,8 @@ class Labels:
         """
         if (
             (type(num_labels) is not int)
-            or (num_labels <= 0)  # noqa
-            or (len(self.labels) < num_labels)  # noqa
+            or (num_labels <= 0)
+            or (len(self.labels) < num_labels)
         ):
             return
         else:

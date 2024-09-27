@@ -46,7 +46,6 @@ def task_runner() -> None:
         Setting terminal profile
         Installing developer tools
         Installing zsh
-        Installing nala
         Installing OhMyZsh
         Installing OhMyZsh Full-autoupdate
         Installing powerlevel10k theme
@@ -119,7 +118,7 @@ def task_runner() -> None:
     # hurt.
 
     labels.next()
-    cmd = f"find {SCRIPTS} -name *.py -exec chmod 754 {{}} ;"  # noqa
+    cmd = f"find {SCRIPTS} -name *.py -exec chmod 754 {{}} ;"
     print(run_one_command(cmd))
 
     # ------------------------------------------
@@ -179,15 +178,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 8: Install nala.
-
-    labels.next()
-    targets = ["nala"]
-    print(run_many_arguments(cmd, targets))
-
-    # ------------------------------------------
-
-    # Step 9: Install OhMyZsh.
+    # Step 8: Install OhMyZsh.
 
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
@@ -203,7 +194,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 10: Install OhMyZsh Full-autoupdate
+    # Step 9: Install OhMyZsh Full-autoupdate
 
     zsh_home = HOME / ".oh-my-zsh/custom"
 
@@ -215,7 +206,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 11: Install powerlevel10k theme
+    # Step 10: Install powerlevel10k theme
 
     labels.next()
     src = "https://github.com/romkatv/powerlevel10k.git"
@@ -225,7 +216,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 12: Install Nerd Fonts
+    # Step 11: Install Nerd Fonts
 
     labels.next()
     base = "https://github.com/romkatv/powerlevel10k-media/raw/master/"
@@ -247,7 +238,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 13: Setting Text Editor profile. Again, need special handling
+    # Step 12: Setting Text Editor profile. Again, need special handling
     # here, because we're redirecting stdin.
 
     labels.next()
@@ -263,7 +254,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 14: Refresh snaps
+    # Step 13: Refresh snaps
 
     labels.next()
     cmd = "sudo snap refresh"
@@ -271,7 +262,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 15: Configure favorites. NOTE: To get the information needed
+    # Step 14: Configure favorites. NOTE: To get the information needed
     # for the code below, setup desired favorites, then run this
     # command: gsettings get org.gnome.shell favorite-apps
 
@@ -292,7 +283,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 16: Disable auto screen lock
+    # Step 15: Disable auto screen lock
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.screensaver lock-enabled false"
@@ -300,7 +291,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 17: Set idle timeout to 'never'.
+    # Step 16: Set idle timeout to 'never'.
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.session idle-delay 0"
@@ -308,7 +299,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 18: Disable auto updates.
+    # Step 17: Disable auto updates.
 
     labels.next()
     dest = "/etc/apt/apt.conf.d/20auto-upgrades"
@@ -323,7 +314,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 19: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
+    # Step 18: Patch /etc/fuse.conf to un-comment 'user_allow_other'.
     # This allows users to start programs from the command line when
     # their current working directory is inside the share.
 
@@ -335,7 +326,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 20: Arrange icons.
+    # Step 19: Arrange icons.
 
     labels.next()
     base = "org.gnome.shell.extensions."
@@ -351,7 +342,7 @@ def task_runner() -> None:
 
     # ------------------------------------------
 
-    # Step 21: Cleanup any unused files.
+    # Step 20: Cleanup any unused files.
 
     labels.next()
     print(PASS)
@@ -369,7 +360,7 @@ def task_runner() -> None:
     return
 
 
-def main():  # noqa
+def main():
     if result := min_python_version():
         raise RuntimeError(result)
 

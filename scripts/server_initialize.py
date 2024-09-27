@@ -34,7 +34,6 @@ def task_runner(args: argparse.Namespace) -> None:
         Creating user {args.user}
         Adding user {args.user} to sudoers
         Turn off password for {args.user} when using sudo
-        Installing nala
         Installing zsh
         Enabling remote login with ssh
         """
@@ -43,8 +42,8 @@ def task_runner(args: argparse.Namespace) -> None:
     # ------------------------------------------
 
     # Step 1: Initialize lists for running many arguments. When running
-    # commands with generic string targets, the "targets" array will be used.
-    # Commands with special target-types are shown below.
+    # commands with generic string targets, the "targets" array will be
+    # used. Commands with special target-types are shown below.
 
     labels.next()
     dest: str | Path = ""
@@ -84,15 +83,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # ------------------------------------------
 
-    # Step 5: Install nala
-
-    labels.next()
-    cmd = "sudo apt install nala -y"
-    print(run_one_command(cmd))
-
-    # ------------------------------------------
-
-    # Step 6: Install zsh
+    # Step 5: Install zsh
 
     labels.next()
     cmd = "sudo apt install zsh -y"
@@ -100,7 +91,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # ------------------------------------------
 
-    # Step 7: Enable remote login with ssh
+    # Step 6: Enable remote login with ssh
 
     # Right now, this is setup to only patch config files on VMs created
     # with Multipass. For Raspberry Pi installations, ssh password
@@ -134,7 +125,7 @@ def task_runner(args: argparse.Namespace) -> None:
     return
 
 
-def main():  # noqa
+def main():
     if result := min_python_version():
         raise RuntimeError(result)
 

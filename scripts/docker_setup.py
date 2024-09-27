@@ -39,9 +39,9 @@ def task_runner() -> None:
     # Step 0: Capture sudo permissions
 
     print("\nPlease enter your password if prompted.\n")
-    # Push a dummy sudo command just to force password entry before first
-    # command. This will avoid having the password prompt come in the middle of
-    # a label when providing status
+    # Push a dummy sudo command just to force password entry before
+    # first command. This will avoid having the password prompt come in
+    # the middle of a label when providing status
 
     run_one_command("sudo ls")
 
@@ -78,7 +78,7 @@ def task_runner() -> None:
     return
 
 
-def main():  # noqa
+def main():
     if result := min_python_version():
         raise RuntimeError(result)
 

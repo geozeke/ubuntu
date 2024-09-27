@@ -38,7 +38,6 @@ and settings:
   * build-essential
   * ccache
   * gnome-text-editor
-  * nala
   * python3-pip
   * python3-venv
   * seahorse-nautilus

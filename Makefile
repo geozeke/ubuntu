@@ -41,7 +41,7 @@ reset: clean ## clean, then remove .venv .init
 # --------------------------------------------
 
 .PHONY: upgrade
-upgrade: ## upgrade dependencies
+upgrade: ## upgrade project dependencies
 	uv sync --upgrade
 
 # --------------------------------------------

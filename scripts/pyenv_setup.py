@@ -137,7 +137,7 @@ def task_runner() -> None:
     return
 
 
-def main():  # noqa
+def main():
     if result := min_python_version():
         raise RuntimeError(result)
 
