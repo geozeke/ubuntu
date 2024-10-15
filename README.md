@@ -15,9 +15,9 @@ It will not work with older versions of Ubuntu.
 
 These tools work with Ubuntu. You'll create either a Desktop (GNOME)
 installation, or a Server (no GUI) installation. Setup a basic Ubuntu
-machine using your preferred tools and techniques. Then use these tools
-to configure your installation with a standard look-and-feel, tools, and
-settings that I use in my workflows.
+machine using your preferred tools and techniques, then use these tools
+to configure your installation with a standard suite of look-and-feel,
+tools, and settings that I use in my workflows.
 
 ## Included Tools
 
@@ -43,7 +43,6 @@ and settings:
   * seahorse-nautilus
   * tree
   * zsh
-* Install [pipx][def6].
 * Install and configure [OhMyZsh][def] and the [powerlevel10K
   theme][def2].
 * Configure the GNOME favorites in the application launcher.
@@ -171,4 +170,3 @@ server and you just want a better look-and-feel for vi.
 [def3]: https://github.com/pyenv/pyenv
 [def4]: https://docs.docker.com/engine/
 [def5]: https://docs.docker.com/get-started/08_using_compose/
-[def6]: https://pipx.pypa.io/stable/

@@ -82,7 +82,7 @@ def task_runner(args) -> None:
         (VIM / "vimrc.conf", HOME / ".vimrc"),
         (VIM / "vimcolors/*", HOME / ".vim/colors"),
     ]
-    copy_files(file_targets)
+    copy_files(targets=file_targets)
     print(PASS)
 
     # ------------------------------------------
@@ -91,7 +91,7 @@ def task_runner(args) -> None:
 
     labels.next()
     cmd = "sudo apt install zsh -y"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -106,13 +106,12 @@ def task_runner(args) -> None:
 
     # Step 6: Install OhMyZsh Full-autoupdate
 
-    zsh_home = HOME / ".oh-my-zsh/custom"
-
     labels.next()
+    custom_zsh_home = HOME / ".oh-my-zsh/custom"
     src = "https://github.com/Pilaton/OhMyZsh-full-autoupdate.git"
-    dest = f"{zsh_home}/plugins/ohmyzsh-full-autoupdate"
+    dest = f"{custom_zsh_home}/plugins/ohmyzsh-full-autoupdate"
     cmd = f"git clone --depth=1 {src} {dest}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -120,9 +119,9 @@ def task_runner(args) -> None:
 
     labels.next()
     src = "https://github.com/romkatv/powerlevel10k.git"
-    dest = f"{zsh_home}/themes/powerlevel10k"
+    dest = f"{custom_zsh_home}/themes/powerlevel10k"
     cmd = f"git clone --depth=1 {src} {dest}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -133,18 +132,20 @@ def task_runner(args) -> None:
         (SHELL / "zshrc.conf", HOME / ".zshrc"),
         (SHELL / "p10k.conf", HOME / ".p10k.zsh"),
     ]
-    copy_files(file_targets)
+    copy_files(targets=file_targets)
     print(PASS)
 
     # ------------------------------------------
 
     # Done
 
-    msg = """Setup script is complete. If all steps above are marked
-    with green checkmarks, the Ubuntu instance is ready to go.
-    Change your shell \"/bin/zsh\" using the \"chsh\" command. Logout
-    and log back in and you should be all set. If any steps above show a
-    red \"X\", there was an error during installation."""
+    msg = """
+    Setup script is complete. If all steps above are marked with green
+    checkmarks, the Ubuntu instance is ready to go. Change your shell
+    \"/bin/zsh\" using the \"chsh\" command. Logout and log back in and
+    you should be all set. If any steps above show a red \"X\", there
+    was an error during installation.
+    """
     print(f"\n{wrap_tight(msg)}\n")
 
     return
@@ -154,12 +155,14 @@ def main():
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script will configure a Ubuntu server instance. It
-    will setup OhMyZsh & vim, and configure the VM with standardized
-    settings. NOTE: Make sure to run the server_initialize.py script
-    before running this one."""
+    msg = """
+    This script will configure a Ubuntu server instance. It will setup
+    OhMyZsh & vim, and configure the VM with standardized settings.
+    NOTE: Make sure to run the server_initialize.py script before
+    running this one.
+    """
 
-    epi = "Latest update: 04/25/24"
+    epi = "Latest update: 11/27/24"
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 
     args = parser.parse_args()

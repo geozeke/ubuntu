@@ -48,14 +48,16 @@ def task_runner() -> None:
     targets: list[tuple[Any, Any]] = []
     targets.append((VIM / "vimrc.conf", HOME / ".vimrc"))
     targets.append((VIM / "vimcolors/*", HOME / ".vim/colors"))
-    copy_files(targets)
+    copy_files(targets=targets)
     print(PASS)
 
     # Done
 
-    msg = """vim setup complete. You are now ready to use vi or vim and
-    enjoy a pleasing visual experience."""
-    print(f"\n{wrap_tight(msg)}\n")
+    msg = """
+    vim setup complete. You are now ready to use vi or vim and enjoy a
+    pleasing visual experience.
+    """
+    print(f"\n{wrap_tight(msg=msg)}\n")
 
     return
 
@@ -64,12 +66,13 @@ def main():
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script installs the necessary settings files and
-    color schemes for a pleasant visual experience in vi. NOTE: If
-    you\'ve already run the ubuntu setup script there's no need to run
-    this script."""
+    msg = """
+    This script installs the necessary settings files and color schemes
+    for a pleasant visual experience in vi. NOTE: If you\'ve already run
+    the ubuntu setup script there's no need to run this script.
+    """
 
-    epi = "Latest update: 04/25/24"
+    epi = "Latest update: 11/27/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

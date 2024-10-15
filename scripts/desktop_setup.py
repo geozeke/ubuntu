@@ -58,7 +58,8 @@ def task_runner() -> None:
         Disabling auto updates
         Patching fuse.conf
         Tidying icons
-        Cleaning up"""
+        Cleaning up
+        """
     )
 
     # ------------------------------------------
@@ -82,9 +83,7 @@ def task_runner() -> None:
     labels.next()
     dir_targets = [
         HOME / ".fonts",
-        HOME / ".notebooksrepo",
         HOME / ".vim/colors",
-        HOME / "notebooks",
         HOME / "shares",
     ]
     for target in dir_targets:
@@ -108,7 +107,7 @@ def task_runner() -> None:
         (VIM / "vimcolors/*", HOME / ".vim/colors"),
         (VIM / "vimrc.conf", HOME / ".vimrc"),
     ]
-    copy_files(file_targets)
+    copy_files(targets=file_targets)
     print(PASS)
 
     # ------------------------------------------
@@ -119,7 +118,7 @@ def task_runner() -> None:
 
     labels.next()
     cmd = f"find {SCRIPTS} -name *.py -exec chmod 754 {{}} ;"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -128,27 +127,29 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "dconf reset -f /org/gnome/terminal/legacy"
-    result = run_one_command(cmd)
+    result = run_one_command(cmd=cmd)
     if result == PASS:
         cmd = "dconf load /org/gnome/terminal/legacy/profiles:/"
         path = SYSTEM / "terminal_settings.txt"
         if DEBUG:
             print(f"Opening: {path}")
         with open(path, "r") as f:
-            result = run_one_command(cmd, std_in=f)
+            result = run_one_command(cmd=cmd, std_in=f)
     print(result)
 
     # ------------------------------------------
 
-    msg = """Installing additional software. Please enter your password
-    if prompted."""
-    print(f"\n{wrap_tight(msg)}\n")
+    msg = """
+    Installing additional software. Please enter your password if
+    prompted.
+    """
+    print(f"\n{wrap_tight(msg=msg)}\n")
 
     # Push a dummy sudo command just to force password entry before
     # first ppa pull. This will avoid having the password prompt come in
     # the middle of a label when providing status
 
-    run_one_command("sudo ls")
+    run_one_command(cmd="sudo ls")
 
     # ------------------------------------------
 
@@ -161,12 +162,11 @@ def task_runner() -> None:
         "ccache",
         "gnome-text-editor",
         "open-vm-tools-desktop",
-        "pipx",
         "seahorse",
         "tree",
         "vim",
     ]
-    print(run_many_arguments(cmd, targets))
+    print(run_many_arguments(cmd=cmd, targets=targets))
 
     # ------------------------------------------
 
@@ -174,7 +174,7 @@ def task_runner() -> None:
 
     labels.next()
     targets = ["zsh"]
-    print(run_many_arguments(cmd, targets))
+    print(run_many_arguments(cmd=cmd, targets=targets))
 
     # ------------------------------------------
 
@@ -189,20 +189,19 @@ def task_runner() -> None:
     # After zsh installation, copy over new .zshrc file
     if result == PASS:
         file_targets = [(SHELL / "zshrc.conf", HOME / ".zshrc")]
-        copy_files(file_targets)
+        copy_files(targets=file_targets)
     print(result)
 
     # ------------------------------------------
 
     # Step 9: Install OhMyZsh Full-autoupdate
 
-    zsh_home = HOME / ".oh-my-zsh/custom"
-
     labels.next()
+    zsh_home = HOME / ".oh-my-zsh/custom"
     src = "https://github.com/Pilaton/OhMyZsh-full-autoupdate.git"
     dest = f"{zsh_home}/plugins/ohmyzsh-full-autoupdate"
     cmd = f"git clone --depth=1 {src} {dest}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -212,7 +211,7 @@ def task_runner() -> None:
     src = "https://github.com/romkatv/powerlevel10k.git"
     dest = f"{zsh_home}/themes/powerlevel10k"
     cmd = f"git clone --depth=1 {src} {dest}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -229,11 +228,11 @@ def task_runner() -> None:
     for font in fonts:
         f_name = "\\ ".join(font.split("%20"))
         cmd = f"curl -sL {base}{font} -o {HOME}/.fonts/{f_name}"
-        if (result := run_one_command(cmd)) == FAIL:
+        if (result := run_one_command(cmd=cmd)) == FAIL:
             break
     if result == PASS:
         cmd = "fc-cache -vf"
-        result = run_one_command(cmd)
+        result = run_one_command(cmd=cmd)
     print(result)
 
     # ------------------------------------------
@@ -243,13 +242,13 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "dconf reset -f /org/gnome/TextEditor/"
-    if (result := run_one_command(cmd)) == PASS:
+    if (result := run_one_command(cmd=cmd)) == PASS:
         cmd = "dconf load /org/gnome/TextEditor/"
         path = SYSTEM / "text_editor_settings.txt"
         if DEBUG:
             print(f"Opening: {path}")
         with open(path, "r") as f:
-            result = run_one_command(cmd, std_in=f)
+            result = run_one_command(cmd=cmd, std_in=f)
     print(result)
 
     # ------------------------------------------
@@ -258,7 +257,7 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "sudo snap refresh"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -279,7 +278,7 @@ def task_runner() -> None:
         "org.gnome.seahorse.Application.desktop",
     ]
     cmd += "','".join(targets) + "']\""
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -287,7 +286,7 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.screensaver lock-enabled false"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -295,7 +294,7 @@ def task_runner() -> None:
 
     labels.next()
     cmd = "gsettings set org.gnome.desktop.session idle-delay 0"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -305,11 +304,11 @@ def task_runner() -> None:
     dest = "/etc/apt/apt.conf.d/20auto-upgrades"
     argument = r"s+Update-Package-Lists\ \"1\"+Update-Package-Lists\ \"0\"+"
     cmd = f"sudo sed -i {argument} {dest}"
-    result = run_one_command(cmd)
+    result = run_one_command(cmd=cmd)
     if result == PASS:
         argument = r"s+Unattended-Upgrade\ \"1\"+Unattended-Upgrade\ \"0\"+"
         cmd = f"sudo sed -i {argument} {dest}"
-        result = run_one_command(cmd)
+        result = run_one_command(cmd=cmd)
     print(result)
 
     # ------------------------------------------
@@ -322,7 +321,7 @@ def task_runner() -> None:
     argument = r"s+\#user_allow_other+user_allow_other+"
     dest = "/etc/fuse.conf"
     cmd = f"sudo sed -i {argument} {dest}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -338,7 +337,7 @@ def task_runner() -> None:
         f"{base}ding show-home false",
     ]
     cmd = "gsettings set TARGET"
-    print(run_many_arguments(cmd, targets))
+    print(run_many_arguments(cmd=cmd, targets=targets))
 
     # ------------------------------------------
 
@@ -351,11 +350,13 @@ def task_runner() -> None:
 
     # Done
 
-    msg = """Setup script is complete. If all steps above are marked
-    with green checkmarks, Ubuntu is ready to go. You must reboot your
-    VM now for the changes to take effect. If any steps above show a red
-    \"X\", there was an error during installation."""
-    print(f"\n{wrap_tight(msg)}\n")
+    msg = """
+    Setup script is complete. If all steps above are marked with green
+    checkmarks, Ubuntu is ready to go. You must reboot your VM now for
+    the changes to take effect. If any steps above show a red \"X\",
+    there was an error during installation.
+    """
+    print(f"\n{wrap_tight(msg=msg)}\n")
 
     return
 
@@ -364,16 +365,16 @@ def main():
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script will install the necessary programs and
-    settings files on an Ubuntu 22.04.x Virtual Machine for USNA course
-    work in Computing Sciences or Cyber Operations. This should only be
-    used on a single user Virtual Machine installation for a user
-    account with sudo privileges. Do not attempt to run this script on a
-    standalone Linux machine or dual-boot machine (including lab
-    machines). You will be prompted for your password during
-    installation."""
+    msg = """
+    This script will configure a desktop installation of an Ubuntu
+    24.04.x Virtual Machine. This should only be used on a single user
+    Virtual Machine installation for a user account with sudo
+    privileges. Do not attempt to run this script on a standalone Linux
+    machine or dual-boot machine. You will be prompted for your password
+    during installation.
+    """
 
-    epi = "Latest update: 04/25/24"
+    epi = "Latest update: 11/27/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
     parser.parse_args()

@@ -57,11 +57,11 @@ def task_runner(args: argparse.Namespace) -> None:
     labels.next()
     cmd = f"openssl passwd -1 {args.passwd}"
     with tempfile.TemporaryFile(mode="w+") as f:
-        run_one_command(cmd, std_out=f, capture=False)
+        run_one_command(cmd=cmd, std_out=f, capture=False)
         f.seek(0)
         crypt_passwd = f.read()
     cmd = f"sudo useradd -s /bin/bash -m -p {crypt_passwd} {args.user}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -69,7 +69,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     labels.next()
     cmd = f"sudo usermod -aG sudo {args.user}"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -79,7 +79,7 @@ def task_runner(args: argparse.Namespace) -> None:
     patch = f"{args.user} ALL=(ALL) NOPASSWD:ALL"
     target = "/etc/sudoers.d/90-cloud-init-users"
     cmd = f"sudo sh -c 'echo \"{patch}\" >> {target}'"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -87,7 +87,7 @@ def task_runner(args: argparse.Namespace) -> None:
 
     labels.next()
     cmd = "sudo apt install zsh -y"
-    print(run_one_command(cmd))
+    print(run_one_command(cmd=cmd))
 
     # ------------------------------------------
 
@@ -106,7 +106,7 @@ def task_runner(args: argparse.Namespace) -> None:
     dest = Path(f"/etc/ssh/sshd_config.d/{target}")
     if dest.exists():
         cmd = f"sudo cp {src} {dest}"
-        print(run_one_command(cmd))
+        print(run_one_command(cmd=cmd))
     else:
         print(PASS)
 
@@ -114,13 +114,15 @@ def task_runner(args: argparse.Namespace) -> None:
 
     # Done
 
-    msg = f"""Initialization script is complete. If all steps above are
-    marked with green checkmarks, the Ubuntu server instance is ready to
-    go. You must reboot now for the changes to take effect. Log back in
-    as {args.user} and run ~/.ubuntu/scripts/server_configure.py. If any
+    msg = f"""
+    Initialization script is complete. If all steps above are marked
+    with green checkmarks, the Ubuntu server instance is ready to go.
+    You must reboot now for the changes to take effect. Log back in as
+    {args.user} and run ~/.ubuntu/scripts/server_configure.py. If any
     steps above show a red \"X\", there was an error during
-    installation."""
-    print(f"\n{wrap_tight(msg)}\n")
+    installation.
+    """
+    print(f"\n{wrap_tight(msg=msg)}\n")
 
     return
 
@@ -129,13 +131,15 @@ def main():
     if result := min_python_version():
         raise RuntimeError(result)
 
-    msg = """This script will initialize a Ubuntu VM server instance.
-    It will create a new (non-root) user, defined on the command line
-    with user/password, and add that user to the sudoers group. The VM
+    msg = """
+    This script will initialize a Ubuntu VM server instance. It will
+    create a new (non-root) user, defined on the command line with
+    user/password, and add that user to the sudoers group. The VM
     instance will also be configured to allow for remote login using
-    ssh."""
+    ssh.
+    """
 
-    epi = "Latest update: 04/25/24"
+    epi = "Latest update: 11/27/24"
 
     parser = argparse.ArgumentParser(description=msg, epilog=epi)
 

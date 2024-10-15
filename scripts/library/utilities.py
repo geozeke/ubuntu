@@ -15,11 +15,9 @@ from typing import Text
 
 from .environment import DEBUG
 from .environment import FAIL
-from .environment import HOME
 from .environment import MAJOR
 from .environment import MINOR
 from .environment import PASS
-from .environment import SYSTEM
 
 
 def clear() -> None:
@@ -247,40 +245,14 @@ def copy_files(targets: list[tuple[pathlib.Path, pathlib.Path]]) -> None:
     return
 
 
-def sync_notebooks() -> Text:
-    """Synchronize jupyter notebooks.
-
-    Sync the hidden repository with the local notebooks directory. Use
-    the --delete option so the destination directory always exactly
-    mirrors the source directory. Also use the --delete-excluded option
-    in case a stray file from the source, which should be excluded,
-    makes its way to the destination. Per the man page, leaving a
-    trailing slash ('/') on the source directory allows you to sync the
-    contents of the source directory to a destination directory with a
-    different name.
-
-    Returns
-    -------
-    Text
-        Returns a unicode string representing either a green checkmark
-        (PASS) or a red X (FAIL).
-    """
-    src = f"{HOME}/.notebooksrepo/"
-    dest = f"{HOME}/notebooks"
-    exclude = f"{SYSTEM}/rsync_exclude.txt"
-    options = f"-rc --exclude-from={exclude} --delete --delete-excluded"
-    cmd = f"rsync {src} {dest} {options}"
-    return run_one_command(cmd)
-
-
 def min_python_version() -> Text | None:
     """Determine if Python is at required min version.
 
     Returns
     -------
     str | None
-        If Python is at the minimum version return None. If not,
-        return a string error message.
+        If Python is at the minimum version return None. If not, return
+        a string error message.
     """
     msg = f"Minimum required Python version is {MAJOR}.{MINOR}"
     if sys.version_info.major < MAJOR or sys.version_info.minor < MINOR:
