@@ -183,9 +183,7 @@ def task_runner() -> None:
     labels.next()
     src = "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/"
     cmd = f"{src}install.sh"
-    result = (
-        run_shell_script(shell="sh", script=cmd, options='"" --unattended')
-    )  # fmt: skip
+    result = run_shell_script(shell="sh", script=cmd, options='"" --unattended')
     # After zsh installation, copy over new .zshrc file
     if result == PASS:
         file_targets = [(SHELL / "zshrc.conf", HOME / ".zshrc")]

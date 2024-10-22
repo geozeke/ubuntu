@@ -115,11 +115,7 @@ def task_runner() -> None:
         rc_str = f1.read()
         sup_str = lean_text(f2.read())
     if sup_str not in rc_str:
-        with (
-            open(support, "r") as f1,
-            open(bash, "a") as f2,
-            open(zsh, "a") as f3
-        ):  # fmt: skip
+        with open(support, "r") as f1, open(bash, "a") as f2, open(zsh, "a") as f3:
             f2.write(f1.read())
             f1.seek(0)
             f3.write(f1.read())
