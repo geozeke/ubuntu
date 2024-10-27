@@ -9,11 +9,11 @@ license = "MIT"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10,<3.13"
 
-[tool.uv]
-dev-dependencies = [
-    "mypy>=1.11.2",
-    "ruff>=0.6.7",
-]
-
 [tool.ruff.lint.isort]
 force-single-line = true
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13.0",
+    "ruff>=0.7.1",
+]
