@@ -43,7 +43,7 @@ def task_runner() -> None:
     # Step 0
 
     msg = """Please enter your password if prompted."""
-    print(msg)
+    print(f"\n{msg}\n")
 
     # Push a dummy sudo command just to force password entry before
     # first ppa pull. This will avoid having the password prompt come in
