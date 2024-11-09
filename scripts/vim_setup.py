@@ -2,6 +2,7 @@
 """Configure vim settings in Ubuntu."""
 
 import argparse
+import textwrap
 from typing import Any
 
 from library.classes import Labels
@@ -12,7 +13,6 @@ from library.environment import VIM
 from library.utilities import clear
 from library.utilities import copy_files
 from library.utilities import min_python_version
-from library.utilities import wrap_tight
 
 
 def task_runner() -> None:
@@ -57,7 +57,7 @@ def task_runner() -> None:
     vim setup complete. You are now ready to use vi or vim and enjoy a
     pleasing visual experience.
     """
-    print(f"\n{wrap_tight(msg=msg)}\n")
+    print(f"\n{textwrap.fill(text=" ".join(msg.split()))}\n")
 
     return
 

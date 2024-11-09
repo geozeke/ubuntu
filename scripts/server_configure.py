@@ -8,6 +8,7 @@ RuntimeError
 """
 
 import argparse
+import textwrap
 from pathlib import Path
 from typing import Any
 
@@ -22,7 +23,6 @@ from library.utilities import copy_files
 from library.utilities import min_python_version
 from library.utilities import run_one_command
 from library.utilities import run_shell_script
-from library.utilities import wrap_tight
 
 
 def task_runner(args) -> None:
@@ -146,7 +146,7 @@ def task_runner(args) -> None:
     you should be all set. If any steps above show a red \"X\", there
     was an error during installation.
     """
-    print(f"\n{wrap_tight(msg)}\n")
+    print(f"\n{textwrap.fill(text=" ".join(msg.split()))}\n")
 
     return
 

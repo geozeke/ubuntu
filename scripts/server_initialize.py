@@ -9,6 +9,7 @@ RuntimeError
 
 import argparse
 import tempfile
+import textwrap
 from pathlib import Path
 
 from library.classes import Labels
@@ -17,7 +18,6 @@ from library.environment import SHELL
 from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_one_command
-from library.utilities import wrap_tight
 
 
 def task_runner(args: argparse.Namespace) -> None:
@@ -122,7 +122,7 @@ def task_runner(args: argparse.Namespace) -> None:
     steps above show a red \"X\", there was an error during
     installation.
     """
-    print(f"\n{wrap_tight(msg=msg)}\n")
+    print(f"\n{textwrap.fill(text=" ".join(msg.split()))}\n")
 
     return
 

@@ -8,6 +8,7 @@ RuntimeError
 """
 
 import argparse
+import textwrap
 from pathlib import Path
 from typing import Any
 
@@ -26,7 +27,6 @@ from library.utilities import min_python_version
 from library.utilities import run_many_arguments
 from library.utilities import run_one_command
 from library.utilities import run_shell_script
-from library.utilities import wrap_tight
 
 
 def task_runner() -> None:
@@ -143,7 +143,7 @@ def task_runner() -> None:
     Installing additional software. Please enter your password if
     prompted.
     """
-    print(f"\n{wrap_tight(msg=msg)}\n")
+    print(f"\n{textwrap.fill(text=" ".join(msg.split()))}\n")
 
     # Push a dummy sudo command just to force password entry before
     # first ppa pull. This will avoid having the password prompt come in
@@ -354,7 +354,7 @@ def task_runner() -> None:
     the changes to take effect. If any steps above show a red \"X\",
     there was an error during installation.
     """
-    print(f"\n{wrap_tight(msg=msg)}\n")
+    print(f"\n{textwrap.fill(text=" ".join(msg.split()))}\n")
 
     return
 

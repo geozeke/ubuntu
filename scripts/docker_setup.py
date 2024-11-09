@@ -9,6 +9,7 @@ RuntimeError
 
 import argparse
 import getpass
+import textwrap
 
 from library.classes import Labels
 from library.environment import PASS
@@ -16,7 +17,6 @@ from library.utilities import clear
 from library.utilities import min_python_version
 from library.utilities import run_one_command
 from library.utilities import run_shell_script
-from library.utilities import wrap_tight
 
 
 def task_runner() -> None:
@@ -76,7 +76,7 @@ def task_runner() -> None:
     Setup script is complete. You must reboot your VM now for the
     changes to take effect.
     """
-    print(f"\n{wrap_tight(msg=msg)}\n")
+    print(f"\n{textwrap.fill(text=" ".join(msg.split()))}\n")
 
     return
 

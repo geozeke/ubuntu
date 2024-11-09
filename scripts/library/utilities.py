@@ -9,7 +9,6 @@ import shutil
 import subprocess as sp
 import sys
 import tempfile as tf
-import textwrap
 from typing import Any
 from typing import Text
 
@@ -46,28 +45,6 @@ def clean_str(bstr: bytes) -> Text:
         A utf-8 string.
     """
     return bstr.decode("utf-8").rstrip()
-
-
-def wrap_tight(msg: str, columns=70) -> str:
-    """Clean up a multi-line docstring.
-
-    Take a multi-line docstring and wrap it cleanly as a paragraph to a
-    specified column width.
-
-    Parameters
-    ----------
-    msg : str
-        The docstring to be wrapped.
-    columns : int, optional
-        Column width for wrapping, by default 70.
-
-    Returns
-    -------
-    str
-        A wrapped paragraph.
-    """
-    clean = " ".join([t for token in msg.split("\n") if (t := token.strip())])
-    return textwrap.fill(clean, width=columns)
 
 
 def lean_text(str_in: str) -> str:
